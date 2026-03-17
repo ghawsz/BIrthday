@@ -6,252 +6,304 @@
 <title>For the person closest to sunshine</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: -apple-system, sans-serif;
-  background: linear-gradient(135deg, #ffe4ec, #fdf2f8, #fff7ed);
-  color: #1f2937;
-}
+  /* Base Styles */
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(135deg, #ffe4ec, #fdf2f8, #fff7ed);
+    color: #1f2937;
+    overflow-x: hidden;
+  }
 
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
-}
+  .container {
+    max-width: 800px;
+    margin: auto;
+    padding: 40px 20px;
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 
-h1 {
-  font-size: 2.2rem;
-}
+  h1 { font-size: 2.5rem; margin-bottom: 10px; }
+  .subtitle { color: #6b7280; margin-bottom: 40px; font-size: 1.1rem; }
 
-.subtitle {
-  color: #6b7280;
-  margin-bottom: 20px;
-}
+  .start-btn {
+    padding: 16px 32px;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(135deg, #fb7185, #f43f5e);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(244, 63, 94, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
 
-button {
-  padding: 12px 16px;
-  border-radius: 12px;
-  border: none;
-  background: linear-gradient(135deg, #fb7185, #f43f5e);
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-}
+  .start-btn:active { transform: scale(0.95); }
 
-.traits {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: 14px;
-}
+  /* Wrapped / Story Mode Styles */
+  #story-mode {
+    position: fixed;
+    inset: 0;
+    background: #111827; /* Dark background for contrast */
+    color: white;
+    z-index: 100;
+    display: none;
+    flex-direction: column;
+  }
 
-@media(max-width:600px){
-  .traits{grid-template-columns:1fr;}
-}
+  /* Progress Bars */
+  .progress-container {
+    display: flex;
+    gap: 6px;
+    padding: 15px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 110;
+  }
 
-.card {
-  padding: 18px;
-  border-radius: 18px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: 0.25s;
-  min-width: 0;
-  white-space: normal;
-}
+  .progress-bar {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 4px;
+    overflow: hidden;
+  }
 
-.card:nth-child(1){background:#ffe4e6;}
-.card:nth-child(2){background:#fce7f3;}
-.card:nth-child(3){background:#ede9fe;}
-.card:nth-child(4){background:#fff7ed;}
-.card:nth-child(5){background:#ecfeff;}
-.card:nth-child(6){background:#f0fdf4;}
-.card:nth-child(7){background:#fef9c3;}
-.card:nth-child(8){background:#f1f5f9;}
-.card:nth-child(9){background:#ffe4e6;}
-.card:nth-child(10){background:#ede9fe;}
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: white;
+    transition: width 0.1s linear;
+  }
 
-.card:active {
-  transform: scale(0.97);
-}
+  .progress-bar.completed .progress-fill { width: 100%; }
 
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  display: none;
-}
+  /* Story Content */
+  #story-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    z-index: 105;
+    animation: fadeIn 0.4s ease;
+  }
 
-.modal {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: white;
-  padding: 20px;
-  border-radius: 20px 20px 0 0;
-  max-height: 80vh;
-  overflow: auto;
-  display: none;
-  animation: slideUp 0.3s ease;
-}
+  #story-content h2 { font-size: 2.5rem; color: #fb7185; margin-bottom: 20px;}
+  #story-content p { font-size: 1.3rem; line-height: 1.6; max-width: 600px; margin-bottom: 20px;}
+  #story-content img { max-width: 100%; height: auto; max-height: 40vh; border-radius: 16px; margin-top: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);}
 
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
 
-.modal p {
-  line-height: 1.7;
-}
+  /* Invisible Tap Zones for Tablet/Mobile */
+  .tap-zone {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    z-index: 110;
+    cursor: pointer;
+  }
+  .tap-left { left: 0; }
+  .tap-right { right: 0; }
 
-img {
-  width: 100%;
-  border-radius: 12px;
-  margin-top: 12px;
-}
+  /* Extra Reveal Button */
+  .reveal-btn {
+    position: relative;
+    z-index: 120;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+  }
 
-.reveal {
-  margin-top: 10px;
-  padding: 10px;
-  border-radius: 10px;
-  background: #ffe4e6;
-  display: none;
-}
-
-#birthday-note {
-  margin-top: 30px;
-}
-
-.card p {
-  margin-bottom: 14px;
-}
+  .reveal-text {
+    margin-top: 15px;
+    font-size: 1.1rem;
+    color: #fca5a5;
+    display: none;
+    z-index: 120;
+    position: relative;
+  }
 </style>
 </head>
 
 <body>
 
 <div class="container">
+  <h1>For the person closest to sunshine ☀️</h1>
+  <p class="subtitle">a tiny chaotic corner of the internet made just for you</p>
+  
+  <button class="start-btn" onclick="startWrapped()">Tap to Open Your Present</button>
 
-<h1>For the person closest to sunshine ☀️</h1>
-<p class="subtitle">a tiny chaotic corner of the internet made just for you</p>
-
-<button onclick="scrollToNote()">Ayee click this</button>
-
-<div class="traits">
-  <div class="card" onclick="openModal(0)">Fellow kid of the internet</div>
-  <div class="card" onclick="openModal(1)">Samay Raina fan</div>
-  <div class="card" onclick="openModal(2)">One Pieceee energy</div>
-  <div class="card" onclick="openModal(3)">Powfu-coded feelings</div>
-  <div class="card" onclick="openModal(4)">Pinky trust department</div>
-  <div class="card" onclick="openModal(5)">Formula 1 junkie</div>
-  <div class="card" onclick="openModal(6)">Closest person to sunshine</div>
-  <div class="card" onclick="openModal(7)">Professional caretaker</div>
-  <div class="card" onclick="openModal(8)">Very kind, very bubbly</div>
-  <div class="card" onclick="openModal(9)">As directionless as Zoro</div>
+  <audio id="bg-music" src="YOUR_AUDIO_LINK_HERE.mp3" loop></audio>
 </div>
 
-<h2 id="birthday-note">Birthday note</h2>
+<div id="story-mode">
+  <div class="progress-container" id="progress-container"></div>
+  
+  <div class="tap-zone tap-left" onclick="prevStory()"></div>
+  <div class="tap-zone tap-right" onclick="nextStory()"></div>
 
-<div class="card">
-<p>Happy birthday to one of the kindest people I know.</p>
-
-<p>I have said this before and will say it again: you are someone I consider really close to the word sunshine, warm, bright, and easy to trust. Something you do not always have to seek, but you know is present. Always looking out for others even when you yourself are in the dumps. Life hasn’t been fair, but look at you still trying to hold the mantle of justice.</p>
-
-<p>You have the rare habit of helping people without making it dramatic. You always do it without making it seem like a big deal, like it is just naturally built into your system. This is not at all something many people possess.</p>
-
-<p>I wish I knew what sorcery is involved when we study together, but productive time with you is one of the most efficient kinds I have felt, easy and simple. The pacing works, and somehow I end up remembering a lot of it as well.</p>
-
-<p>Even after having a very rough year, which you did not deserve, you kept smiling. All the self-loathing, but still making sure everyone else was smiling too, that is some determination I would honestly call ridiculous.</p>
-
-<p>There are really small moments which are legit anchor points in my memory. You would not even have imagined it while you were doing them, but for me they meant a lot. Stuff as simple as ruffling my hair. That is something really nostalgic kyuki friends back home always did it, but ever since I came to VIJ, stupidity and bad life choices included, I do not think anyone ever genuinely felt my hair and praised me for it. I might have honestly cried that evening. It was so niceee to hear that after so long.</p>
-
-<p>Sooooo umm, once a year you get to have this day for yourself. Keep it the way you like it, and nothing less.</p>
-
-<p><b>Have fuuuun!!</b></p>
+  <div id="story-content"></div>
 </div>
-
-</div>
-
-<div class="overlay" onclick="closeModal()"></div>
-<div class="modal" id="modal"></div>
 
 <script>
 const data = [
-{
-title:"Certified internet degenerate",
-body:"You have been online for a substantially longer time than most of these plebs, which in turn makes you a fellow degenerate. You catch references in places where most normies would completely miss them.",
-extra:"visible confusion detected",
-img:"https://media.tenor.com/6q8K7mXJ8xQAAAAC/confused-woman.gif"
-},
-{
-title:"Fake Samay fan allegations",
-body:"It's genuinely crazy how, like every other teenager in lockdown, you got addicted to the most famous comedian who also streamed. It's like that is exactly what everyone else was doing who was having the slightest sense of entertainment in their lives.",
-extra:"Uchalte hue bolti firti samay ki fan samay ki fan, when was the laaaast time you have used either craaazy ho gaya ya fir achaaaa in your vocab? Fake Samay fan."
-},
-{
-title:"Directionless Zoro allegations",
-body:"You find Luffy to be kind. You find Chopper to be cute. But you know whom you are most like? It’s mister directionless Zoro. I genuinely have no clue how is someone more directionless than me in this entire world. Like HUH!?",
-img:"https://media.tenor.com/1D7mP4r2Q7cAAAAC/zoro-lost.gif"
-},
-{
-title:"Powfu fraud check",
-body:"Okay, this Powfu thing I remember very clearly kyuki I was not expecting anyone to actually know the name. You have 10 seconds to admit if you actually googled that. Many people have heard the songs yeah, but the name? Ain't no way you know that. I call bullshit on that."
-},
-{
-title:"Pinky promise credibility",
-body:"I have seen people talk about pinky promises as the holy grail, but not many live up to it. Really glad there is something tangible I can do after which I know no matter what happens you'll not let it get out ever. It takes enough maturity to handle situations but still not reveal things, and I am glad you have a head on your shoulders."
-},
-{
-title:"High-speed nonsense enthusiast",
-body:"Okay, I genuinely have no clue if it's watching the F1 movie which got you hooked or is it because one of your many friends were watching it so you wanted to know more about the sport. But gosh am I soooo happy you finally got into it, like straight up jolly golly. I finally have someone to share my addiction with 😭😭"
-},
-{
-title:"Actual sunlight with a pulse",
-body:"It's like you have a radiance which I absolutely adore. A simple yet elegant way of making sure people feel warm around you. Time spent with you rarely feels like a chore. If you are awake, you put in enough effort ki interactions with you leave people feeling happy. I legit don't know any other way to describe the feeling. It's like when you experience evening sun, slight warmth, comfortable."
-},
-{
-title:"Built to look after people",
-body:"You help not just because it's the right thing to do, but also because it's something you want to do, it's something you can, and so you do it without qualms. You do it in ways which feel natural. There is no forcing any of it."
-},
-{
-title:"Bubbly but not shallow",
-body:"When you are not having your emo phase or when you aren't questioning your life, you are really bubbly, and not in the way ki things are hyper aggressive and hyper expressive. It's more of a cartoonish charm, honestly."
-},
-{
-title:"Navigation criminal",
-body:"This one is here because truth matters. If there were three correct paths and one deeply questionable one, there is a non-zero chance you would create a fifth option somehow. This is both in life and on the road btw."
-}
+  {
+    title: "Certified internet degenerate",
+    body: "You have been online for a substantially longer time than most of these plebs, which in turn makes you a fellow degenerate. You catch references in places where most normies would completely miss them.",
+    extra: "visible confusion detected",
+    // NOTE: Direct raw .gif links work best
+    img: "https://media1.tenor.com/m/6q8K7mXJ8xQAAAAC/confused-woman.gif"
+  },
+  {
+    title: "Fake Samay fan allegations",
+    body: "It's genuinely crazy how, like every other teenager in lockdown, you got addicted to the most famous comedian who also streamed. It's like that is exactly what everyone else was doing who was having the slightest sense of entertainment in their lives.",
+    extra: "Uchalte hue bolti firti samay ki fan samay ki fan, when was the laaaast time you have used either craaazy ho gaya ya fir achaaaa in your vocab? Fake Samay fan."
+  },
+  {
+    title: "Directionless Zoro allegations",
+    body: "You find Luffy to be kind. You find Chopper to be cute. But you know whom you are most like? It’s mister directionless Zoro. I genuinely have no clue how is someone more directionless than me in this entire world. Like HUH!?",
+    img: "https://media1.tenor.com/m/1D7mP4r2Q7cAAAAC/zoro-lost.gif"
+  },
+  {
+    title: "Powfu fraud check",
+    body: "Okay, this Powfu thing I remember very clearly kyuki I was not expecting anyone to actually know the name. You have 10 seconds to admit if you actually googled that. Many people have heard the songs yeah, but the name? Ain't no way you know that. I call bullshit on that."
+  },
+  {
+    title: "Pinky promise credibility",
+    body: "I have seen people talk about pinky promises as the holy grail, but not many live up to it. Really glad there is something tangible I can do after which I know no matter what happens you'll not let it get out ever."
+  },
+  {
+    title: "High-speed nonsense enthusiast",
+    body: "Okay, I genuinely have no clue if it's watching the F1 movie which got you hooked or is it because one of your many friends were watching it so you wanted to know more about the sport. But gosh am I soooo happy you finally got into it... I finally have someone to share my addiction with 😭😭"
+  },
+  {
+    title: "Actual sunlight with a pulse",
+    body: "It's like you have a radiance which I absolutely adore. A simple yet elegant way of making sure people feel warm around you. Time spent with you rarely feels like a chore. If you are awake, you put in enough effort ki interactions with you leave people feeling happy."
+  },
+  {
+    title: "Built to look after people",
+    body: "You help not just because it's the right thing to do, but also because it's something you want to do, it's something you can, and so you do it without qualms. You do it in ways which feel natural. There is no forcing any of it."
+  },
+  {
+    title: "Bubbly but not shallow",
+    body: "When you are not having your emo phase or when you aren't questioning your life, you are really bubbly, and not in the way ki things are hyper aggressive and hyper expressive. It's more of a cartoonish charm, honestly."
+  },
+  {
+    title: "Navigation criminal",
+    body: "This one is here because truth matters. If there were three correct paths and one deeply questionable one, there is a non-zero chance you would create a fifth option somehow. This is both in life and on the road btw."
+  },
+  {
+    title: "Happy Birthday.",
+    body: "Life hasn’t been fair, but look at you still trying to hold the mantle of justice. I wish I knew what sorcery is involved when we study together, but productive time with you is one of the most efficient kinds I have felt... Sooooo umm, once a year you get to have this day for yourself. Keep it the way you like it, and nothing less. Have fuuuun!!",
+    // You can add an image here too if you want!
+  }
 ];
 
-function openModal(i){
-  const d = data[i];
-  const m = document.getElementById("modal");
+let currentIndex = 0;
 
-  m.innerHTML = `
-    <h2>${d.title}</h2>
-    <p>${d.body}</p>
-    ${d.img ? `<img src="${d.img}">` : ""}
-    ${d.extra ? `
-      <button onclick="toggleReveal()">tap to inspect</button>
-      <div class="reveal" id="reveal">${d.extra}</div>
-    ` : ""}
-  `;
+function startWrapped() {
+  document.getElementById('story-mode').style.display = 'flex';
+  
+  // Play Background Music
+  const bgMusic = document.getElementById('bg-music');
+  if (bgMusic.src !== window.location.href) {
+    bgMusic.play().catch(e => console.log("Audio playback requires a valid src and user interaction."));
+  }
 
-  document.querySelector(".overlay").style.display="block";
-  m.style.display="block";
+  setupProgressBars();
+  renderStory();
 }
 
-function toggleReveal(){
+function setupProgressBars() {
+  const container = document.getElementById('progress-container');
+  container.innerHTML = '';
+  data.forEach((_, i) => {
+    container.innerHTML += `
+      <div class="progress-bar" id="bar-${i}">
+        <div class="progress-fill"></div>
+      </div>
+    `;
+  });
+}
+
+function updateProgressUI() {
+  data.forEach((_, i) => {
+    const bar = document.getElementById(`bar-${i}`);
+    if (i < currentIndex) {
+      bar.classList.add('completed');
+    } else {
+      bar.classList.remove('completed');
+    }
+  });
+  
+  // Highlight current
+  const currentBar = document.getElementById(`bar-${currentIndex}`);
+  if(currentBar) currentBar.classList.add('completed');
+}
+
+function renderStory() {
+  const d = data[currentIndex];
+  const content = document.getElementById('story-content');
+  
+  // Force a re-trigger of the CSS animation by cloning and replacing
+  const newContent = content.cloneNode(false);
+  
+  newContent.innerHTML = `
+    <h2>${d.title}</h2>
+    <p>${d.body}</p>
+    ${d.img ? `<img src="${d.img}" alt="gif">` : ''}
+    ${d.extra ? `
+      <button class="reveal-btn" onclick="toggleReveal(event)">Tap to Inspect 🔍</button>
+      <div class="reveal-text" id="reveal">${d.extra}</div>
+    ` : ''}
+  `;
+  
+  content.parentNode.replaceChild(newContent, content);
+  updateProgressUI();
+}
+
+function toggleReveal(e) {
+  e.stopPropagation(); // Prevents tapping from triggering nextStory()
   const r = document.getElementById("reveal");
   r.style.display = r.style.display === "block" ? "none" : "block";
 }
 
-function closeModal(){
-  document.querySelector(".overlay").style.display="none";
-  document.getElementById("modal").style.display="none";
+function nextStory() {
+  if (currentIndex < data.length - 1) {
+    currentIndex++;
+    renderStory();
+  } else {
+    // End of wrapped
+    document.getElementById('story-mode').style.display = 'none';
+    document.getElementById('bg-music').pause();
+    currentIndex = 0; // Reset
+  }
 }
 
-function scrollToNote(){
-  document.getElementById("birthday-note").scrollIntoView({behavior:"smooth"});
+function prevStory() {
+  if (currentIndex > 0) {
+    currentIndex--;
+    renderStory();
+  }
 }
 </script>
 
