@@ -9,49 +9,61 @@
 
 <style>
   :root {
-    --text-dark: #1f2937;
-    --glass: rgba(20, 10, 15, 0.5); 
-    --border-glass: rgba(255, 255, 255, 0.15);
+    --text-dark: #1e293b;
+    /* Light frosted glass effect */
+    --glass: rgba(255, 255, 255, 0.3); 
+    --border-glass: rgba(255, 255, 255, 0.5);
+  }
+
+  /* --- THE VIBRANT PINK-TO-BLUE GRADIENT --- */
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
   body {
     margin: 0;
     font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: #4a1f33; /* Rich plum background */
-    color: white;
+    /* Beautiful, bright pink to soft blue transition */
+    background: linear-gradient(-45deg, #ff758c, #ff7eb3, #a1c4fd, #c2e9fb);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: var(--text-dark);
     overflow: hidden; 
     height: 100vh;
     width: 100vw;
   }
 
-  /* --- NEW ICON WATERMARK PATTERN --- */
+  /* --- WATERMARK ICONS --- */
   #icon-pattern {
     position: absolute;
     inset: 0;
-    z-index: 1; /* Sits at the very back */
+    z-index: 1; 
     overflow: hidden;
     pointer-events: none;
   }
 
   .bg-icon {
     position: absolute;
-    color: rgba(255, 255, 255, 0.05); /* Extremely subtle, elegant watermark */
+    /* Soft white icons that look like clouds/light */
+    color: rgba(255, 255, 255, 0.3); 
     font-size: 4rem; 
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
   }
 
-  /* Scattering them to look like a random, hand-placed pattern */
-  .icon-1 { top: 10%; left: 10%; transform: rotate(-15deg); } /* Sun */
-  .icon-2 { top: 15%; left: 80%; transform: rotate(20deg); font-size: 5rem; } /* Scale */
-  .icon-3 { top: 40%; left: 5%; transform: rotate(10deg); font-size: 3.5rem; } /* Compass */
-  .icon-4 { top: 45%; left: 85%; transform: rotate(-25deg); } /* Mic */
-  .icon-5 { top: 75%; left: 15%; transform: rotate(15deg); font-size: 4.5rem; } /* F1 Car */
-  .icon-6 { top: 80%; left: 75%; transform: rotate(-10deg); } /* Handshake/Pinky */
-  .icon-7 { top: 5%; left: 45%; transform: rotate(5deg); font-size: 3rem; } /* Rain Cloud */
-  .icon-8 { top: 50%; left: 45%; transform: rotate(-5deg); font-size: 5rem; } /* Books */
-  .icon-9 { top: 90%; left: 45%; transform: rotate(15deg); } /* Laptop */
-  .icon-10 { top: 30%; left: 25%; transform: rotate(-20deg); font-size: 3rem; } /* Movie */
-  .icon-11 { top: 60%; left: 70%; transform: rotate(25deg); } /* People */
-  .icon-12 { top: 85%; left: 40%; transform: rotate(-15deg); } /* Moon */
+  .icon-1 { top: 10%; left: 10%; transform: rotate(-15deg); } 
+  .icon-2 { top: 15%; left: 80%; transform: rotate(20deg); font-size: 5rem; } 
+  .icon-3 { top: 40%; left: 5%; transform: rotate(10deg); font-size: 3.5rem; } 
+  .icon-4 { top: 45%; left: 85%; transform: rotate(-25deg); } 
+  .icon-5 { top: 75%; left: 15%; transform: rotate(15deg); font-size: 4.5rem; } 
+  .icon-6 { top: 80%; left: 75%; transform: rotate(-10deg); } 
+  .icon-7 { top: 5%; left: 45%; transform: rotate(5deg); font-size: 3rem; } 
+  .icon-8 { top: 50%; left: 45%; transform: rotate(-5deg); font-size: 5rem; } 
+  .icon-9 { top: 90%; left: 45%; transform: rotate(15deg); } 
+  .icon-10 { top: 30%; left: 25%; transform: rotate(-20deg); font-size: 3rem; } 
+  .icon-11 { top: 60%; left: 70%; transform: rotate(25deg); } 
+  .icon-12 { top: 85%; left: 40%; transform: rotate(-15deg); } 
 
   /* --- LANDING PAGE --- */
   .container {
@@ -70,48 +82,45 @@
   h1 { 
     font-size: 3.5rem; 
     margin-bottom: 10px; 
-    background: linear-gradient(to right, #ffffff, #fbc2eb);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    color: white;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.2);
   }
   
   .subtitle { 
-    color: rgba(255,255,255,0.7); 
+    color: rgba(255,255,255,0.9); 
     margin-bottom: 50px; 
     font-size: 1.2rem; 
-    font-weight: 300;
+    font-weight: 500;
   }
 
   .start-btn {
     padding: 18px 40px;
     border-radius: 50px;
     border: none;
-    background: rgba(255,255,255,0.9);
-    color: #4a1f33;
+    background: white;
+    color: #ff758c;
     font-size: 1.3rem;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px rgba(255, 117, 140, 0.4);
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
   }
   .start-btn:hover {
     transform: translateY(-3px);
-    background: white;
+    box-shadow: 0 15px 35px rgba(255, 117, 140, 0.6);
   }
 
   /* --- STORY MODE OVERLAY --- */
   #story-mode {
     position: fixed;
     inset: 0;
-    background-color: rgba(0,0,0,0.2); 
-    backdrop-filter: blur(8px); 
+    background-color: rgba(255,255,255,0.1); 
+    backdrop-filter: blur(5px); 
     z-index: 100;
     display: none;
     flex-direction: column;
-    color: white;
     opacity: 0; 
     transition: opacity 1.5s ease;
   }
@@ -131,7 +140,7 @@
   .progress-bar {
     flex: 1;
     height: 4px;
-    background: rgba(255,255,255,0.2);
+    background: rgba(0,0,0,0.1);
     border-radius: 2px;
     overflow: hidden;
   }
@@ -156,15 +165,15 @@
 
   .content-card {
     background: var(--glass);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
     border: 1px solid var(--border-glass);
     border-radius: 30px;
     padding: 40px;
     max-width: 600px;
     width: 90%;
     text-align: center;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
     animation: cardIn 0.5s ease-out forwards;
   }
 
@@ -177,15 +186,15 @@
     font-size: 2.8rem; 
     margin-top: 0;
     margin-bottom: 15px;
-    color: #fbc2eb; 
+    color: #be185d; /* Deep pink so it pops against the glass */
     line-height: 1.1;
   }
   
   .content-card p { 
     font-size: 1.25rem; 
     line-height: 1.6; 
-    font-weight: 300;
-    color: rgba(255,255,255,0.95);
+    font-weight: 500;
+    color: #334155; /* Slate grey for readability */
     margin-bottom: 0;
   }
 
@@ -206,23 +215,24 @@
     z-index: 160; 
     margin-top: 25px;
     padding: 12px 24px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.3);
-    color: white;
+    background: white;
+    border: none;
+    color: #ff758c;
     border-radius: 30px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   }
 
   .reveal-text {
     margin-top: 20px;
     font-size: 1.1rem;
-    color: #fbc2eb;
+    color: #be185d;
     display: none;
     z-index: 160;
     position: relative;
     font-style: italic;
-    border-top: 1px solid rgba(255,255,255,0.2);
+    border-top: 1px solid rgba(0,0,0,0.1);
     padding-top: 15px;
   }
 </style>
@@ -230,7 +240,7 @@
 
 <body>
 
-<audio id="bg-music" src="bg-music.mp3" loop></audio>
+<audio id="bg-music" src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" loop></audio>
 
 <div id="icon-pattern">
   <i class="fa-solid fa-sun bg-icon icon-1"></i>
