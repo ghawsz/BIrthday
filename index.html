@@ -1,438 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For the person closest to sunshine</title>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<style>
-  :root {
-    --text-dark: #1e293b;
-    /* Light frosted glass effect */
-    --glass: rgba(255, 255, 255, 0.3); 
-    --border-glass: rgba(255, 255, 255, 0.5);
-  }
-
-  /* --- THE VIBRANT PINK-TO-BLUE GRADIENT --- */
-  @keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  body {
-    margin: 0;
-    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    /* Beautiful, bright pink to soft blue transition */
-    background: linear-gradient(-45deg, #ff758c, #ff7eb3, #a1c4fd, #c2e9fb);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-    color: var(--text-dark);
-    overflow: hidden; 
-    height: 100vh;
-    width: 100vw;
-  }
-
-  /* --- WATERMARK ICONS --- */
-  #icon-pattern {
-    position: absolute;
-    inset: 0;
-    z-index: 1; 
-    overflow: hidden;
-    pointer-events: none;
-  }
-
-  .bg-icon {
-    position: absolute;
-    /* Soft white icons that look like clouds/light */
-    color: rgba(255, 255, 255, 0.3); 
-    font-size: 4rem; 
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
-  }
-
-  .icon-1 { top: 10%; left: 10%; transform: rotate(-15deg); } 
-  .icon-2 { top: 15%; left: 80%; transform: rotate(20deg); font-size: 5rem; } 
-  .icon-3 { top: 40%; left: 5%; transform: rotate(10deg); font-size: 3.5rem; } 
-  .icon-4 { top: 45%; left: 85%; transform: rotate(-25deg); } 
-  .icon-5 { top: 75%; left: 15%; transform: rotate(15deg); font-size: 4.5rem; } 
-  .icon-6 { top: 80%; left: 75%; transform: rotate(-10deg); } 
-  .icon-7 { top: 5%; left: 45%; transform: rotate(5deg); font-size: 3rem; } 
-  .icon-8 { top: 50%; left: 45%; transform: rotate(-5deg); font-size: 5rem; } 
-  .icon-9 { top: 90%; left: 45%; transform: rotate(15deg); } 
-  .icon-10 { top: 30%; left: 25%; transform: rotate(-20deg); font-size: 3rem; } 
-  .icon-11 { top: 60%; left: 70%; transform: rotate(25deg); } 
-  .icon-12 { top: 85%; left: 40%; transform: rotate(-15deg); } 
-
-  /* --- LANDING PAGE --- */
-  .container {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-    box-sizing: border-box;
-    position: relative;
-    z-index: 10;
-  }
-
-  h1 { 
-    font-size: 3.5rem; 
-    margin-bottom: 10px; 
-    color: white;
-    text-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  }
-  
-  .subtitle { 
-    color: rgba(255,255,255,0.9); 
-    margin-bottom: 50px; 
-    font-size: 1.2rem; 
-    font-weight: 500;
-  }
-
-  .start-btn {
-    padding: 18px 40px;
-    border-radius: 50px;
-    border: none;
-    background: white;
-    color: #ff758c;
-    font-size: 1.3rem;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 10px 30px rgba(255, 117, 140, 0.4);
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  .start-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(255, 117, 140, 0.6);
-  }
-
-  /* --- STORY MODE OVERLAY --- */
-  #story-mode {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(255,255,255,0.1); 
-    backdrop-filter: blur(5px); 
-    z-index: 100;
-    display: none;
-    flex-direction: column;
-    opacity: 0; 
-    transition: opacity 1.5s ease;
-  }
-
-  /* --- PROGRESS BARS --- */
-  .progress-container {
-    display: flex;
-    gap: 4px;
-    padding: 20px 10px;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 150;
-  }
-
-  .progress-bar {
-    flex: 1;
-    height: 4px;
-    background: rgba(0,0,0,0.1);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .progress-fill {
-    height: 100%;
-    width: 0%;
-    background: white;
-  }
-  .progress-bar.completed .progress-fill { width: 100%; }
-
-  /* --- CONTENT CARD --- */
-  #story-content-wrapper {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    position: relative;
-    z-index: 120; 
-  }
-
-  .content-card {
-    background: var(--glass);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border: 1px solid var(--border-glass);
-    border-radius: 30px;
-    padding: 40px;
-    max-width: 600px;
-    width: 90%;
-    text-align: center;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-    animation: cardIn 0.5s ease-out forwards;
-  }
-
-  @keyframes cardIn {
-    from { opacity: 0; transform: translateY(20px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-  }
-
-  .content-card h2 { 
-    font-size: 2.8rem; 
-    margin-top: 0;
-    margin-bottom: 15px;
-    color: #be185d; /* Deep pink so it pops against the glass */
-    line-height: 1.1;
-  }
-  
-  .content-card p { 
-    font-size: 1.25rem; 
-    line-height: 1.6; 
-    font-weight: 500;
-    color: #334155; /* Slate grey for readability */
-    margin-bottom: 0;
-  }
-
-  /* --- INTERACTION ELEMENTS --- */
-  .tap-zone {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 30%; 
-    z-index: 140;
-    cursor: pointer;
-  }
-  .tap-left { left: 0; }
-  .tap-right { right: 0; }
-
-  .reveal-btn {
-    position: relative;
-    z-index: 160; 
-    margin-top: 25px;
-    padding: 12px 24px;
-    background: white;
-    border: none;
-    color: #ff758c;
-    border-radius: 30px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  }
-
-  .reveal-text {
-    margin-top: 20px;
-    font-size: 1.1rem;
-    color: #be185d;
-    display: none;
-    z-index: 160;
-    position: relative;
-    font-style: italic;
-    border-top: 1px solid rgba(0,0,0,0.1);
-    padding-top: 15px;
-  }
-</style>
-</head>
-
-<body>
-
-<audio id="bg-music" src="Namastute.mp3" loop></audio>
-
-<div id="icon-pattern">
-  <i class="fa-solid fa-sun bg-icon icon-1"></i>
-  <i class="fa-solid fa-scale-balanced bg-icon icon-2"></i>
-  <i class="fa-solid fa-compass bg-icon icon-3"></i>
-  <i class="fa-solid fa-microphone bg-icon icon-4"></i>
-  <i class="fa-solid fa-car-side bg-icon icon-5"></i>
-  <i class="fa-solid fa-handshake-angle bg-icon icon-6"></i>
-  <i class="fa-solid fa-cloud-rain bg-icon icon-7"></i>
-  <i class="fa-solid fa-book bg-icon icon-8"></i>
-  <i class="fa-solid fa-laptop bg-icon icon-9"></i>
-  <i class="fa-solid fa-film bg-icon icon-10"></i>
-  <i class="fa-solid fa-users bg-icon icon-11"></i>
-  <i class="fa-solid fa-moon bg-icon icon-12"></i>
-</div>
-
-<div class="container">
-  <h1>To Sunshine ☀️</h1>
-  <p class="subtitle">a tiny chaotic corner of the internet made just for you</p>
-  <button class="start-btn" onclick="startWrapped()">Open Present</button>
-</div>
-
-<div id="story-mode">
-  <div class="progress-container" id="progress-container"></div>
-  <div class="tap-zone tap-left" onclick="prevStory()"></div>
-  <div class="tap-zone tap-right" onclick="nextStory()"></div>
-
-  <div id="story-content-wrapper">
-    <div class="content-card" id="active-card">
-        <h2 id="story-title"></h2>
-        <p id="story-body"></p>
-        <div id="extra-content"></div>
-    </div>
-  </div>
-</div>
-
-<script>
 const data = [
   {
-    title: "Internet Degenerate",
-    body: "You catch references in places where most normies would completely miss them. substantive proof detected.",
-    extra: "visible confusion detected"
+    title: "Log #001: The Digital Scallywag",
+    body: "Initial scans of Subject X revealed a startling truth: she’s been sailing the chaotic web far longer than most normies. She catches references hidden in the deepest, most degenerate trenches of the internet.",
+    extra: "Substantive proof of visible confusion detected."
   },
   {
-    title: "Fake Samay Fan?",
-    body: "It's genuinely crazy how got addicted to the most famous comedian who also streamed... when was the laaaast time you used vocab? Allegations pending.",
-    extra: "Uchalte hue bolti firti samay ki fan samay ki fan, when was the laaaast time you have used either craaazy ho gaya ya fir achaaaa in your vocab? Fake Samay fan."
+    title: "Log #002: The Raina Allegations",
+    body: "Subject claims to fly the flag of the most famous lockdown comedian. Yet, interrogation reveals a severe lack of 'craaazy ho gaya' in her recent vocabulary. Suspicions of a fake fan are high. Investigation ongoing.",
+    extra: "Uchalte hue bolti firti samay ki fan... fake."
   },
   {
-    title: "Directionless Zoro",
-    body: "I genuinely have no clue how is someone more directionless than me in this entire world. Like HUH!?",
+    title: "Log #003: A Broken Compass",
+    body: "Tracking this anomaly is utterly futile. I thought I was lost at sea, but she makes me look like a grand navigator. She possesses the exact directional awareness of a certain green-haired pirate.",
   },
   {
-    title: "Powfu Fraud Check",
-    body: "Many people have heard the songs yeah, but the name? 10 seconds to admit if you googled that.",
+    title: "Log #004: The Lo-Fi Interrogation",
+    body: "Subject claims to know the actual name 'Powfu' without using a search engine. I call absolute bullshit on this claim. You have 10 seconds to confess to the captain.",
   },
   {
-    title: "Pinky Credibility",
-    body: "Glad there is something tangible I can do after which I know no matter what happens you'll not let it get out ever.",
+    title: "Log #005: The Ironclad Treaty",
+    body: "In these treacherous waters, a 'Pinky Promise' is often a myth. But I’ve documented that when she hooks that finger, the vault is sealed. A rare, honorable head on those shoulders.",
   },
   {
-    title: "F1 Junkie",
-    body: "Gosh am I soooo happy you finally got into it... I finally have someone to share my addiction with 😭😭",
+    title: "Log #006: High-Speed Hyperfixation",
+    body: "A sudden and aggressive pivot in the anomaly's behavior. She is now obsessed with high-speed land ships. Gosh, am I happy I finally have a co-pilot to share this ridiculous F1 addiction with.",
   },
   {
-    title: "Actual Sunlight",
-    body: "A simple yet elegant way of making sure people feel warm around you. legit don't know any other way to describe the feeling.",
+    title: "Log #007: Radiation of Warmth",
+    body: "This is where the 'Sunshine Anomaly' earns her name. In a stupid university that often feels like a sinking ship, she emits an elegant, pulse-like warmth. Time spent in her radius never feels like a chore.",
   },
   {
-    title: "Professional Caretaker",
-    body: "You help not just because it's the right thing to do, but also because it's something you want to do.",
+    title: "Log #008: The Crew's Medic",
+    body: "Clinical observation: Subject is naturally hardwired to patch people up. She doesn't do it for the glory; it's simply built into her hull. She heals without forcing it, stepping up when the rest of us are in the dumps.",
   },
   {
-    title: "Bubbly Cartoon",
-    body: "When you are not having your emo phase, you have a cartoonish charm, honestly.",
+    title: "Log #009: The Resilient Bubble",
+    body: "Even after battling through a rough year she did not deserve, the anomaly maintains a cartoonish, bubbly charm. It’s not chaotic noise; it’s a quiet defiance. Making sure the crew smiles even when she’s questioning her own map.",
   },
   {
-    title: "Navigation Criminal",
-    body: "If there were three correct paths, there is a non-zero chance you would create a fifth option somehow.",
+    title: "Log #010: The Fifth Path",
+    body: "Truth matters in this log. If presented with three safe routes and one deeply cursed one, the anomaly will somehow invent a fifth. Both on the road and in life. And honestly? It makes the voyage worth it.",
   },
   {
-    title: "Happy Birthday.",
+    title: "Log #011: The Craftsman's Protocol",
+    body: "I came to her for a simple tactical suggestion—an idea for a gift for my best friend. A week later, she had co-opted the mission, putting in unbelievable effort to help me *make* the damn thing so I could put on a brave face. Who tf does that for anyone?<br><br>You tell me the part of you that loves making handmade gifts is dead. It is not. You can't let that die. That effort makes getting a gift from you 10000 times more meaningful, warna kaun hi karne jaata hai itna. I want you to see that you have people for whom those efforts matter."
+  },
+  {
+    title: "Log #012: The Malikah Aftermath",
+    body: "I've kept this out of the official logs for a whole year—kyuki why should I toot your horn—but today is the day. The conversation after Malikah's birthday.<br><br>That was the day we crossed a line. It wasn't just 'college me hi hello dikh gaye' types anymore. It was an honest, basic conversation where I felt like I was finally talking to a human, not some mumbo jumbo jo dusron ke kandhon par bandook chalate firta hai. That conversation was too real to ever walk back from. It's the exact reason I don't want to end this college without being someone you can trust and rely on."
+  },
+  {
+    title: "Case Closed: Happy Birthday.",
     body: `Happy birthday to one of the kindest people I know.<br><br>
-    I consider you close to the word sunshine. Always looking out for others even when you yourself are in the dumps. Life hasn’t been fair, but look at you still trying to hold the mantle of justice.<br><br>
-    There are really small moments which are legit anchor points in my memory... Stuff as simple as ruffling my hair. I might have honestly cried that evening. It was so niceee.<br><br>
-    Once a year you get to have this day for yourself. Keep it the way you like it.<br><br>
+    I have said this before and will say it again: you are someone I consider really close to the word sunshine. Warm, bright, and easy to trust. <br><br>
+    There are really small moments which are legit anchor points in my memory. Stuff as simple as ruffling my hair. I do not think anyone ever genuinely felt my hair and praised me for it since I came to VIJ. I might have honestly cried that evening. It was so niceee to hear that after so long.<br><br>
+    I know things have been fucked up for the entire year, and I am really sorry for the way things have been going. But please, be just as amazing as you always were. I really hope this year is completely different.<br><br>
+    Once a year you get to have this day for yourself. Keep it the way you like it, and nothing less. I hope you are the same sunshine to yourself as you are to me.<br><br>
     <b>Have fuuuun!!</b>`,
   }
 ];
-
-let currentIndex = 0;
-const targetVolume = 0.2; 
-const fadeDuration = 3000; 
-
-function startWrapped() {
-  document.getElementById('story-mode').style.display = 'flex';
-  setTimeout(() => {
-    document.getElementById('story-mode').style.opacity = '1';
-  }, 50);
-
-  const bgMusic = document.getElementById('bg-music');
-  bgMusic.volume = 0; 
-  if (bgMusic.src && !bgMusic.src.endsWith("html")) { 
-      bgMusic.play().then(() => {
-          const intervalTime = 50; 
-          const volumeStep = targetVolume / (fadeDuration / intervalTime);
-          const fadeAudio = setInterval(() => {
-            if (bgMusic.volume < targetVolume) {
-              bgMusic.volume = Math.min(bgMusic.volume + volumeStep, targetVolume);
-            } else {
-              clearInterval(fadeAudio);
-            }
-          }, intervalTime);
-      }).catch(e => console.log("Audio waiting for user link."));
-  }
-
-  setupProgressBars();
-  renderStory();
-}
-
-function setupProgressBars() {
-  const container = document.getElementById('progress-container');
-  container.innerHTML = '';
-  data.forEach((_, i) => {
-    container.innerHTML += `
-      <div class="progress-bar" id="bar-${i}">
-        <div class="progress-fill"></div>
-      </div>
-    `;
-  });
-}
-
-function renderStory() {
-  const d = data[currentIndex];
-  
-  data.forEach((_, i) => {
-    const bar = document.getElementById(`bar-${i}`);
-    if (i <= currentIndex) bar.classList.add('completed');
-    else bar.classList.remove('completed');
-  });
-
-  const card = document.getElementById('active-card');
-  const title = document.getElementById('story-title');
-  const body = document.getElementById('story-body');
-  const extra = document.getElementById('extra-content');
-
-  card.style.animation = 'none';
-  card.offsetHeight; 
-  card.style.animation = null; 
-
-  title.innerText = d.title;
-  body.innerHTML = d.body; 
-
-  extra.innerHTML = '';
-  if(d.extra) {
-    extra.innerHTML = `
-      <button class="reveal-btn" onclick="toggleReveal(event)">Tap to Inspect 🔍</button>
-      <div class="reveal-text" id="reveal">${d.extra}</div>
-    `;
-  }
-}
-
-function toggleReveal(e) {
-  e.stopPropagation(); 
-  const r = document.getElementById("reveal");
-  r.style.display = r.style.display === "block" ? "none" : "block";
-}
-
-function nextStory() {
-  if (currentIndex < data.length - 1) {
-    currentIndex++;
-    renderStory();
-  } else {
-    document.getElementById('story-mode').style.opacity = '0';
-    setTimeout(() => {
-        document.getElementById('story-mode').style.display = 'none';
-        currentIndex = 0; 
-    }, 1000); 
-    
-    const bgMusic = document.getElementById('bg-music');
-    bgMusic.pause();
-    bgMusic.currentTime = 0; 
-  }
-}
-
-function prevStory() {
-  if (currentIndex > 0) {
-    currentIndex--;
-    renderStory();
-  }
-}
-</script>
-
-</body>
-</html>
