@@ -8,10 +8,9 @@
 <style>
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(#fff7fb, #fff1f2);
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #ffe4ec, #fdf2f8, #fff7ed);
   color: #333;
-  line-height: 1.6;
 }
 
 .container {
@@ -22,27 +21,47 @@ body {
 
 h1 {
   font-size: 2rem;
+  margin-bottom: 10px;
 }
 
 button {
-  padding: 12px;
-  border-radius: 10px;
+  padding: 12px 16px;
+  border-radius: 12px;
   border: none;
-  margin-top: 10px;
+  background: #fb7185;
+  color: white;
+  font-weight: 600;
   cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #f43f5e;
 }
 
 .card {
   background: white;
-  padding: 15px;
-  border-radius: 15px;
+  padding: 16px;
+  border-radius: 18px;
   margin-top: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+}
+
+.card:active {
+  transform: scale(0.97);
 }
 
 .traits {
   display: grid;
   grid-template-columns: repeat(2,1fr);
-  gap: 10px;
+  gap: 12px;
 }
 
 @media(max-width:600px){
@@ -60,6 +79,7 @@ button {
   display: none;
   max-height: 80vh;
   overflow: auto;
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.15);
 }
 
 .overlay {
@@ -86,6 +106,42 @@ img {
 <button onclick="scrollToNote()">Ayee click this</button>
 
 <div class="traits">
+  <div class="overlay" onclick="closeModal()"></div>
+<div class="modal" id="modal"></div>
+
+<script>
+const data = [
+  {
+    title:"Fake Samay fan allegations",
+    body:"It's genuinely crazy how, like every other teenager in lockdown...",
+    extra:"Uchalte hue bolti firti samay ki fan..."
+  },
+  {
+    title:"Directionless Zoro allegations",
+    body:"You find Luffy to be kind..."
+  }
+  // we can expand later
+];
+
+function openModal(i){
+  const m = document.getElementById("modal");
+  const d = data[i];
+
+  m.innerHTML = `
+    <h2>${d.title}</h2>
+    <p>${d.body}</p>
+    ${d.extra ? `<button onclick="alert('${d.extra}')">tap</button>` : ""}
+  `;
+
+  document.querySelector(".overlay").style.display="block";
+  m.style.display="block";
+}
+
+function closeModal(){
+  document.querySelector(".overlay").style.display="none";
+  document.getElementById("modal").style.display="none";
+}
+</script>
 
 <div class="card" onclick="openModal(0)">Fellow kid of the internet</div>
 <div class="card" onclick="openModal(1)">Samay Raina fan</div>
@@ -124,6 +180,10 @@ img {
 
 <div class="overlay" onclick="closeModal()"></div>
 <div class="modal" id="modal"></div>
+<div class="card" onclick="openModal(1)">
+  Samay Raina fan  
+  <div style="font-size:12px;color:#888">tap</div>
+</div>
 
 <script>
 const data = [
