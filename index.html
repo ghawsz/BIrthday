@@ -10,7 +10,8 @@
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: linear-gradient(135deg, #ffe4ec, #fdf2f8, #fff7ed);
+    /* Soft pastel pink to blue for the landing page */
+    background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
     color: #1f2937;
     overflow-x: hidden;
   }
@@ -30,16 +31,17 @@
   h1 { font-size: 2.5rem; margin-bottom: 10px; }
   .subtitle { color: #6b7280; margin-bottom: 40px; font-size: 1.1rem; }
 
-  .start-btn {
+ .start-btn {
     padding: 16px 32px;
     border-radius: 50px;
     border: none;
-    background: linear-gradient(135deg, #fb7185, #f43f5e);
+    /* Deep blue to pink gradient for the button */
+    background: linear-gradient(135deg, #4facfe 0%, #f093fb 100%);
     color: white;
     font-size: 1.2rem;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 10px 20px rgba(244, 63, 94, 0.3);
+    box-shadow: 0 10px 20px rgba(79, 172, 254, 0.3);
     transition: transform 0.2s, box-shadow 0.2s;
   }
 
@@ -49,7 +51,8 @@
   #story-mode {
     position: fixed;
     inset: 0;
-    background: #111827; /* Dark background for contrast */
+    /* Vibrant, deep pink to blue for the actual story experience */
+    background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%); 
     color: white;
     z-index: 100;
     display: none;
@@ -99,7 +102,8 @@
     animation: fadeIn 0.4s ease;
   }
 
-  #story-content h2 { font-size: 2.5rem; color: #fb7185; margin-bottom: 20px;}
+ /* Changed from pink to a bright cyan/white so it doesn't blend into the pink background */
+  #story-content h2 { font-size: 2.5rem; color: #a5f3fc; margin-bottom: 20px;}
   #story-content p { font-size: 1.3rem; line-height: 1.6; max-width: 600px; margin-bottom: 20px;}
   #story-content img { max-width: 100%; height: auto; max-height: 40vh; border-radius: 16px; margin-top: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);}
 
@@ -152,7 +156,7 @@
   
   <button class="start-btn" onclick="startWrapped()">Tap to Open Your Present</button>
 
-  <audio id="bg-music" src="YOUR_AUDIO_LINK_HERE.mp3" loop></audio>
+  <audio id="bg-music" src="Namastute.mp3" loop></audio>
 </div>
 
 <div id="story-mode">
@@ -213,8 +217,21 @@ const data = [
   },
   {
     title: "Happy Birthday.",
-    body: "Life hasn’t been fair, but look at you still trying to hold the mantle of justice. I wish I knew what sorcery is involved when we study together, but productive time with you is one of the most efficient kinds I have felt... Sooooo umm, once a year you get to have this day for yourself. Keep it the way you like it, and nothing less. Have fuuuun!!",
-    // You can add an image here too if you want!
+    body: `Happy birthday to one of the kindest people I know.<br><br>
+    
+    I have said this before and will say it again: you are someone I consider really close to the word sunshine, warm, bright, and easy to trust. Something you do not always have to seek, but you know is present. Always looking out for others even when you yourself are in the dumps. Life hasn’t been fair, but look at you still trying to hold the mantle of justice.<br><br>
+    
+    You have the rare habit of helping people without making it dramatic. You always do it without making it seem like a big deal, like it is just naturally built into your system. This is not at all something many people possess.<br><br>
+    
+    I wish I knew what sorcery is involved when we study together, but productive time with you is one of the most efficient kinds I have felt, easy and simple. The pacing works, and somehow I end up remembering a lot of it as well.<br><br>
+    
+    Even after having a very rough year, which you did not deserve, you kept smiling. All the self-loathing, but still making sure everyone else was smiling too, that is some determination I would honestly call ridiculous.<br><br>
+    
+    There are really small moments which are legit anchor points in my memory. You would not even have imagined it while you were doing them, but for me they meant a lot. Stuff as simple as ruffling my hair. That is something really nostalgic kyuki friends back home always did it, but ever since I came to VIJ, stupidity and bad life choices included, I do not think anyone ever genuinely felt my hair and praised me for it. I might have honestly cried that evening. It was so niceee to hear that after so long.<br><br>
+    
+    Sooooo umm, once a year you get to have this day for yourself. Keep it the way you like it, and nothing less.<br><br>
+    
+    <b>Have fuuuun!!</b>`
   }
 ];
 
@@ -223,12 +240,34 @@ let currentIndex = 0;
 function startWrapped() {
   document.getElementById('story-mode').style.display = 'flex';
   
-  // Play Background Music
   const bgMusic = document.getElementById('bg-music');
+  
+  // 1. Start with the volume completely muted
+  bgMusic.volume = 0; 
+  
+  // 2. Start playing the song
   if (bgMusic.src !== window.location.href) {
     bgMusic.play().catch(e => console.log("Audio playback requires a valid src and user interaction."));
   }
 
+  // 3. The Fade-In Logic
+  const targetVolume = 0.2; // Max volume you want (20%)
+  const fadeDuration = 3000; // 3 seconds total
+  const intervalTime = 50; // Update the volume every 50 milliseconds
+  const volumeStep = targetVolume / (fadeDuration / intervalTime);
+
+  const fadeAudio = setInterval(() => {
+    // Check if we haven't reached the target volume yet
+    if (bgMusic.volume < targetVolume) {
+      // Safely increase the volume without overshooting the target
+      bgMusic.volume = Math.min(bgMusic.volume + volumeStep, targetVolume);
+    } else {
+      // Once it hits 20%, stop the timer
+      clearInterval(fadeAudio);
+    }
+  }, intervalTime);
+
+  // 4. Setup the UI
   setupProgressBars();
   renderStory();
 }
