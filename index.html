@@ -146,10 +146,30 @@ img {
 </div>
 
 <h2 id="birthday-note">Birthday note</h2>
+#birthday-note {
+  margin-top: 30px;
+}
 
+.card p {
+  margin-bottom: 14px;
+}
+  
 <div class="card">
 <p>Happy birthday to one of the kindest people I know.</p>
-<p>I have said this before and will say it again: you are someone I consider really close to the word sunshine, warm, bright, and easy to trust...</p>
+
+<p>I have said this before and will say it again: you are someone I consider really close to the word sunshine, warm, bright, and easy to trust. Something you do not always have to seek, but you know is present. Always looking out for others even when you yourself are in the dumps. Life hasn’t been fair, but look at you still trying to hold the mantle of justice.</p>
+
+<p>You have the rare habit of helping people without making it dramatic. You always do it without making it seem like a big deal, like it is just naturally built into your system. This is not at all something many people possess.</p>
+
+<p>I wish I knew what sorcery is involved when we study together, but productive time with you is one of the most efficient kinds I have felt, easy and simple. The pacing works, and somehow I end up remembering a lot of it as well.</p>
+
+<p>Even after having a very rough year, which you did not deserve, you kept smiling. All the self-loathing, but still making sure everyone else was smiling too, that is some determination I would honestly call ridiculous.</p>
+
+<p>There are really small moments which are legit anchor points in my memory. You would not even have imagined it while you were doing them, but for me they meant a lot. Stuff as simple as ruffling my hair. That is something really nostalgic kyuki friends back home always did it, but ever since I came to VIJ, stupidity and bad life choices included, I do not think anyone ever genuinely felt my hair and praised me for it. I might have honestly cried that evening. It was so niceee to hear that after so long.</p>
+
+<p>Sooooo umm, once a year you get to have this day for yourself. Keep it the way you like it, and nothing less.</p>
+
+<p><b>Have fuuuun!!</b></p>
 </div>
 
 </div>
@@ -161,47 +181,47 @@ img {
 const data = [
 {
 title:"Certified internet degenerate",
-body:"You have been online for a substantially longer time than most of these plebs...",
+body:"You have been online for a substantially longer time than most of these plebs, which in turn makes you a fellow degenerate. You catch references in places where most normies would completely miss them.",
 extra:"visible confusion detected",
 img:"https://media.tenor.com/6q8K7mXJ8xQAAAAC/confused-woman.gif"
 },
 {
 title:"Fake Samay fan allegations",
-body:"It's genuinely crazy how, like every other teenager in lockdown...",
-extra:"Uchalte hue bolti firti samay ki fan..."
+body:"It's genuinely crazy how, like every other teenager in lockdown, you got addicted to the most famous comedian who also streamed. It's like that is exactly what everyone else was doing who was having the slightest sense of entertainment in their lives.",
+extra:"Uchalte hue bolti firti samay ki fan samay ki fan, when was the laaaast time you have used either craaazy ho gaya ya fir achaaaa in your vocab? Fake Samay fan."
 },
 {
 title:"Directionless Zoro allegations",
-body:"You find Luffy to be kind...",
+body:"You find Luffy to be kind. You find Chopper to be cute. But you know whom you are most like? It’s mister directionless Zoro. I genuinely have no clue how is someone more directionless than me in this entire world. Like HUH!?",
 img:"https://media.tenor.com/1D7mP4r2Q7cAAAAC/zoro-lost.gif"
 },
 {
 title:"Powfu fraud check",
-body:"Okay, this Powfu thing I remember very clearly..."
+body:"Okay, this Powfu thing I remember very clearly kyuki I was not expecting anyone to actually know the name. You have 10 seconds to admit if you actually googled that. Many people have heard the songs yeah, but the name? Ain't no way you know that. I call bullshit on that."
 },
 {
 title:"Pinky promise credibility",
-body:"I have seen people talk about pinky promises..."
+body:"I have seen people talk about pinky promises as the holy grail, but not many live up to it. Really glad there is something tangible I can do after which I know no matter what happens you'll not let it get out ever. It takes enough maturity to handle situations but still not reveal things, and I am glad you have a head on your shoulders."
 },
 {
 title:"High-speed nonsense enthusiast",
-body:"Okay, I genuinely have no clue if it's watching the F1 movie..."
+body:"Okay, I genuinely have no clue if it's watching the F1 movie which got you hooked or is it because one of your many friends were watching it so you wanted to know more about the sport. But gosh am I soooo happy you finally got into it, like straight up jolly golly. I finally have someone to share my addiction with 😭😭"
 },
 {
 title:"Actual sunlight with a pulse",
-body:"It's like you have a radiance which I absolutely adore..."
+body:"It's like you have a radiance which I absolutely adore. A simple yet elegant way of making sure people feel warm around you. Time spent with you rarely feels like a chore. If you are awake, you put in enough effort ki interactions with you leave people feeling happy. I legit don't know any other way to describe the feeling. It's like when you experience evening sun, slight warmth, comfortable."
 },
 {
 title:"Built to look after people",
-body:"You help not just because it's the right thing..."
+body:"You help not just because it's the right thing to do, but also because it's something you want to do, it's something you can, and so you do it without qualms. You do it in ways which feel natural. There is no forcing any of it."
 },
 {
 title:"Bubbly but not shallow",
-body:"When you are not having your emo phase..."
+body:"When you are not having your emo phase or when you aren't questioning your life, you are really bubbly, and not in the way ki things are hyper aggressive and hyper expressive. It's more of a cartoonish charm, honestly."
 },
 {
 title:"Navigation criminal",
-body:"This one is here because truth matters..."
+body:"This one is here because truth matters. If there were three correct paths and one deeply questionable one, there is a non-zero chance you would create a fifth option somehow. This is both in life and on the road btw."
 }
 ];
 
@@ -211,7 +231,8 @@ function openModal(i){
 
   m.innerHTML = `
     <h2>${d.title}</h2>
-    <p>${d.body}</p>
+    <p>${d.body.replace(/
+/g, "<br><br>")}</p>
 
     ${d.img ? `<img src="${d.img}">` : ""}
 
