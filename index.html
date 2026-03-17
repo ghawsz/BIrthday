@@ -467,15 +467,17 @@ let selSq = null;
 let chessStep = 1;
 let boardSetup = {};
 
-function initChessBoard() {
+  function initChessBoard() {
   chessStep = 1;
   selSq = null;
-  // A dramatic 16-piece Mate in 3 puzzle (Rook Sacrifice -> Queen Check -> Checkmate)
+  // A dramatic 17-piece Mate in 3 puzzle (Rook Sacrifice -> Queen Check -> Checkmate)
+  // Now with a White Bishop on d3 protecting the final Queen mate!
   boardSetup = {
     '0-0': { type: '♜', color: 'b' }, '0-5': { type: '♜', color: 'b' }, '0-6': { type: '♚', color: 'b' },
     '1-0': { type: '♟', color: 'b' }, '1-1': { type: '♟', color: 'b' }, '1-2': { type: '♟', color: 'b' },
     '1-5': { type: '♟', color: 'b' }, '1-7': { type: '♟', color: 'b' },
     '5-7': { type: '♖', color: 'w' }, // White Rook on h3
+    '5-3': { type: '♗', color: 'w' }, // NEW: White Bishop on d3 (Protects h7)
     '6-0': { type: '♙', color: 'w' }, '6-1': { type: '♙', color: 'w' }, '6-2': { type: '♙', color: 'w' },
     '6-5': { type: '♙', color: 'w' }, '6-6': { type: '♙', color: 'w' },
     '7-3': { type: '♕', color: 'w' }, // White Queen on d1
