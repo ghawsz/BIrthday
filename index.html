@@ -22,9 +22,7 @@
   body {
     margin: 0;
     font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    background: #5a2e41; /* A rich, deep plum color */
     color: white;
     overflow: hidden; 
     height: 100vh;
@@ -132,13 +130,21 @@
   }
 
   /* Shared styles for the image doodles */
-  .background-doodle {
+.background-doodle {
     position: absolute;
-    width: 60px; /* Base size for all images */
+    width: 70px; /* Base size */
     height: auto;
-    opacity: 0.12; /* Kept very subtle so it feels like a watermark */
-    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
-    transform: rotate(calc(-15deg + 30deg * var(--random-rotate, 0))); /* Adds slight random tilt */
+    
+    /* THE MAGIC TRICK: This makes the white background of your screenshots disappear! */
+    mix-blend-mode: multiply; 
+    
+    /* Low opacity so they look like faint watermarks */
+    opacity: 0.3; 
+    
+    /* Makes the doodle lines greyscale so they blend better with the plum */
+    filter: grayscale(100%); 
+    
+    transform: rotate(calc(-15deg + 30deg * var(--random-rotate, 0)));
   }
 
   /* Randomized placements and slight size variations to make it organic */
