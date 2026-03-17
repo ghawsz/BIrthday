@@ -162,7 +162,7 @@
 
 <body>
 
-<audio id="bg-music" src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" loop></audio>
+<audio id="bg-music" src="Namastute.mp3" loop></audio>
 
 <div id="icon-pattern">
   <i class="fa-solid fa-sun bg-icon icon-1"></i><i class="fa-solid fa-scale-balanced bg-icon icon-2"></i>
@@ -405,10 +405,10 @@ function loadF1Game(box) {
 // GAME 3: ZORO MAZE
 let pR = 0, pC = 0; 
 const mazeMap = [
-  [0, 0, 1, 0, 0],
-  [0, 1, 1, 0, 0],
-  [0, 0, 0, 0, 1], // Center is (2,2)
-  [1, 1, 1, 0, 1], 
+  [0, 1, 0, 0, 0],
+  [0, 1, 0, 1, 0],
+  [0, 0, 0, 1, 0],
+  [1, 1, 1, 1, 0], 
   [0, 0, 0, 0, 2]  // Goal is (4,4)
 ];
 let trapSprung = false;
@@ -416,12 +416,10 @@ let trapSprung = false;
 function loadMazeGame(box) {
   pR = 0; pC = 0; trapSprung = false;
   
-  // Reset the maze to its initial state every time it loads
-  mazeMap[3][3] = 0; // Main path is OPEN
-  mazeMap[2][4] = 1; // Secret path is CLOSED
-  mazeMap[3][4] = 1; // Secret path is CLOSED
+  // Reset maze to its initial tricky state
+  mazeMap[3][0] = 1; // Left secret path is CLOSED
+  mazeMap[3][4] = 0; // Right main path to the goal is OPEN
   
-  // Removed the spoiler text!
   let html = `<h2 class="game-title">Zoro's Compass</h2><p>Navigate the maze to the orange square.</p><div id="maze-grid">`;
   for(let r=0; r<5; r++){
     for(let c=0; c<5; c++){
@@ -453,21 +451,18 @@ function drawMaze() {
 function moveMaze(dr, dc) {
   let nR = pR + dr; let nC = pC + dc;
   
-  // Check if the next move is within bounds and not a wall
   if(nR>=0 && nR<5 && nC>=0 && nC<5 && mazeMap[nR][nC] !== 1) {
     pR = nR; pC = nC;
     
-    // THE TRAP: Triggered when she steps on the center square (2,2)
-    if(pR === 2 && pC === 2 && !trapSprung) {
+    // THE TRAP: Triggered right when she thinks she's about to win (top right corner)
+    if(pR === 1 && pC === 4 && !trapSprung) {
       trapSprung = true;
-      mazeMap[3][3] = 1; // A wall slams down in front of her
-      mazeMap[2][4] = 0; // A secret door opens on the right wall
-      mazeMap[3][4] = 0; // The secret tunnel completes to the goal
+      mazeMap[3][4] = 1; // The obvious path to the goal slams shut!
+      mazeMap[3][0] = 0; // A wall all the way back near the start opens up
     }
     
     drawMaze();
     
-    // Win condition
     if(mazeMap[pR][pC] === 2) completeGame('maze');
   }
 }
