@@ -55,12 +55,9 @@ button {
   font-weight: 500;
   transition: 0.25s;
   min-width: 0;
-
   white-space: normal;
-  overflow: visible;
 }
 
-/* colors */
 .card:nth-child(1){background:#ffe4e6;}
 .card:nth-child(2){background:#fce7f3;}
 .card:nth-child(3){background:#ede9fe;}
@@ -104,7 +101,6 @@ button {
 
 .modal p {
   line-height: 1.7;
-  white-space: normal;
 }
 
 img {
@@ -119,6 +115,14 @@ img {
   border-radius: 10px;
   background: #ffe4e6;
   display: none;
+}
+
+#birthday-note {
+  margin-top: 30px;
+}
+
+.card p {
+  margin-bottom: 14px;
 }
 </style>
 </head>
@@ -146,14 +150,7 @@ img {
 </div>
 
 <h2 id="birthday-note">Birthday note</h2>
-#birthday-note {
-  margin-top: 30px;
-}
 
-.card p {
-  margin-bottom: 14px;
-}
-  
 <div class="card">
 <p>Happy birthday to one of the kindest people I know.</p>
 
@@ -231,11 +228,8 @@ function openModal(i){
 
   m.innerHTML = `
     <h2>${d.title}</h2>
-    <p>${d.body.replace(/
-/g, "<br><br>")}</p>
-
+    <p>${d.body}</p>
     ${d.img ? `<img src="${d.img}">` : ""}
-
     ${d.extra ? `
       <button onclick="toggleReveal()">tap to inspect</button>
       <div class="reveal" id="reveal">${d.extra}</div>
