@@ -134,4 +134,639 @@
   /* =========================================
      MINI-GAME UI STYLES
   ========================================= */
-  #game-overlay { display: none; flex-direction
+  #game-overlay { display: none; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%; z-index: 200; }
+  .game-box { background: white; border-radius: 15px; padding: 30px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.3); max-width: 90%; }
+  .game-title { font-family: 'Pirata One', serif; color: #86198f; font-size: 3rem; margin-bottom: 10px; margin-top: 0; }
+  
+  /* 1. Zoro Maze */
+  #maze-grid { display: grid; grid-template-columns: repeat(5, 50px); grid-template-rows: repeat(5, 50px); gap: 2px; margin: 20px auto; background: #0f172a; border: 4px solid #1e293b; width: fit-content; }
+  .maze-cell { width: 50px; height: 50px; background: #f8fafc; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; }
+  .d-pad { display: grid; grid-template-columns: 60px 60px 60px; gap: 10px; justify-content: center; margin-top: 20px; }
+  .d-btn { padding: 15px; font-size: 1.5rem; background: #e2e8f0; border: none; border-radius: 5px; }
+  .d-btn:active { background: #cbd5e1; }
+
+  /* 2. Uncatchable Button */
+  #catch-container { position: relative; width: 100%; height: 250px; overflow: hidden; margin-top: 20px; border-radius: 10px; background: #f1f5f9; }
+  #catch-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 30px; font-size: 1.5rem; border-radius: 50px; background: #86198f; color: white; border: none; font-family: 'Pirata One', serif; cursor: pointer; transition: 0.15s ease-out; white-space: nowrap; }
+
+  /* 3. Chopper Decryption */
+  .emoji-clue { font-size: 3rem; letter-spacing: 10px; margin: 20px 0; }
+  #decrypt-input { font-size: 1.5rem; padding: 15px; border-radius: 5px; border: 2px solid #cbd5e1; width: 80%; text-align: center; text-transform: lowercase; }
+  .action-btn { margin-top: 20px; padding: 15px 30px; background: #86198f; color: white; font-size: 1.2rem; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; text-transform: uppercase;}
+
+  /* 4. F1 Pitstop */
+  #lights-container { display: flex; gap: 10px; justify-content: center; margin: 20px 0; background: #1e293b; padding: 20px; border-radius: 10px; }
+  .f1-light { width: 40px; height: 40px; border-radius: 50%; background: #475569; }
+  .f1-light.on { background: #ef4444; box-shadow: 0 0 15px #ef4444; }
+  #f1-tap-zone { width: 100%; height: 120px; background: #cbd5e1; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: #64748b; margin-top: 10px; user-select: none; }
+  #f1-tap-zone:active { background: #94a3b8; }
+  #f1-car-container { width: 100%; overflow: hidden; text-align: left; margin-top: 10px; border-bottom: 4px solid #334155; padding-bottom: 5px;}
+  #f1-car { font-size: 3.5rem; transition: transform 0.4s ease-in; display: inline-block; transform: scaleX(-1); }
+
+  /* 5. Transponder Glitch */
+  #glitch-container { text-align: center; color: #ef4444; }
+  .glitch-text { font-size: 2.5rem; font-weight: bold; font-family: 'Pirata One', serif; animation: glitch-anim 0.2s infinite; margin-bottom: 10px;}
+  @keyframes glitch-anim {
+    0% { transform: translate(0) }
+    20% { transform: translate(-3px, 3px) }
+    40% { transform: translate(-3px, -3px) }
+    60% { transform: translate(3px, 3px) }
+    80% { transform: translate(3px, -3px) }
+    100% { transform: translate(0) }
+  }
+  #glitch-tap-zone { width: 100%; height: 150px; background: #1e293b; border: 3px dashed #ef4444; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; user-select: none; margin-top: 20px;}
+  #glitch-tap-zone:active { background: #334155; }
+  #glitch-progress-bg { width: 100%; height: 20px; background: #cbd5e1; border-radius: 10px; margin-top: 20px; overflow: hidden; }
+  #glitch-progress-fill { width: 0%; height: 100%; background: #10b981; transition: width 0.1s; }
+
+  /* 6. Chess Puzzle */
+  #chess-board { display: grid; grid-template-columns: repeat(8, 35px); grid-template-rows: repeat(8, 35px); margin: 20px auto; border: 4px solid #475569; width: fit-content; }
+  .chess-sq { width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; user-select: none; }
+  .sq-w { background: #f1f5f9; } .sq-b { background: #94a3b8; }
+  .chess-piece { color: black; } .piece-w { color: white; text-shadow: 0 0 2px black; }
+  .selected-sq { background: #fef08a !important; }
+
+</style>
+</head>
+
+<body>
+
+<audio id="bg-music" src="Namastute.mp3" loop></audio>
+
+<div id="jolly-roger-bg"></div>
+
+<div id="icon-pattern">
+  <i class="fa-solid fa-skull-crossbones bg-icon icon-1"></i><i class="fa-solid fa-anchor bg-icon icon-2"></i>
+  <i class="fa-solid fa-compass bg-icon icon-3"></i><i class="fa-solid fa-ship bg-icon icon-4"></i>
+  <i class="fa-solid fa-map bg-icon icon-5"></i><i class="fa-solid fa-water bg-icon icon-6"></i>
+  <i class="fa-solid fa-sun bg-icon icon-7"></i><i class="fa-solid fa-gem bg-icon icon-8"></i>
+  <i class="fa-solid fa-skull bg-icon icon-9"></i><i class="fa-solid fa-anchor bg-icon icon-10"></i>
+  <i class="fa-solid fa-wine-bottle bg-icon icon-11"></i><i class="fa-solid fa-moon bg-icon icon-12"></i>
+</div>
+
+<div class="container">
+  <h1>WANTED</h1>
+  <p class="subtitle">Bounty File: 'The Clumsy Corsair'.</p>
+  <button class="start-btn" onclick="startWrapped()">Set Sail</button>
+</div>
+
+<div id="story-mode">
+  <div class="progress-container" id="progress-container"></div>
+  <div class="tap-zone tap-left" id="tap-left" onclick="prevStory()"></div>
+  <div class="tap-zone tap-right" id="tap-right" onclick="nextStory()"></div>
+
+  <div id="story-content-wrapper">
+    <div class="content-card" id="active-card">
+        <h2 id="story-title"></h2>
+        <p id="story-body"></p>
+        <div id="extra-content"></div>
+    </div>
+  </div>
+
+  <div id="game-overlay">
+    <div class="game-box" id="game-box-content"></div>
+  </div>
+
+  <div id="end-screen">
+    <div class="end-box">
+      <h2>Voyage Complete</h2>
+      <p>The Log Pose has reset.</p>
+      <button class="end-btn btn-rewind" onclick="rewindStory()">Rewind Logbook</button>
+      <button class="end-btn btn-close" onclick="closeStory()">Drop Anchor (Close)</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const data = [
+  { title: "Log #001: The Digital Scallywag", body: "Initial scans of Subject X revealed a startling truth: she’s been sailing the chaotic web far longer than most normies. She catches references hidden in the deepest, most degenerate trenches of the Grand Line." },
+  { title: "Log #002: The Raina Allegations", body: "Subject claims to fly the flag of the most famous lockdown comedian. Yet, interrogation reveals a severe lack of 'craaazy ho gaya' in her recent vocabulary. Suspicions of a fake fan are high. Investigation ongoing." },
+  { title: "Log #003: A Broken Compass", body: "Tracking this anomaly is utterly futile. I thought I was lost at sea, but she makes me look like a grand navigator. She possesses the exact directional awareness of a certain green-haired pirate." },
+  // MAZE GAME HERE
+  { title: "Log #004: The ENT Ambush", body: "I must document the time The Clumsy Corsair tried to stealthily wait for me outside the ENT department, only to get completely caught. A master of infiltration, she is not. But a master of sticking around? Absolutely." },
+  // UNCATCHABLE ARROW GAME HERE
+  { title: "Log #005: The Lo-Fi Interrogation", body: "Subject claims to know the actual name 'Powfu' without using a transponder snail to search it. I call absolute bullshit on this claim. You have 10 seconds to confess to the captain." },
+  { title: "Log #006: The Ironclad Treaty", body: "In these treacherous waters, a 'Pinky Promise' is often a myth. But I’ve documented that when she hooks that finger, the vault is sealed. A rare, honorable head on those shoulders." },
+  { title: "Log #007: High-Speed Hyperfixation", body: "A sudden and aggressive pivot in the anomaly's behavior. She is now obsessed with high-speed land ships. Gosh, am I happy I finally have a co-pilot to share this ridiculous F1 addiction with." },
+  // F1 GAME HERE
+  { title: "Log #008: Radiation of Warmth", body: "This is where she earns the title 'Sunshine'. In a stupid university that often feels like a sinking ship, she emits an elegant, pulse-like warmth. Time spent in her radius never feels like a chore." },
+  { title: "Log #009: The Ship's Doctor", body: "Clinical observation: Subject is naturally hardwired to patch people up. She doesn't do it for the glory or the bounty; it's simply built into her hull. She steps up when the rest of the crew is in the dumps." },
+  { title: "Log #010: The Resilient Bubble", body: "Even after battling through a rough storm she did not deserve, the anomaly maintains a cartoonish, bubbly charm. It’s not chaotic noise; it’s a quiet defiance. Making sure the crew smiles even when she’s questioning her own map." },
+  { title: "Log #011: The Fifth Path", body: "Truth matters in this log. If presented with three safe routes and one deeply cursed one, the anomaly will somehow invent a fifth. Both on the road and in life. And honestly? It makes the voyage worth it." },
+  // CHOPPER GAME HERE
+  { title: "Log #012: The Craftsman's Protocol", body: "I came to her for a simple tactical suggestion—an idea for a gift for my best friend. A week later, she co-opted the mission, putting in unbelievable effort to help me *make* the damn thing so I could put on a brave face. Who tf does that for anyone?<br><br>You tell me the part of you that loves making handmade gifts is dead. It is not. You can't let that die. That effort makes getting a gift from you 10000 times more meaningful, warna kaun hi karne jaata hai itna. I want you to see that you have people for whom those efforts matter." },
+  // GLITCH GAME HERE
+  { title: "Log #013: The Malikah Aftermath", body: "I've kept this out of the official logs for a whole year—kyuki why should I toot your horn—but today is the day. The conversation after Malikah's birthday.<br><br>That was the day we crossed a line. It wasn't just 'college me hi hello dikh gaye' types anymore. It was an honest, basic conversation where I felt like I was finally talking to a human, not some mumbo jumbo jo dusron ke kandhon par bandook chalate firta hai. That conversation was too real to ever walk back from. It's the exact reason I don't want to end this college without being someone you can trust and rely on." },
+  // CHESS GAME HERE
+  { 
+    title: "The Ultimate Treasure", 
+    body: "You survived the gauntlet. Your reward is here. A priceless artifact of the Grand Line:<br><br><span id='true-treasure-btn' style='font-size: 5rem; cursor: pointer; user-select: none;' onclick='revealTrueTreasure()'>🍖</span><br><br>It's just a digital piece of meat. Happy Tuesday. Logbook closed.",
+    extra: "Bait" 
+  }
+];
+
+// The map that interrupts the progression to load the games.
+const gameTriggers = {
+  3: { id: 'maze', solved: false },     // Loads before Log 004
+  4: { id: 'catch', solved: false },    // Loads before Log 005
+  7: { id: 'f1', solved: false },       // Loads before Log 008
+  11: { id: 'chopper', solved: false }, // Loads before Log 012
+  12: { id: 'glitch', solved: false },  // Loads before Log 013
+  13: { id: 'chess', solved: false }    // Loads before Ultimate Treasure
+};
+
+let currentIndex = 0;
+
+function startWrapped() {
+  confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#fbbf24', '#ff7e5f', '#ffffff'] });
+
+  document.getElementById('story-mode').style.display = 'flex';
+  setTimeout(() => document.getElementById('story-mode').style.opacity = '1', 50);
+  
+  const bgMusic = document.getElementById('bg-music');
+  
+  // Audio Fader Logic
+  if (bgMusic.src && !bgMusic.src.endsWith("html")) {
+    bgMusic.volume = 0; 
+    bgMusic.play().then(() => {
+      const targetVolume = 0.15; 
+      const fadeDuration = 3000; 
+      const intervalTime = 50;
+      const volumeStep = targetVolume / (fadeDuration / intervalTime);
+      const fadeAudio = setInterval(() => {
+        if (bgMusic.volume < targetVolume) {
+          bgMusic.volume = Math.min(bgMusic.volume + volumeStep, targetVolume);
+        } else {
+          clearInterval(fadeAudio);
+        }
+      }, intervalTime);
+    }).catch(e => console.log("Audio waiting"));
+  }
+  
+  setupProgressBars();
+  renderContent();
+}
+
+function setupProgressBars() {
+  const container = document.getElementById('progress-container');
+  container.innerHTML = '';
+  data.forEach((_, i) => container.innerHTML += `<div class="progress-bar" id="bar-${i}"><div class="progress-fill"></div></div>`);
+}
+
+function nextStory() {
+  if (currentIndex < data.length - 1) {
+    currentIndex++;
+    renderContent();
+  } else {
+    document.getElementById('end-screen').style.display = 'flex';
+  }
+}
+
+function prevStory() {
+  if (currentIndex > 0) {
+    currentIndex--;
+    renderContent();
+  }
+}
+
+function rewindStory() {
+  document.getElementById('end-screen').style.display = 'none';
+  currentIndex = 0;
+  renderContent();
+}
+
+function closeStory() {
+  document.getElementById('end-screen').style.display = 'none';
+  document.getElementById('story-mode').style.opacity = '0';
+  setTimeout(() => { document.getElementById('story-mode').style.display = 'none'; currentIndex = 0; }, 1000); 
+  const bgMusic = document.getElementById('bg-music');
+  bgMusic.pause();
+  bgMusic.currentTime = 0; 
+}
+
+function renderContent() {
+  data.forEach((_, i) => {
+    const bar = document.getElementById(`bar-${i}`);
+    if (i <= currentIndex) bar.classList.add('completed');
+    else bar.classList.remove('completed');
+  });
+
+  const gameInfo = gameTriggers[currentIndex];
+  if (gameInfo && !gameInfo.solved) {
+    launchGame(gameInfo.id);
+  } else {
+    showStoryCard();
+  }
+}
+
+function showStoryCard() {
+  document.getElementById('game-overlay').style.display = 'none';
+  document.getElementById('story-content-wrapper').style.display = 'flex';
+  document.getElementById('tap-left').style.display = 'block';
+  document.getElementById('tap-right').style.display = 'block';
+
+  const card = document.getElementById('active-card');
+  card.className = 'content-card'; 
+
+  const d = data[currentIndex];
+  document.getElementById('story-title').innerText = d.title;
+  document.getElementById('story-body').innerHTML = d.body;
+  
+  const extraDiv = document.getElementById('extra-content');
+  extraDiv.innerHTML = '';
+
+  // The Easter Egg Logic
+  if(d.extra === "Bait") {
+    document.getElementById('tap-right').style.display = 'none'; 
+    extraDiv.innerHTML = `
+      <button class="action-btn" style="margin-top:20px; font-family: 'SF Pro Display', sans-serif;" onclick="showGawar()">Click here to proceed</button>
+      <div id="gawar-msg" style="display:none; color: #ef4444; font-weight: 800; font-size: 1.5rem; margin-top: 15px;">gawar</div>
+    `;
+  }
+}
+
+function showGawar() {
+  document.getElementById('gawar-msg').style.display = 'block';
+}
+
+function revealTrueTreasure() {
+  confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
+  
+  const card = document.getElementById('active-card');
+  card.className = 'scroll-card';
+
+  document.getElementById('story-title').innerText = "The Real Treasure";
+  document.getElementById('story-body').innerHTML = `
+    Happy birthday to one of the kindest people I know.<br><br>
+    I have said this before and will say it again: you are someone I consider really close to the word sunshine. Warm, bright, and easy to trust.<br><br>
+    There are really small moments which are legit anchor points in my memory. Stuff as simple as ruffling my hair. I do not think anyone ever genuinely felt my hair and praised me for it since I came to VIJ. I might have honestly cried that evening. It was so niceee to hear that after so long.<br><br>
+    I know things have been fucked up for the entire year, and I am really sorry for the way things have been going. But please, be just as amazing as you always were. I really hope this year is completely different.<br><br>
+    Once a year you get to have this day for yourself. Keep it the way you like it, and nothing less. I hope you are the same sunshine to yourself as you are to me.<br><br>
+    <b>Have fuuuun!!</b>`;
+  
+  document.getElementById('extra-content').innerHTML = '';
+  document.getElementById('tap-right').style.display = 'block';
+}
+
+function completeGame(gameId) {
+  for (let key in gameTriggers) {
+    if (gameTriggers[key].id === gameId) {
+      gameTriggers[key].solved = true;
+    }
+  }
+  const box = document.getElementById('game-box-content');
+  box.innerHTML = `<h2 class="game-title">Clearance Granted</h2><p>Accessing next log...</p>`;
+  setTimeout(() => { showStoryCard(); }, 1500);
+}
+
+function launchGame(gameId) {
+  document.getElementById('story-content-wrapper').style.display = 'none';
+  document.getElementById('tap-left').style.display = 'none';
+  document.getElementById('tap-right').style.display = 'none';
+  
+  const overlay = document.getElementById('game-overlay');
+  const box = document.getElementById('game-box-content');
+  overlay.style.display = 'flex';
+
+  if (gameId === 'chopper') loadChopperGame(box);
+  else if (gameId === 'f1') loadF1Game(box);
+  else if (gameId === 'maze') loadMazeGame(box);
+  else if (gameId === 'chess') loadChessGame(box);
+  else if (gameId === 'catch') loadCatchGame(box);
+  else if (gameId === 'glitch') loadGlitchGame(box);
+}
+
+// ==========================================
+// GAME 1: THE UNCATCHABLE ARROW
+// ==========================================
+let catchAttempts = 0;
+function loadCatchGame(box) {
+  catchAttempts = 0;
+  box.innerHTML = `
+    <h2 class="game-title">Evasive Maneuvers</h2>
+    <p>The Clumsy Corsair's log is slipping away. Catch it to proceed.</p>
+    <div id="catch-container">
+      <button id="catch-btn" onmousedown="handleCatch(event)" ontouchstart="handleCatch(event)">Tap to Proceed</button>
+    </div>
+  `;
+}
+function handleCatch(e) {
+  e.preventDefault();
+  const btn = document.getElementById('catch-btn');
+  const container = document.getElementById('catch-container');
+  
+  if(catchAttempts >= 4) {
+    completeGame('catch');
+    return;
+  }
+  
+  catchAttempts++;
+  if (catchAttempts === 4) {
+    btn.innerText = "Fine, you caught me. Proceed.";
+    btn.style.background = "#10b981";
+    btn.style.top = "50%";
+    btn.style.left = "50%";
+    btn.style.transform = "translate(-50%, -50%)";
+    return;
+  }
+  
+  const maxX = container.clientWidth - btn.clientWidth - 20;
+  const maxY = container.clientHeight - btn.clientHeight - 20;
+  const newX = Math.random() * maxX + 10;
+  const newY = Math.random() * maxY + 10;
+  
+  btn.style.left = newX + "px";
+  btn.style.top = newY + "px";
+  btn.style.transform = "none"; 
+}
+
+// ==========================================
+// GAME 2: TRANSPONDER SNAIL GLITCH
+// ==========================================
+let glitchProgress = 0;
+let glitchInterval;
+function loadGlitchGame(box) {
+  glitchProgress = 0;
+  box.innerHTML = `
+    <div id="glitch-container">
+      <div class="glitch-text">⚠️ SIGNAL LOST ⚠️</div>
+      <p style="color: #334155; font-family: 'SF Pro Display', sans-serif;">Transponder Snail connection jammed by Marine interference. Tap the screen rapidly to restore the signal!</p>
+      <div id="glitch-progress-bg"><div id="glitch-progress-fill"></div></div>
+      <div id="glitch-tap-zone" onmousedown="handleGlitchTap(event)" ontouchstart="handleGlitchTap(event)">
+        <i class="fa-solid fa-satellite-dish" style="font-size: 4rem;"></i>
+      </div>
+    </div>
+  `;
+  
+  clearInterval(glitchInterval);
+  glitchInterval = setInterval(() => {
+    if(glitchProgress > 0) glitchProgress -= 2; 
+    updateGlitchBar();
+  }, 100);
+}
+
+function handleGlitchTap(e) {
+  e.preventDefault();
+  glitchProgress += 10; 
+  if(glitchProgress >= 100) {
+    glitchProgress = 100;
+    clearInterval(glitchInterval);
+    document.getElementById('glitch-tap-zone').style.background = "#10b981";
+    document.querySelector('.glitch-text').innerText = "SIGNAL RESTORED";
+    document.querySelector('.glitch-text').style.color = "#10b981";
+    document.querySelector('.glitch-text').style.animation = "none";
+    setTimeout(() => completeGame('glitch'), 1000);
+  }
+  updateGlitchBar();
+}
+
+function updateGlitchBar() {
+  const fill = document.getElementById('glitch-progress-fill');
+  if(fill) fill.style.width = glitchProgress + "%";
+}
+
+// ==========================================
+// GAME 3: DECRYPTION (CHOPPER)
+// ==========================================
+function loadChopperGame(box) {
+  box.innerHTML = `
+    <h2 class="game-title">Poneglyph Decryption</h2>
+    <p>Translate the following visual data into the Clumsy Corsair's favorite navigator:</p>
+    <div class="emoji-clue">🦌 🩺 🌸 ☠️ 👒</div>
+    <input type="text" id="decrypt-input" placeholder="Enter codename..." autocomplete="off">
+    <br>
+    <button class="action-btn" onclick="checkChopper()">Unlock</button>
+    <p id="chopper-err" style="color:#ef4444; display:none; margin-top:10px; font-weight:bold;">Access Denied. Try again.</p>
+  `;
+}
+function checkChopper() {
+  const val = document.getElementById('decrypt-input').value.toLowerCase().replace(/\s/g, "");
+  if (val.includes('chopper') || val.includes('tony')) completeGame('chopper');
+  else document.getElementById('chopper-err').style.display = 'block';
+}
+
+// ==========================================
+// GAME 4: F1 PITSTOP
+// ==========================================
+let f1Timeout, lightsOutTime;
+function loadF1Game(box) {
+  box.innerHTML = `
+    <h2 class="game-title">Thousand Sunny Pitstop</h2>
+    <p>Wait for all 5 red lights to drop, then tap the box to launch! Under 0.5s to pass.</p>
+    <div id="lights-container">
+      <div class="f1-light" id="l1"></div><div class="f1-light" id="l2"></div>
+      <div class="f1-light" id="l3"></div><div class="f1-light" id="l4"></div>
+      <div class="f1-light" id="l5"></div>
+    </div>
+    <div id="f1-car-container">
+      <div id="f1-car">🏎️</div>
+    </div>
+    <div id="f1-tap-zone">WAIT...</div>
+    <p id="f1-status" style="margin-top:10px; font-weight:bold;"></p>
+  `;
+  
+  const tapZone = document.getElementById('f1-tap-zone');
+  let state = 'waiting'; 
+  
+  for(let i=1; i<=5; i++) {
+    setTimeout(() => document.getElementById('l'+i).classList.add('on'), i * 500);
+  }
+  
+  f1Timeout = setTimeout(() => {
+    for(let i=1; i<=5; i++) document.getElementById('l'+i).classList.remove('on');
+    state = 'ready';
+    tapZone.innerText = "TAP NOW!";
+    tapZone.style.background = "#10b981"; 
+    tapZone.style.color = "white";
+    lightsOutTime = Date.now();
+  }, 3000 + Math.random() * 2500);
+
+  tapZone.addEventListener('touchstart', handleF1Tap);
+  tapZone.addEventListener('mousedown', handleF1Tap);
+
+  function handleF1Tap(e) {
+    e.preventDefault();
+    if(state === 'waiting') {
+      clearTimeout(f1Timeout);
+      document.getElementById('f1-status').innerText = "False Start! Resetting...";
+      document.getElementById('f1-status').style.color = "#ef4444";
+      setTimeout(() => loadF1Game(box), 1500);
+    } else if (state === 'ready') {
+      state = 'done';
+      let reaction = (Date.now() - lightsOutTime) / 1000;
+      if(reaction <= 0.6) { 
+        document.getElementById('f1-car').style.transform = 'scaleX(-1) translateX(-300px)'; 
+        document.getElementById('f1-status').innerText = `Time: ${reaction}s! Perfect launch!`;
+        document.getElementById('f1-status').style.color = "#10b981";
+        setTimeout(() => completeGame('f1'), 1500);
+      } else {
+        document.getElementById('f1-status').innerText = `Time: ${reaction}s. Too slow! Resetting...`;
+        document.getElementById('f1-status').style.color = "#ef4444";
+        setTimeout(() => loadF1Game(box), 1500);
+      }
+    }
+  }
+}
+
+// ==========================================
+// GAME 5: THE ONE PIECE MAZE
+// ==========================================
+let pR = 0, pC = 0; 
+const mazeMap = [
+  [0, 1, 0, 0, 0],
+  [0, 1, 0, 1, 0],
+  [0, 0, 0, 1, 0],
+  [1, 1, 1, 1, 0], 
+  [0, 0, 0, 0, 2]  
+];
+let trapSprung = false;
+
+function loadMazeGame(box) {
+  pR = 0; pC = 0; trapSprung = false;
+  mazeMap[3][0] = 1; 
+  mazeMap[3][4] = 0; 
+  
+  let html = `<h2 class="game-title">The Clumsy Navigator</h2><p>Guide Zoro to the Booze (🍺). Avoid the Marine Blockades (⚓).</p><div id="maze-grid">`;
+  for(let r=0; r<5; r++){
+    for(let c=0; c<5; c++){
+      html += `<div id="cell-${r}-${c}" class="maze-cell"></div>`;
+    }
+  }
+  html += `</div><div class="d-pad">
+    <div></div><button class="d-btn" onclick="moveMaze(-1,0)"><i class="fa-solid fa-arrow-up"></i></button><div></div>
+    <button class="d-btn" onclick="moveMaze(0,-1)"><i class="fa-solid fa-arrow-left"></i></button>
+    <button class="d-btn" onclick="moveMaze(1,0)"><i class="fa-solid fa-arrow-down"></i></button>
+    <button class="d-btn" onclick="moveMaze(0,1)"><i class="fa-solid fa-arrow-right"></i></button>
+  </div>`;
+  box.innerHTML = html;
+  drawMaze();
+}
+
+function drawMaze() {
+  for(let r=0; r<5; r++){
+    for(let c=0; c<5; c++){
+      let cell = document.getElementById(`cell-${r}-${c}`);
+      cell.innerHTML = ''; 
+      
+      if (mazeMap[r][c] === 1) cell.innerHTML = '⚓';
+      else if (mazeMap[r][c] === 2) cell.innerHTML = '🍺';
+      if (r === pR && c === pC) cell.innerHTML = '<img src="zoro.png" style="width: 40px; height: 40px; object-fit: contain;">';
+    }
+  }
+}
+
+function moveMaze(dr, dc) {
+  let nR = pR + dr; let nC = pC + dc;
+  if(nR>=0 && nR<5 && nC>=0 && nC<5 && mazeMap[nR][nC] !== 1) {
+    pR = nR; pC = nC;
+    if(pR === 1 && pC === 4 && !trapSprung) {
+      trapSprung = true;
+      mazeMap[3][4] = 1; 
+      mazeMap[3][0] = 0; 
+    }
+    drawMaze();
+    if(mazeMap[pR][pC] === 2) completeGame('maze');
+  }
+}
+
+// ==========================================
+// GAME 6: CHESS PUZZLE
+// ==========================================
+let selSq = null;
+let chessStep = 1;
+let boardSetup = {};
+
+function initChessBoard() {
+  chessStep = 1;
+  selSq = null;
+  boardSetup = {
+    '0-0': { type: '♜', color: 'b' }, '0-5': { type: '♜', color: 'b' }, '0-6': { type: '♚', color: 'b' },
+    '1-0': { type: '♟', color: 'b' }, '1-1': { type: '♟', color: 'b' }, '1-2': { type: '♟', color: 'b' },
+    '1-5': { type: '♟', color: 'b' }, '1-7': { type: '♟', color: 'b' },
+    '5-7': { type: '♖', color: 'w' }, 
+    '5-3': { type: '♗', color: 'w' }, 
+    '6-0': { type: '♙', color: 'w' }, '6-1': { type: '♙', color: 'w' }, '6-2': { type: '♙', color: 'w' },
+    '6-5': { type: '♙', color: 'w' }, '6-6': { type: '♙', color: 'w' },
+    '7-3': { type: '♕', color: 'w' }, 
+    '7-6': { type: '♔', color: 'w' }  
+  };
+}
+
+function loadChessGame(box) {
+  initChessBoard();
+  let html = `<h2 class="game-title">Naval Strategy</h2><p>Execute the Mate in 3 to bypass the final blockade.</p><div id="chess-board">`;
+  for(let r=0; r<8; r++){
+    for(let c=0; c<8; c++){
+      let isWhite = (r + c) % 2 === 0;
+      html += `<div id="sq-${r}-${c}" class="chess-sq ${isWhite ? 'sq-w' : 'sq-b'}" onclick="clickChess(${r},${c})"></div>`;
+    }
+  }
+  html += `</div><p id="chess-status" style="color:#ef4444; display:none; font-weight:bold;"></p>`;
+  box.innerHTML = html;
+  drawChess();
+}
+
+function drawChess() {
+  for(let r=0; r<8; r++){
+    for(let c=0; c<8; c++){
+      let sq = document.getElementById(`sq-${r}-${c}`);
+      sq.innerHTML = ''; sq.classList.remove('selected-sq');
+      if(selSq === `${r}-${c}`) sq.classList.add('selected-sq');
+      
+      let p = boardSetup[`${r}-${c}`];
+      if(p) sq.innerHTML = `<span class="chess-piece ${p.color === 'w' ? 'piece-w' : ''}">${p.type}</span>`;
+    }
+  }
+}
+
+function clickChess(r, c) {
+  let id = `${r}-${c}`;
+  let status = document.getElementById('chess-status');
+  status.style.display = 'none';
+
+  if(!selSq) {
+    if(boardSetup[id] && boardSetup[id].color === 'w') {
+      selSq = id; drawChess();
+    }
+  } else {
+    let correct = false;
+    if(chessStep === 1 && selSq === '5-7' && id === '1-7') correct = true;
+    if(chessStep === 2 && selSq === '7-3' && id === '3-7') correct = true;
+    if(chessStep === 3 && selSq === '3-7' && id === '1-7') correct = true;
+
+    if(correct) {
+      boardSetup[id] = boardSetup[selSq];
+      delete boardSetup[selSq];
+      selSq = null;
+      drawChess();
+
+      if(chessStep === 1) {
+        setTimeout(() => {
+          boardSetup['1-7'] = boardSetup['0-6']; 
+          delete boardSetup['0-6'];
+          drawChess();
+          chessStep = 2;
+        }, 600);
+      } else if (chessStep === 2) {
+        setTimeout(() => {
+          boardSetup['0-6'] = boardSetup['1-7']; 
+          delete boardSetup['1-7'];
+          drawChess();
+          chessStep = 3;
+        }, 600);
+      } else if (chessStep === 3) {
+        document.getElementById('sq-1-7').style.background = '#10b981'; 
+        setTimeout(() => completeGame('chess'), 1000);
+      }
+    } else {
+      status.innerText = "Incorrect move! The anomaly resists. Resetting...";
+      status.style.display = 'block';
+      setTimeout(() => { loadChessGame(document.getElementById('game-box-content')); }, 1500);
+    }
+  }
+}
+</script>
+
+</body>
+</html>
