@@ -3,17 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For the person closest to sunshine</title>
+<title>To The Clumsy Corsair</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
   :root {
     --text-dark: #1e293b;
-    --glass: rgba(255, 255, 255, 0.3); 
+    --glass: rgba(255, 255, 255, 0.25); 
     --border-glass: rgba(255, 255, 255, 0.5);
   }
 
+  /* --- THE GRAND LINE SUNSET BACKGROUND --- */
   @keyframes gradientBG {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -23,7 +25,8 @@
   body {
     margin: 0;
     font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: linear-gradient(-45deg, #ff758c, #ff7eb3, #a1c4fd, #c2e9fb);
+    /* Sunset Orange fading into Deep Ocean Blue */
+    background: linear-gradient(-45deg, #ff7e5f, #feb47b, #24c6dc, #514a9d);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
     color: var(--text-dark);
@@ -32,46 +35,41 @@
     width: 100vw;
   }
 
-  /* WATERMARK ICONS */
-  #icon-pattern {
-    position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none;
-  }
-  .bg-icon {
-    position: absolute; color: rgba(255, 255, 255, 0.3); font-size: 4rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
-  }
-  .icon-1 { top: 10%; left: 10%; transform: rotate(-15deg); } 
-  .icon-2 { top: 15%; left: 80%; transform: rotate(20deg); font-size: 5rem; } 
-  .icon-3 { top: 40%; left: 5%; transform: rotate(10deg); font-size: 3.5rem; } 
-  .icon-4 { top: 45%; left: 85%; transform: rotate(-25deg); } 
-  .icon-5 { top: 75%; left: 15%; transform: rotate(15deg); font-size: 4.5rem; } 
-  .icon-6 { top: 80%; left: 75%; transform: rotate(-10deg); } 
-  .icon-7 { top: 5%; left: 45%; transform: rotate(5deg); font-size: 3rem; } 
-  .icon-8 { top: 50%; left: 45%; transform: rotate(-5deg); font-size: 5rem; } 
+  /* PIRATE WATERMARK ICONS */
+  #icon-pattern { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; }
+  .bg-icon { position: absolute; color: rgba(255, 255, 255, 0.25); font-size: 4rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+  .icon-1 { top: 10%; left: 10%; transform: rotate(-15deg); } /* Skull */
+  .icon-2 { top: 15%; left: 80%; transform: rotate(20deg); font-size: 5rem; } /* Anchor */
+  .icon-3 { top: 40%; left: 5%; transform: rotate(10deg); font-size: 3.5rem; } /* Compass */
+  .icon-4 { top: 45%; left: 85%; transform: rotate(-25deg); } /* Ship */
+  .icon-5 { top: 75%; left: 15%; transform: rotate(15deg); font-size: 4.5rem; } /* Map */
+  .icon-6 { top: 80%; left: 75%; transform: rotate(-10deg); } /* Waves */
+  .icon-7 { top: 5%; left: 45%; transform: rotate(5deg); font-size: 3rem; } /* Sun */
+  .icon-8 { top: 50%; left: 45%; transform: rotate(-5deg); font-size: 5rem; } /* Treasure */
   .icon-9 { top: 90%; left: 45%; transform: rotate(15deg); } 
   .icon-10 { top: 30%; left: 25%; transform: rotate(-20deg); font-size: 3rem; } 
-  .icon-11 { top: 60%; left: 70%; transform: rotate(25deg); } 
-  .icon-12 { top: 85%; left: 40%; transform: rotate(-15deg); } 
 
   /* LANDING PAGE */
   .container {
     height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
     text-align: center; padding: 20px; box-sizing: border-box; position: relative; z-index: 10;
   }
-  h1 { font-size: 3.5rem; margin-bottom: 10px; color: white; text-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-  .subtitle { color: rgba(255,255,255,0.9); margin-bottom: 50px; font-size: 1.2rem; font-weight: 500; }
+  h1 { font-size: 3.5rem; margin-bottom: 10px; color: white; text-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+  .subtitle { color: rgba(255,255,255,0.95); margin-bottom: 50px; font-size: 1.2rem; font-weight: 500; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
   .start-btn {
-    padding: 18px 40px; border-radius: 50px; border: none; background: white; color: #ff758c;
-    font-size: 1.3rem; font-weight: 700; cursor: pointer; box-shadow: 0 10px 30px rgba(255, 117, 140, 0.4);
-    text-transform: uppercase; letter-spacing: 1px;
+    padding: 18px 40px; border-radius: 50px; border: none; background: white; color: #d946ef;
+    font-size: 1.3rem; font-weight: 800; cursor: pointer; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    text-transform: uppercase; letter-spacing: 1px; transition: 0.2s;
   }
+  .start-btn:active { transform: scale(0.95); }
 
   /* STORY MODE UI */
   #story-mode {
-    position: fixed; inset: 0; background-color: rgba(255,255,255,0.1); backdrop-filter: blur(5px); 
+    position: fixed; inset: 0; background-color: rgba(0,0,0,0.1); backdrop-filter: blur(8px); 
     z-index: 100; display: none; flex-direction: column; opacity: 0; transition: opacity 1.5s ease;
   }
   .progress-container { display: flex; gap: 4px; padding: 20px 10px; position: absolute; top: 0; width: 100%; box-sizing: border-box; z-index: 150; }
-  .progress-bar { flex: 1; height: 4px; background: rgba(0,0,0,0.1); border-radius: 2px; overflow: hidden; }
+  .progress-bar { flex: 1; height: 4px; background: rgba(0,0,0,0.2); border-radius: 2px; overflow: hidden; }
   .progress-fill { height: 100%; width: 0%; background: white; }
   .progress-bar.completed .progress-fill { width: 100%; }
 
@@ -80,12 +78,13 @@
   .content-card {
     background: var(--glass); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
     border: 1px solid var(--border-glass); border-radius: 30px; padding: 40px; max-width: 600px; width: 90%;
-    text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.15); animation: cardIn 0.5s ease-out forwards;
+    text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.2); animation: cardIn 0.5s ease-out forwards;
+    max-height: 75vh; overflow-y: auto; /* Lets the final letter scroll if needed */
   }
   @keyframes cardIn { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
   
-  .content-card h2 { font-size: 2.8rem; margin-top: 0; margin-bottom: 15px; color: #be185d; line-height: 1.1; }
-  .content-card p { font-size: 1.25rem; line-height: 1.6; font-weight: 500; color: #334155; margin-bottom: 0; }
+  .content-card h2 { font-size: 2.5rem; margin-top: 0; margin-bottom: 15px; color: #86198f; line-height: 1.1; }
+  .content-card p { font-size: 1.25rem; line-height: 1.6; font-weight: 500; color: #1e293b; margin-bottom: 0; }
   
   .tap-zone { position: absolute; top: 0; bottom: 0; width: 25%; z-index: 140; cursor: pointer; }
   .tap-left { left: 0; } .tap-right { right: 0; }
@@ -93,18 +92,16 @@
   /* END SCREEN UI */
   #end-screen {
     display: none; flex-direction: column; justify-content: center; align-items: center;
-    position: absolute; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); z-index: 180;
+    position: absolute; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); z-index: 180;
   }
   .end-box {
     background: var(--glass); backdrop-filter: blur(25px); border: 1px solid var(--border-glass);
     border-radius: 30px; padding: 40px; text-align: center; color: white; max-width: 400px; width: 80%;
   }
   .end-box h2 { margin-top: 0; font-size: 2.2rem; }
-  .end-btn {
-    padding: 15px 30px; margin: 10px 5px; border-radius: 50px; border: none; font-size: 1.1rem; font-weight: bold; cursor: pointer; width: 80%;
-  }
-  .btn-rewind { background: #be185d; color: white; }
-  .btn-close { background: white; color: #be185d; }
+  .end-btn { padding: 15px 30px; margin: 10px 5px; border-radius: 50px; border: none; font-size: 1.1rem; font-weight: bold; cursor: pointer; width: 80%; }
+  .btn-rewind { background: #86198f; color: white; }
+  .btn-close { background: white; color: #86198f; }
 
   /* =========================================
      MINI-GAME UI STYLES
@@ -115,16 +112,13 @@
   }
   .game-box {
     background: white; border-radius: 20px; padding: 30px; text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2); max-width: 90%;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3); max-width: 90%;
   }
-  .game-title { color: #be185d; font-size: 2rem; margin-bottom: 10px; margin-top: 0; }
+  .game-title { color: #86198f; font-size: 2rem; margin-bottom: 10px; margin-top: 0; }
   
   /* 1. Zoro Maze */
-  #maze-grid { display: grid; grid-template-columns: repeat(5, 50px); grid-template-rows: repeat(5, 50px); gap: 2px; margin: 20px auto; background: #ccc; border: 4px solid #334155; width: fit-content; }
-  .maze-cell { width: 50px; height: 50px; background: white; }
-  .maze-wall { background: #334155; }
-  .maze-player { background: #10b981; border-radius: 50%; transform: scale(0.8); }
-  .maze-goal { background: #f59e0b; }
+  #maze-grid { display: grid; grid-template-columns: repeat(5, 50px); grid-template-rows: repeat(5, 50px); gap: 2px; margin: 20px auto; background: #0f172a; border: 4px solid #1e293b; width: fit-content; }
+  .maze-cell { width: 50px; height: 50px; background: #f8fafc; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; }
   .d-pad { display: grid; grid-template-columns: 60px 60px 60px; gap: 10px; justify-content: center; margin-top: 20px; }
   .d-btn { padding: 15px; font-size: 1.5rem; background: #e2e8f0; border: none; border-radius: 10px; }
   .d-btn:active { background: #cbd5e1; }
@@ -132,14 +126,16 @@
   /* 2. Chopper Decryption */
   .emoji-clue { font-size: 3rem; letter-spacing: 10px; margin: 20px 0; }
   #decrypt-input { font-size: 1.5rem; padding: 15px; border-radius: 10px; border: 2px solid #cbd5e1; width: 80%; text-align: center; text-transform: lowercase; }
-  .action-btn { margin-top: 20px; padding: 15px 30px; background: #be185d; color: white; font-size: 1.2rem; border: none; border-radius: 50px; font-weight: bold; }
+  .action-btn { margin-top: 20px; padding: 15px 30px; background: #86198f; color: white; font-size: 1.2rem; border: none; border-radius: 50px; font-weight: bold; cursor: pointer;}
 
   /* 3. F1 Pitstop */
-  #lights-container { display: flex; gap: 10px; justify-content: center; margin: 30px 0; background: #1e293b; padding: 20px; border-radius: 20px; }
+  #lights-container { display: flex; gap: 10px; justify-content: center; margin: 20px 0; background: #1e293b; padding: 20px; border-radius: 20px; }
   .f1-light { width: 40px; height: 40px; border-radius: 50%; background: #475569; }
   .f1-light.on { background: #ef4444; box-shadow: 0 0 15px #ef4444; }
-  #f1-tap-zone { width: 100%; height: 150px; background: #cbd5e1; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: #64748b; margin-top: 20px; user-select: none; }
+  #f1-tap-zone { width: 100%; height: 120px; background: #cbd5e1; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: #64748b; margin-top: 10px; user-select: none; }
   #f1-tap-zone:active { background: #94a3b8; }
+  #f1-car-container { width: 100%; overflow: hidden; text-align: left; margin-top: 10px; border-bottom: 4px solid #334155; padding-bottom: 5px;}
+  #f1-car { font-size: 3.5rem; transition: transform 0.4s ease-in; }
 
   /* 4. Chess Puzzle */
   #chess-board { display: grid; grid-template-columns: repeat(8, 35px); grid-template-rows: repeat(8, 35px); margin: 20px auto; border: 4px solid #475569; width: fit-content; }
@@ -153,20 +149,20 @@
 
 <body>
 
-<audio id="bg-music" src="Namastute.mp3" loop></audio>
+<audio id="bg-music" src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" loop></audio>
 
 <div id="icon-pattern">
-  <i class="fa-solid fa-sun bg-icon icon-1"></i><i class="fa-solid fa-scale-balanced bg-icon icon-2"></i>
-  <i class="fa-solid fa-compass bg-icon icon-3"></i><i class="fa-solid fa-microphone bg-icon icon-4"></i>
-  <i class="fa-solid fa-car-side bg-icon icon-5"></i><i class="fa-solid fa-handshake-angle bg-icon icon-6"></i>
-  <i class="fa-solid fa-cloud-rain bg-icon icon-7"></i><i class="fa-solid fa-book bg-icon icon-8"></i>
-  <i class="fa-solid fa-laptop bg-icon icon-9"></i><i class="fa-solid fa-film bg-icon icon-10"></i>
-  <i class="fa-solid fa-users bg-icon icon-11"></i><i class="fa-solid fa-moon bg-icon icon-12"></i>
+  <i class="fa-solid fa-skull-crossbones bg-icon icon-1"></i><i class="fa-solid fa-anchor bg-icon icon-2"></i>
+  <i class="fa-solid fa-compass bg-icon icon-3"></i><i class="fa-solid fa-ship bg-icon icon-4"></i>
+  <i class="fa-solid fa-map bg-icon icon-5"></i><i class="fa-solid fa-water bg-icon icon-6"></i>
+  <i class="fa-solid fa-sun bg-icon icon-7"></i><i class="fa-solid fa-gem bg-icon icon-8"></i>
+  <i class="fa-solid fa-skull bg-icon icon-9"></i><i class="fa-solid fa-anchor bg-icon icon-10"></i>
+  <i class="fa-solid fa-wine-bottle bg-icon icon-11"></i><i class="fa-solid fa-moon bg-icon icon-12"></i>
 </div>
 
 <div class="container">
-  <h1>Project Sunshine ☀️</h1>
-  <p class="subtitle">CLASSIFIED: Case file regarding a localized anomaly.</p>
+  <h1>Project Grand Line ☠️</h1>
+  <p class="subtitle">CLASSIFIED: Logbook regarding the anomaly known as 'The Clumsy Corsair'.</p>
   <button class="start-btn" onclick="startWrapped()">Decrypt Logbook</button>
 </div>
 
@@ -179,6 +175,7 @@
     <div class="content-card" id="active-card">
         <h2 id="story-title"></h2>
         <p id="story-body"></p>
+        <div id="extra-content"></div>
     </div>
   </div>
 
@@ -188,10 +185,10 @@
 
   <div id="end-screen">
     <div class="end-box">
-      <h2>Transmission Complete</h2>
-      <p>You have reached the end of the logbook.</p>
+      <h2>Voyage Complete</h2>
+      <p>The logbook has been sealed.</p>
       <button class="end-btn btn-rewind" onclick="rewindStory()">Rewind Logbook</button>
-      <button class="end-btn btn-close" onclick="closeStory()">Close File</button>
+      <button class="end-btn btn-close" onclick="closeStory()">Drop Anchor (Close)</button>
     </div>
   </div>
 
@@ -199,31 +196,43 @@
 
 <script>
 const data = [
-  { title: "Log #001: The Digital Scallywag", body: "Initial scans of Subject X revealed a startling truth: she’s been sailing the chaotic web far longer than most normies. She catches references hidden in the deepest, most degenerate trenches of the internet." },
+  { title: "Log #001: The Digital Scallywag", body: "Initial scans of Subject X revealed a startling truth: she’s been sailing the chaotic web far longer than most normies. She catches references hidden in the deepest, most degenerate trenches of the Grand Line." },
   { title: "Log #002: The Raina Allegations", body: "Subject claims to fly the flag of the most famous lockdown comedian. Yet, interrogation reveals a severe lack of 'craaazy ho gaya' in her recent vocabulary. Suspicions of a fake fan are high. Investigation ongoing." },
   { title: "Log #003: A Broken Compass", body: "Tracking this anomaly is utterly futile. I thought I was lost at sea, but she makes me look like a grand navigator. She possesses the exact directional awareness of a certain green-haired pirate." },
-  { title: "Log #004: The Lo-Fi Interrogation", body: "Subject claims to know the actual name 'Powfu' without using a search engine. I call absolute bullshit on this claim. You have 10 seconds to confess to the captain." },
-  { title: "Log #005: The Ironclad Treaty", body: "In these treacherous waters, a 'Pinky Promise' is often a myth. But I’ve documented that when she hooks that finger, the vault is sealed. A rare, honorable head on those shoulders." },
-  { title: "Log #006: High-Speed Hyperfixation", body: "A sudden and aggressive pivot in the anomaly's behavior. She is now obsessed with high-speed land ships. Gosh, am I happy I finally have a co-pilot to share this ridiculous F1 addiction with." },
-  { title: "Log #007: Radiation of Warmth", body: "This is where the 'Sunshine Anomaly' earns her name. In a stupid university that often feels like a sinking ship, she emits an elegant, pulse-like warmth. Time spent in her radius never feels like a chore." },
-  { title: "Log #008: The Crew's Medic", body: "Clinical observation: Subject is naturally hardwired to patch people up. She doesn't do it for the glory; it's simply built into her hull. She heals without forcing it, stepping up when the rest of us are in the dumps." },
-  { title: "Log #009: The Resilient Bubble", body: "Even after battling through a rough year she did not deserve, the anomaly maintains a cartoonish, bubbly charm. It’s not chaotic noise; it’s a quiet defiance. Making sure the crew smiles even when she’s questioning her own map." },
-  { title: "Log #010: The Fifth Path", body: "Truth matters in this log. If presented with three safe routes and one deeply cursed one, the anomaly will somehow invent a fifth. Both on the road and in life. And honestly? It makes the voyage worth it." },
-  { title: "Log #011: The Craftsman's Protocol", body: "I came to her for a simple tactical suggestion—an idea for a gift for my best friend. A week later, she had co-opted the mission, putting in unbelievable effort to help me *make* the damn thing so I could put on a brave face. Who tf does that for anyone?<br><br>You tell me the part of you that loves making handmade gifts is dead. It is not. You can't let that die. That effort makes getting a gift from you 10000 times more meaningful, warna kaun hi karne jaata hai itna." },
-  { title: "Log #012: The Malikah Aftermath", body: "I've kept this out of the official logs for a whole year—kyuki why should I toot your horn—but today is the day. The conversation after Malikah's birthday.<br><br>That was the day we crossed a line. It wasn't just 'college me hi hello dikh gaye' types anymore. It was an honest, basic conversation where I felt like I was finally talking to a human. It's the exact reason I don't want to end this college without being someone you can trust and rely on." },
-  { title: "Case Closed: Happy Birthday.", body: `Happy birthday to one of the kindest people I know.<br><br>I consider you really close to the word sunshine. Warm, bright, and easy to trust.<br><br>There are really small moments which are legit anchor points in my memory. Stuff as simple as ruffling my hair. I do not think anyone ever genuinely felt my hair and praised me for it since I came to VIJ. I might have honestly cried that evening.<br><br>I know things have been fucked up for the entire year. But please, be just as amazing as you always were. I hope you are the same sunshine to yourself as you are to me.<br><br><b>Have fuuuun!!</b>` }
+  // MAZE GAME
+  { title: "Log #004: The ENT Ambush", body: "I must document the time The Clumsy Corsair tried to stealthily wait for me outside the ENT department, only to get completely caught. A master of infiltration, she is not. But a master of sticking around? Absolutely." },
+  { title: "Log #005: The Lo-Fi Interrogation", body: "Subject claims to know the actual name 'Powfu' without using a transponder snail to search it. I call absolute bullshit on this claim. You have 10 seconds to confess to the captain." },
+  { title: "Log #006: The Ironclad Treaty", body: "In these treacherous waters, a 'Pinky Promise' is often a myth. But I’ve documented that when she hooks that finger, the vault is sealed. A rare, honorable head on those shoulders." },
+  { title: "Log #007: High-Speed Hyperfixation", body: "A sudden and aggressive pivot in the anomaly's behavior. She is now obsessed with high-speed land ships. Gosh, am I happy I finally have a co-pilot to share this ridiculous F1 addiction with." },
+  // F1 GAME
+  { title: "Log #008: Radiation of Warmth", body: "This is where she earns the title 'Sunshine'. In a stupid university that often feels like a sinking ship, she emits an elegant, pulse-like warmth. Time spent in her radius never feels like a chore." },
+  { title: "Log #009: The Ship's Doctor", body: "Clinical observation: Subject is naturally hardwired to patch people up. She doesn't do it for the glory or the bounty; it's simply built into her hull. She steps up when the rest of the crew is in the dumps." },
+  { title: "Log #010: The Resilient Bubble", body: "Even after battling through a rough storm she did not deserve, the anomaly maintains a cartoonish, bubbly charm. It’s not chaotic noise; it’s a quiet defiance. Making sure the crew smiles even when she’s questioning her own map." },
+  { title: "Log #011: The Fifth Path", body: "Truth matters in this log. If presented with three safe routes and one deeply cursed one, the anomaly will somehow invent a fifth. Both on the road and in life. And honestly? It makes the voyage worth it." },
+  // CHOPPER GAME
+  { title: "Log #012: The Craftsman's Protocol", body: "I came to her for a simple tactical suggestion—an idea for a gift for my best friend. A week later, she co-opted the mission, putting in unbelievable effort to help me *make* the damn thing so I could put on a brave face. Who tf does that for anyone?<br><br>You tell me the part of you that loves making handmade gifts is dead. It is not. You can't let that die. That effort makes getting a gift from you 10000 times more meaningful, warna kaun hi karne jaata hai itna. I want you to see that you have people for whom those efforts matter." },
+  { title: "Log #013: The Malikah Aftermath", body: "I've kept this out of the official logs for a whole year—kyuki why should I toot your horn—but today is the day. The conversation after Malikah's birthday.<br><br>That was the day we crossed a line. It wasn't just 'college me hi hello dikh gaye' types anymore. It was an honest, basic conversation where I felt like I was finally talking to a human, not some mumbo jumbo jo dusron ke kandhon par bandook chalate firta hai. That conversation was too real to ever walk back from. It's the exact reason I don't want to end this college without being someone you can trust and rely on." },
+  // CHESS GAME
+  { 
+    title: "The Ultimate Treasure", 
+    body: "You survived the gauntlet. Your reward is here. A priceless artifact of the Grand Line:<br><br><span style='font-size: 5rem;'>🍖</span><br><br>It's just a digital piece of meat. Happy Tuesday. Logbook closed.",
+    extra: "Bait" // We use this flag to render the special button
+  }
 ];
 
 const gameTriggers = {
   3: { id: 'maze', solved: false },    
-  6: { id: 'f1', solved: false },       
-  10: { id: 'chopper', solved: false }, 
-  12: { id: 'chess', solved: false }    
+  7: { id: 'f1', solved: false },       
+  11: { id: 'chopper', solved: false }, 
+  13: { id: 'chess', solved: false }    
 };
 
 let currentIndex = 0;
 
 function startWrapped() {
+  // CONFETTI EXPLOSION!
+  confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#ff7e5f', '#24c6dc', '#ffffff'] });
+
   document.getElementById('story-mode').style.display = 'flex';
   setTimeout(() => document.getElementById('story-mode').style.opacity = '1', 50);
   
@@ -246,7 +255,6 @@ function nextStory() {
     currentIndex++;
     renderContent();
   } else {
-    // Show End Screen instead of closing automatically
     document.getElementById('end-screen').style.display = 'flex';
   }
 }
@@ -268,10 +276,7 @@ function rewindStory() {
 function closeStory() {
   document.getElementById('end-screen').style.display = 'none';
   document.getElementById('story-mode').style.opacity = '0';
-  setTimeout(() => {
-      document.getElementById('story-mode').style.display = 'none';
-      currentIndex = 0; 
-  }, 1000); 
+  setTimeout(() => { document.getElementById('story-mode').style.display = 'none'; currentIndex = 0; }, 1000); 
   const bgMusic = document.getElementById('bg-music');
   bgMusic.pause();
   bgMusic.currentTime = 0; 
@@ -301,6 +306,33 @@ function showStoryCard() {
   const d = data[currentIndex];
   document.getElementById('story-title').innerText = d.title;
   document.getElementById('story-body').innerHTML = d.body;
+  
+  const extraDiv = document.getElementById('extra-content');
+  extraDiv.innerHTML = '';
+
+  // The Bait and Switch Logic
+  if(d.extra === "Bait") {
+    document.getElementById('tap-right').style.display = 'none'; // Force them to click the button
+    extraDiv.innerHTML = `<button class="action-btn" style="margin-top:30px;" onclick="revealTrueTreasure()">Look deeper...</button>`;
+  }
+}
+
+function revealTrueTreasure() {
+  // Secondary confetti blast!
+  confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
+  
+  document.getElementById('story-title').innerText = "The Real Treasure.";
+  document.getElementById('story-body').innerHTML = `
+    Happy birthday to one of the kindest people I know.<br><br>
+    I have said this before and will say it again: you are someone I consider really close to the word sunshine. Warm, bright, and easy to trust.<br><br>
+    There are really small moments which are legit anchor points in my memory. Stuff as simple as ruffling my hair. I do not think anyone ever genuinely felt my hair and praised me for it since I came to VIJ. I might have honestly cried that evening. It was so niceee to hear that after so long.<br><br>
+    I know things have been fucked up for the entire year, and I am really sorry for the way things have been going. But please, be just as amazing as you always were. I really hope this year is completely different.<br><br>
+    Once a year you get to have this day for yourself. Keep it the way you like it, and nothing less. I hope you are the same sunshine to yourself as you are to me.<br><br>
+    <b>Have fuuuun!!</b>`;
+  
+  // Bring the next tap zone back so they can finish the app
+  document.getElementById('extra-content').innerHTML = '';
+  document.getElementById('tap-right').style.display = 'block';
 }
 
 function completeGame(gameId) {
@@ -329,11 +361,13 @@ function launchGame(gameId) {
   else if (gameId === 'chess') loadChessGame(box);
 }
 
+// ==========================================
 // GAME 1: DECRYPTION (CHOPPER)
+// ==========================================
 function loadChopperGame(box) {
   box.innerHTML = `
     <h2 class="game-title">Decryption Protocol</h2>
-    <p>Translate the following visual data into the subject's favorite navigator:</p>
+    <p>Translate the following visual data into the Clumsy Corsair's favorite navigator:</p>
     <div class="emoji-clue">🦌 🩺 🌸 ☠️ 👒</div>
     <input type="text" id="decrypt-input" placeholder="Enter codename..." autocomplete="off">
     <br>
@@ -347,17 +381,20 @@ function checkChopper() {
   else document.getElementById('chopper-err').style.display = 'block';
 }
 
+// ==========================================
 // GAME 2: F1 PITSTOP
+// ==========================================
 let f1Timeout, lightsOutTime;
 function loadF1Game(box) {
   box.innerHTML = `
-    <h2 class="game-title">Pitstop Reaction</h2>
-    <p>Wait for all 5 red lights to turn off, then tap the box as fast as possible! Under 0.5s to pass.</p>
+    <h2 class="game-title">Thousand Sunny Pitstop</h2>
+    <p>Wait for all 5 red lights to drop, then tap the box to launch! Under 0.5s to pass.</p>
     <div id="lights-container">
       <div class="f1-light" id="l1"></div><div class="f1-light" id="l2"></div>
       <div class="f1-light" id="l3"></div><div class="f1-light" id="l4"></div>
       <div class="f1-light" id="l5"></div>
     </div>
+    <div id="f1-car-container"><div id="f1-car">🏎️💨</div></div>
     <div id="f1-tap-zone">WAIT...</div>
     <p id="f1-status" style="margin-top:10px; font-weight:bold;"></p>
   `;
@@ -385,16 +422,17 @@ function loadF1Game(box) {
     e.preventDefault();
     if(state === 'waiting') {
       clearTimeout(f1Timeout);
-      document.getElementById('f1-status').innerText = "Jump start! Resetting...";
+      document.getElementById('f1-status').innerText = "False Start! Resetting...";
       document.getElementById('f1-status').style.color = "#ef4444";
       setTimeout(() => loadF1Game(box), 1500);
     } else if (state === 'ready') {
       state = 'done';
       let reaction = (Date.now() - lightsOutTime) / 1000;
       if(reaction <= 0.6) { 
-        document.getElementById('f1-status').innerText = `Time: ${reaction}s! Incredible!`;
+        document.getElementById('f1-car').style.transform = 'translateX(300px)'; // The car zooms off!
+        document.getElementById('f1-status').innerText = `Time: ${reaction}s! Perfect launch!`;
         document.getElementById('f1-status').style.color = "#10b981";
-        setTimeout(() => completeGame('f1'), 1000);
+        setTimeout(() => completeGame('f1'), 1500);
       } else {
         document.getElementById('f1-status').innerText = `Time: ${reaction}s. Too slow! Resetting...`;
         document.getElementById('f1-status').style.color = "#ef4444";
@@ -404,7 +442,9 @@ function loadF1Game(box) {
   }
 }
 
-// GAME 3: ZORO MAZE
+// ==========================================
+// GAME 3: THE ONE PIECE MAZE
+// ==========================================
 let pR = 0, pC = 0; 
 const mazeMap = [
   [0, 1, 0, 0, 0],
@@ -420,7 +460,7 @@ function loadMazeGame(box) {
   mazeMap[3][0] = 1; 
   mazeMap[3][4] = 0; 
   
-  let html = `<h2 class="game-title">Zoro's Compass</h2><p>Navigate the maze to the orange square.</p><div id="maze-grid">`;
+  let html = `<h2 class="game-title">The Clumsy Navigator</h2><p>Guide the swordsman (⚔️) to the Sake (🍶). Avoid the Sea Kings (🌊).</p><div id="maze-grid">`;
   for(let r=0; r<5; r++){
     for(let c=0; c<5; c++){
       html += `<div id="cell-${r}-${c}" class="maze-cell"></div>`;
@@ -440,10 +480,12 @@ function drawMaze() {
   for(let r=0; r<5; r++){
     for(let c=0; c<5; c++){
       let cell = document.getElementById(`cell-${r}-${c}`);
-      cell.className = 'maze-cell'; 
-      if (mazeMap[r][c] === 1) cell.classList.add('maze-wall');
-      else if (mazeMap[r][c] === 2) cell.classList.add('maze-goal');
-      if (r === pR && c === pC) cell.classList.add('maze-player');
+      cell.innerHTML = ''; 
+      
+      // Injecting the One Piece emojis
+      if (mazeMap[r][c] === 1) cell.innerHTML = '🌊';
+      else if (mazeMap[r][c] === 2) cell.innerHTML = '🍶';
+      if (r === pR && c === pC) cell.innerHTML = '⚔️';
     }
   }
 }
@@ -454,7 +496,7 @@ function moveMaze(dr, dc) {
     pR = nR; pC = nC;
     if(pR === 1 && pC === 4 && !trapSprung) {
       trapSprung = true;
-      mazeMap[3][4] = 1; 
+      mazeMap[3][4] = 1; // Sea King blocks the way!
       mazeMap[3][0] = 0; 
     }
     drawMaze();
@@ -462,32 +504,32 @@ function moveMaze(dr, dc) {
   }
 }
 
-// GAME 4: CHESS PUZZLE (MATE IN 3)
+// ==========================================
+// GAME 4: CHESS PUZZLE
+// ==========================================
 let selSq = null;
 let chessStep = 1;
 let boardSetup = {};
 
-  function initChessBoard() {
+function initChessBoard() {
   chessStep = 1;
   selSq = null;
-  // A dramatic 17-piece Mate in 3 puzzle (Rook Sacrifice -> Queen Check -> Checkmate)
-  // Now with a White Bishop on d3 protecting the final Queen mate!
   boardSetup = {
     '0-0': { type: '♜', color: 'b' }, '0-5': { type: '♜', color: 'b' }, '0-6': { type: '♚', color: 'b' },
     '1-0': { type: '♟', color: 'b' }, '1-1': { type: '♟', color: 'b' }, '1-2': { type: '♟', color: 'b' },
     '1-5': { type: '♟', color: 'b' }, '1-7': { type: '♟', color: 'b' },
-    '5-7': { type: '♖', color: 'w' }, // White Rook on h3
-    '5-3': { type: '♗', color: 'w' }, // NEW: White Bishop on d3 (Protects h7)
+    '5-7': { type: '♖', color: 'w' }, 
+    '5-3': { type: '♗', color: 'w' }, 
     '6-0': { type: '♙', color: 'w' }, '6-1': { type: '♙', color: 'w' }, '6-2': { type: '♙', color: 'w' },
     '6-5': { type: '♙', color: 'w' }, '6-6': { type: '♙', color: 'w' },
-    '7-3': { type: '♕', color: 'w' }, // White Queen on d1
-    '7-6': { type: '♔', color: 'w' }  // White King
+    '7-3': { type: '♕', color: 'w' }, 
+    '7-6': { type: '♔', color: 'w' }  
   };
 }
 
 function loadChessGame(box) {
   initChessBoard();
-  let html = `<h2 class="game-title">Final Checkmate</h2><p>Find the Mate in 3 sequence. Tap your piece, then the destination.</p><div id="chess-board">`;
+  let html = `<h2 class="game-title">Naval Strategy</h2><p>Execute the Mate in 3 to bypass the final blockade.</p><div id="chess-board">`;
   for(let r=0; r<8; r++){
     for(let c=0; c<8; c++){
       let isWhite = (r + c) % 2 === 0;
@@ -523,12 +565,8 @@ function clickChess(r, c) {
     }
   } else {
     let correct = false;
-    
-    // Step 1: Rook Sacrifice (Rook h3 takes Pawn h7)
     if(chessStep === 1 && selSq === '5-7' && id === '1-7') correct = true;
-    // Step 2: Queen moves in (Queen d1 to h5)
     if(chessStep === 2 && selSq === '7-3' && id === '3-7') correct = true;
-    // Step 3: Checkmate (Queen h5 to h7)
     if(chessStep === 3 && selSq === '3-7' && id === '1-7') correct = true;
 
     if(correct) {
@@ -537,17 +575,16 @@ function clickChess(r, c) {
       selSq = null;
       drawChess();
 
-      // Automate Black's forced responses so the game feels alive
       if(chessStep === 1) {
         setTimeout(() => {
-          boardSetup['1-7'] = boardSetup['0-6']; // Black King takes Rook
+          boardSetup['1-7'] = boardSetup['0-6']; 
           delete boardSetup['0-6'];
           drawChess();
           chessStep = 2;
         }, 600);
       } else if (chessStep === 2) {
         setTimeout(() => {
-          boardSetup['0-6'] = boardSetup['1-7']; // Black King retreats to g8
+          boardSetup['0-6'] = boardSetup['1-7']; 
           delete boardSetup['1-7'];
           drawChess();
           chessStep = 3;
