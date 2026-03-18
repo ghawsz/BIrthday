@@ -44,7 +44,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    opacity: 0.08; /* Super faint so text is readable */
+    opacity: 0.08; 
     z-index: 1;
     pointer-events: none;
   }
@@ -84,21 +84,35 @@
   }
   .progress-container { display: flex; gap: 4px; padding: 20px 10px; position: absolute; top: 0; width: 100%; box-sizing: border-box; z-index: 150; }
   .progress-bar { flex: 1; height: 6px; background: rgba(0,0,0,0.3); border-radius: 3px; overflow: hidden; }
-  .progress-fill { height: 100%; width: 0%; background: #fbbf24; } /* Gold progress */
+  .progress-fill { height: 100%; width: 0%; background: #fbbf24; } 
   .progress-bar.completed .progress-fill { width: 100%; }
 
   #story-content-wrapper { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; position: relative; z-index: 120; }
 
+  /* THE DIGITAL GLASS CARD (For normal logs) */
   .content-card {
     background: var(--glass); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
     border: 1px solid var(--border-glass); border-radius: 20px; padding: 40px; max-width: 600px; width: 90%;
     text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.2); animation: cardIn 0.5s ease-out forwards;
     max-height: 75vh; overflow-y: auto; 
   }
-  @keyframes cardIn { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
-  
   .content-card h2 { font-family: 'Pirata One', serif; font-size: 3.5rem; margin-top: 0; margin-bottom: 15px; color: #86198f; line-height: 1; letter-spacing: 1px; }
-  .content-card p { font-size: 1.25rem; line-height: 1.6; font-weight: 500; color: #1e293b; margin-bottom: 0; }
+  .content-card p { font-family: 'SF Pro Display', sans-serif; font-size: 1.25rem; line-height: 1.6; font-weight: 500; color: #1e293b; margin-bottom: 0; }
+  
+  /* THE ANCIENT SCROLL (For the final treasure) */
+  .scroll-card {
+    background-color: #f4e4bc; /* Parchment base */
+    background-image: 
+      linear-gradient(to right, rgba(166, 124, 0, 0.1) 0%, rgba(255, 255, 255, 0) 10%, rgba(255, 255, 255, 0) 90%, rgba(166, 124, 0, 0.1) 100%),
+      radial-gradient(ellipse at center, rgba(255,255,255,0) 0%, rgba(166, 124, 0, 0.15) 100%);
+    border: 1px solid #c9a75c; border-radius: 4px; padding: 50px 40px; max-width: 600px; width: 90%;
+    text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 0 40px rgba(139, 90, 43, 0.2);
+    animation: cardIn 0.5s ease-out forwards; max-height: 75vh; overflow-y: auto; 
+  }
+  .scroll-card h2 { font-family: 'Pirata One', serif; font-size: 4rem; margin-top: 0; margin-bottom: 20px; color: #4e342e; }
+  .scroll-card p, .scroll-card b { font-family: 'Georgia', serif; font-size: 1.25rem; line-height: 1.8; color: #3e2723; }
+
+  @keyframes cardIn { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
   
   .tap-zone { position: absolute; top: 0; bottom: 0; width: 25%; z-index: 140; cursor: pointer; }
   .tap-left { left: 0; } .tap-right { right: 0; }
@@ -209,20 +223,16 @@ const data = [
   { title: "Log #001: The Digital Scallywag", body: "Initial scans of Subject X revealed a startling truth: she’s been sailing the chaotic web far longer than most normies. She catches references hidden in the deepest, most degenerate trenches of the Grand Line." },
   { title: "Log #002: The Raina Allegations", body: "Subject claims to fly the flag of the most famous lockdown comedian. Yet, interrogation reveals a severe lack of 'craaazy ho gaya' in her recent vocabulary. Suspicions of a fake fan are high. Investigation ongoing." },
   { title: "Log #003: A Broken Compass", body: "Tracking this anomaly is utterly futile. I thought I was lost at sea, but she makes me look like a grand navigator. She possesses the exact directional awareness of a certain green-haired pirate." },
-  // MAZE GAME
   { title: "Log #004: The ENT Ambush", body: "I must document the time The Clumsy Corsair tried to stealthily wait for me outside the ENT department, only to get completely caught. A master of infiltration, she is not. But a master of sticking around? Absolutely." },
   { title: "Log #005: The Lo-Fi Interrogation", body: "Subject claims to know the actual name 'Powfu' without using a transponder snail to search it. I call absolute bullshit on this claim. You have 10 seconds to confess to the captain." },
   { title: "Log #006: The Ironclad Treaty", body: "In these treacherous waters, a 'Pinky Promise' is often a myth. But I’ve documented that when she hooks that finger, the vault is sealed. A rare, honorable head on those shoulders." },
   { title: "Log #007: High-Speed Hyperfixation", body: "A sudden and aggressive pivot in the anomaly's behavior. She is now obsessed with high-speed land ships. Gosh, am I happy I finally have a co-pilot to share this ridiculous F1 addiction with." },
-  // F1 GAME
   { title: "Log #008: Radiation of Warmth", body: "This is where she earns the title 'Sunshine'. In a stupid university that often feels like a sinking ship, she emits an elegant, pulse-like warmth. Time spent in her radius never feels like a chore." },
   { title: "Log #009: The Ship's Doctor", body: "Clinical observation: Subject is naturally hardwired to patch people up. She doesn't do it for the glory or the bounty; it's simply built into her hull. She steps up when the rest of the crew is in the dumps." },
   { title: "Log #010: The Resilient Bubble", body: "Even after battling through a rough storm she did not deserve, the anomaly maintains a cartoonish, bubbly charm. It’s not chaotic noise; it’s a quiet defiance. Making sure the crew smiles even when she’s questioning her own map." },
   { title: "Log #011: The Fifth Path", body: "Truth matters in this log. If presented with three safe routes and one deeply cursed one, the anomaly will somehow invent a fifth. Both on the road and in life. And honestly? It makes the voyage worth it." },
-  // CHOPPER GAME
   { title: "Log #012: The Craftsman's Protocol", body: "I came to her for a simple tactical suggestion—an idea for a gift for my best friend. A week later, she co-opted the mission, putting in unbelievable effort to help me *make* the damn thing so I could put on a brave face. Who tf does that for anyone?<br><br>You tell me the part of you that loves making handmade gifts is dead. It is not. You can't let that die. That effort makes getting a gift from you 10000 times more meaningful, warna kaun hi karne jaata hai itna. I want you to see that you have people for whom those efforts matter." },
   { title: "Log #013: The Malikah Aftermath", body: "I've kept this out of the official logs for a whole year—kyuki why should I toot your horn—but today is the day. The conversation after Malikah's birthday.<br><br>That was the day we crossed a line. It wasn't just 'college me hi hello dikh gaye' types anymore. It was an honest, basic conversation where I felt like I was finally talking to a human, not some mumbo jumbo jo dusron ke kandhon par bandook chalate firta hai. That conversation was too real to ever walk back from. It's the exact reason I don't want to end this college without being someone you can trust and rely on." },
-  // CHESS GAME
   { 
     title: "The Ultimate Treasure", 
     body: "You survived the gauntlet. Your reward is here. A priceless artifact of the Grand Line:<br><br><span id='true-treasure-btn' style='font-size: 5rem; cursor: pointer; user-select: none;' onclick='revealTrueTreasure()'>🍖</span><br><br>It's just a digital piece of meat. Happy Tuesday. Logbook closed.",
@@ -246,8 +256,24 @@ function startWrapped() {
   setTimeout(() => document.getElementById('story-mode').style.opacity = '1', 50);
   
   const bgMusic = document.getElementById('bg-music');
-  bgMusic.volume = 0.2; 
-  if (bgMusic.src && !bgMusic.src.endsWith("html")) bgMusic.play().catch(e => console.log("Audio waiting"));
+  
+  // THE NEW AUDIO FADER
+  if (bgMusic.src && !bgMusic.src.endsWith("html")) {
+    bgMusic.volume = 0; // Starts completely silent
+    bgMusic.play().then(() => {
+      const targetVolume = 0.15; // Maxes out at a lower, comfortable 15%
+      const fadeDuration = 3000; // Fades in over 3 seconds
+      const intervalTime = 50;
+      const volumeStep = targetVolume / (fadeDuration / intervalTime);
+      const fadeAudio = setInterval(() => {
+        if (bgMusic.volume < targetVolume) {
+          bgMusic.volume = Math.min(bgMusic.volume + volumeStep, targetVolume);
+        } else {
+          clearInterval(fadeAudio);
+        }
+      }, intervalTime);
+    }).catch(e => console.log("Audio waiting"));
+  }
   
   setupProgressBars();
   renderContent();
@@ -311,6 +337,10 @@ function showStoryCard() {
   document.getElementById('tap-left').style.display = 'block';
   document.getElementById('tap-right').style.display = 'block';
 
+  const card = document.getElementById('active-card');
+  // Ensuring it defaults back to the normal glass card look if they rewind
+  card.className = 'content-card'; 
+
   const d = data[currentIndex];
   document.getElementById('story-title').innerText = d.title;
   document.getElementById('story-body').innerHTML = d.body;
@@ -335,7 +365,11 @@ function showGawar() {
 function revealTrueTreasure() {
   confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
   
-  document.getElementById('story-title').innerText = "The Real Treasure.";
+  const card = document.getElementById('active-card');
+  // Changes the container from a glass card into a piece of ancient scroll parchment!
+  card.className = 'scroll-card';
+
+  document.getElementById('story-title').innerText = "The Real Treasure";
   document.getElementById('story-body').innerHTML = `
     Happy birthday to one of the kindest people I know.<br><br>
     I have said this before and will say it again: you are someone I consider really close to the word sunshine. Warm, bright, and easy to trust.<br><br>
@@ -444,7 +478,6 @@ function loadF1Game(box) {
       state = 'done';
       let reaction = (Date.now() - lightsOutTime) / 1000;
       if(reaction <= 0.6) { 
-        // Moves the car to the right without flipping it
         document.getElementById('f1-car').style.transform = 'scaleX(-1) translateX(-300px)'; 
         document.getElementById('f1-status').innerText = `Time: ${reaction}s! Perfect launch!`;
         document.getElementById('f1-status').style.color = "#10b981";
@@ -500,7 +533,6 @@ function drawMaze() {
       
       if (mazeMap[r][c] === 1) cell.innerHTML = '⚓';
       else if (mazeMap[r][c] === 2) cell.innerHTML = '🍺';
-      // Loading your Zoro image here
       if (r === pR && c === pC) cell.innerHTML = '<img src="zoro.png" style="width: 40px; height: 40px; object-fit: contain;">';
     }
   }
