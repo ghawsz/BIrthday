@@ -15,7 +15,6 @@
     --border-glass: rgba(255, 255, 255, 0.5);
   }
 
-  /* --- THE GRAND LINE SUNSET BACKGROUND --- */
   @keyframes gradientBG {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -25,7 +24,6 @@
   body {
     margin: 0;
     font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    /* Sunset Orange fading into Deep Ocean Blue */
     background: linear-gradient(-45deg, #ff7e5f, #feb47b, #24c6dc, #514a9d);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
@@ -38,14 +36,14 @@
   /* PIRATE WATERMARK ICONS */
   #icon-pattern { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; }
   .bg-icon { position: absolute; color: rgba(255, 255, 255, 0.25); font-size: 4rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
-  .icon-1 { top: 10%; left: 10%; transform: rotate(-15deg); } /* Skull */
-  .icon-2 { top: 15%; left: 80%; transform: rotate(20deg); font-size: 5rem; } /* Anchor */
-  .icon-3 { top: 40%; left: 5%; transform: rotate(10deg); font-size: 3.5rem; } /* Compass */
-  .icon-4 { top: 45%; left: 85%; transform: rotate(-25deg); } /* Ship */
-  .icon-5 { top: 75%; left: 15%; transform: rotate(15deg); font-size: 4.5rem; } /* Map */
-  .icon-6 { top: 80%; left: 75%; transform: rotate(-10deg); } /* Waves */
-  .icon-7 { top: 5%; left: 45%; transform: rotate(5deg); font-size: 3rem; } /* Sun */
-  .icon-8 { top: 50%; left: 45%; transform: rotate(-5deg); font-size: 5rem; } /* Treasure */
+  .icon-1 { top: 10%; left: 10%; transform: rotate(-15deg); } 
+  .icon-2 { top: 15%; left: 80%; transform: rotate(20deg); font-size: 5rem; } 
+  .icon-3 { top: 40%; left: 5%; transform: rotate(10deg); font-size: 3.5rem; } 
+  .icon-4 { top: 45%; left: 85%; transform: rotate(-25deg); } 
+  .icon-5 { top: 75%; left: 15%; transform: rotate(15deg); font-size: 4.5rem; } 
+  .icon-6 { top: 80%; left: 75%; transform: rotate(-10deg); } 
+  .icon-7 { top: 5%; left: 45%; transform: rotate(5deg); font-size: 3rem; } 
+  .icon-8 { top: 50%; left: 45%; transform: rotate(-5deg); font-size: 5rem; } 
   .icon-9 { top: 90%; left: 45%; transform: rotate(15deg); } 
   .icon-10 { top: 30%; left: 25%; transform: rotate(-20deg); font-size: 3rem; } 
 
@@ -79,7 +77,7 @@
     background: var(--glass); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
     border: 1px solid var(--border-glass); border-radius: 30px; padding: 40px; max-width: 600px; width: 90%;
     text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.2); animation: cardIn 0.5s ease-out forwards;
-    max-height: 75vh; overflow-y: auto; /* Lets the final letter scroll if needed */
+    max-height: 75vh; overflow-y: auto; 
   }
   @keyframes cardIn { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
   
@@ -135,7 +133,7 @@
   #f1-tap-zone { width: 100%; height: 120px; background: #cbd5e1; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: #64748b; margin-top: 10px; user-select: none; }
   #f1-tap-zone:active { background: #94a3b8; }
   #f1-car-container { width: 100%; overflow: hidden; text-align: left; margin-top: 10px; border-bottom: 4px solid #334155; padding-bottom: 5px;}
-  #f1-car { font-size: 3.5rem; transition: transform 0.4s ease-in; }
+  #f1-car { font-size: 3.5rem; transition: transform 0.4s ease-in; display: inline-block; }
 
   /* 4. Chess Puzzle */
   #chess-board { display: grid; grid-template-columns: repeat(8, 35px); grid-template-rows: repeat(8, 35px); margin: 20px auto; border: 4px solid #475569; width: fit-content; }
@@ -149,7 +147,7 @@
 
 <body>
 
-<audio id="bg-music" src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" loop></audio>
+<audio id="bg-music" src="namastute.mp3" loop></audio>
 
 <div id="icon-pattern">
   <i class="fa-solid fa-skull-crossbones bg-icon icon-1"></i><i class="fa-solid fa-anchor bg-icon icon-2"></i>
@@ -216,7 +214,7 @@ const data = [
   { 
     title: "The Ultimate Treasure", 
     body: "You survived the gauntlet. Your reward is here. A priceless artifact of the Grand Line:<br><br><span style='font-size: 5rem;'>🍖</span><br><br>It's just a digital piece of meat. Happy Tuesday. Logbook closed.",
-    extra: "Bait" // We use this flag to render the special button
+    extra: "Bait" 
   }
 ];
 
@@ -266,7 +264,6 @@ function prevStory() {
   }
 }
 
-// End Screen Controls
 function rewindStory() {
   document.getElementById('end-screen').style.display = 'none';
   currentIndex = 0;
@@ -310,15 +307,13 @@ function showStoryCard() {
   const extraDiv = document.getElementById('extra-content');
   extraDiv.innerHTML = '';
 
-  // The Bait and Switch Logic
   if(d.extra === "Bait") {
-    document.getElementById('tap-right').style.display = 'none'; // Force them to click the button
+    document.getElementById('tap-right').style.display = 'none'; 
     extraDiv.innerHTML = `<button class="action-btn" style="margin-top:30px;" onclick="revealTrueTreasure()">Look deeper...</button>`;
   }
 }
 
 function revealTrueTreasure() {
-  // Secondary confetti blast!
   confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
   
   document.getElementById('story-title').innerText = "The Real Treasure.";
@@ -330,7 +325,6 @@ function revealTrueTreasure() {
     Once a year you get to have this day for yourself. Keep it the way you like it, and nothing less. I hope you are the same sunshine to yourself as you are to me.<br><br>
     <b>Have fuuuun!!</b>`;
   
-  // Bring the next tap zone back so they can finish the app
   document.getElementById('extra-content').innerHTML = '';
   document.getElementById('tap-right').style.display = 'block';
 }
@@ -394,7 +388,9 @@ function loadF1Game(box) {
       <div class="f1-light" id="l3"></div><div class="f1-light" id="l4"></div>
       <div class="f1-light" id="l5"></div>
     </div>
-    <div id="f1-car-container"><div id="f1-car">🏎️💨</div></div>
+    <div id="f1-car-container">
+      <div id="f1-car">💨 <span style="display:inline-block; transform: scaleX(-1);">🏎️</span></div>
+    </div>
     <div id="f1-tap-zone">WAIT...</div>
     <p id="f1-status" style="margin-top:10px; font-weight:bold;"></p>
   `;
@@ -429,7 +425,7 @@ function loadF1Game(box) {
       state = 'done';
       let reaction = (Date.now() - lightsOutTime) / 1000;
       if(reaction <= 0.6) { 
-        document.getElementById('f1-car').style.transform = 'translateX(300px)'; // The car zooms off!
+        document.getElementById('f1-car').style.transform = 'translateX(300px)'; 
         document.getElementById('f1-status').innerText = `Time: ${reaction}s! Perfect launch!`;
         document.getElementById('f1-status').style.color = "#10b981";
         setTimeout(() => completeGame('f1'), 1500);
@@ -460,7 +456,7 @@ function loadMazeGame(box) {
   mazeMap[3][0] = 1; 
   mazeMap[3][4] = 0; 
   
-  let html = `<h2 class="game-title">The Clumsy Navigator</h2><p>Guide the swordsman (⚔️) to the Sake (🍶). Avoid the Sea Kings (🌊).</p><div id="maze-grid">`;
+  let html = `<h2 class="game-title">The Clumsy Navigator</h2><p>Guide Zoro to the Booze (🍺). Avoid the Marine Anchors (⚓).</p><div id="maze-grid">`;
   for(let r=0; r<5; r++){
     for(let c=0; c<5; c++){
       html += `<div id="cell-${r}-${c}" class="maze-cell"></div>`;
@@ -482,10 +478,10 @@ function drawMaze() {
       let cell = document.getElementById(`cell-${r}-${c}`);
       cell.innerHTML = ''; 
       
-      // Injecting the One Piece emojis
-      if (mazeMap[r][c] === 1) cell.innerHTML = '🌊';
-      else if (mazeMap[r][c] === 2) cell.innerHTML = '🍶';
-      if (r === pR && c === pC) cell.innerHTML = '⚔️';
+      if (mazeMap[r][c] === 1) cell.innerHTML = '⚓';
+      else if (mazeMap[r][c] === 2) cell.innerHTML = '🍺';
+      // Load your Zoro image directly!
+      if (r === pR && c === pC) cell.innerHTML = '<img src="zoro.png" style="width: 40px; height: 40px; object-fit: contain;">';
     }
   }
 }
@@ -496,7 +492,7 @@ function moveMaze(dr, dc) {
     pR = nR; pC = nC;
     if(pR === 1 && pC === 4 && !trapSprung) {
       trapSprung = true;
-      mazeMap[3][4] = 1; // Sea King blocks the way!
+      mazeMap[3][4] = 1; // Marine blockade drops!
       mazeMap[3][0] = 0; 
     }
     drawMaze();
