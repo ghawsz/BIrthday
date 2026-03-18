@@ -34,12 +34,10 @@
     overflow: hidden; 
     height: 100vh;
     width: 100vw;
-    /* Custom Pirate Cursor */
     cursor: url('https://cdn-icons-png.flaticon.com/32/1410/1410461.png'), auto;
   }
 
-  /* Apply pointer cursor to all interactive elements */
-  button, .tap-zone, .chess-sq, .d-btn, .action-btn, .start-btn, .end-btn, #catch-btn, #true-treasure-btn {
+  button, .tap-zone, .chess-sq, .d-btn, .action-btn, .start-btn, .end-btn, #catch-btn, #true-treasure-btn, .clickable-icon {
     cursor: url('https://cdn-icons-png.flaticon.com/32/1410/1410461.png'), pointer !important;
   }
 
@@ -70,7 +68,7 @@
   .icon-6 { top: 80%; left: 75%; transform: rotate(-10deg); } 
   .icon-7 { top: 5%; left: 45%; transform: rotate(5deg); font-size: 3rem; } 
   .icon-8 { top: 50%; left: 45%; transform: rotate(-5deg); font-size: 5rem; } 
-  .icon-9 { top: 90%; left: 45%; transform: rotate(15deg); } 
+  .icon-9 { top: 90%; left: 45%; transform: rotate(15deg); pointer-events: auto; } /* EASTER EGG TARGET */
   .icon-10 { top: 30%; left: 25%; transform: rotate(-20deg); font-size: 3rem; } 
 
   /* LANDING PAGE */
@@ -95,13 +93,11 @@
     z-index: 100; display: none; flex-direction: column; opacity: 0; transition: opacity 1.5s ease;
   }
   
-  /* TREASURE MAP PROGRESS BAR */
   .progress-container { display: flex; gap: 8px; padding: 20px; position: absolute; top: 0; width: 100%; box-sizing: border-box; z-index: 150; justify-content: center; }
   .progress-bar { flex: 1; max-width: 40px; height: 6px; background: rgba(0,0,0,0.4); border-radius: 0px; border: 1px solid rgba(197, 160, 89, 0.3); overflow: hidden; }
   .progress-fill { height: 100%; width: 0%; background: var(--gold-trim); box-shadow: 0 0 5px var(--gold-trim); } 
   .progress-bar.completed .progress-fill { width: 100%; }
 
-  /* THE BOBBING SHIP ANIMATION */
   @keyframes shipBob {
     0% { transform: translateY(0px); }
     50% { transform: translateY(-12px); }
@@ -113,7 +109,6 @@
     position: relative; z-index: 120; animation: shipBob 6s ease-in-out infinite; 
   }
 
-  /* THE SHIP'S LOGBOOK CARD */
   .content-card {
     background: linear-gradient(135deg, var(--leather-dark), var(--leather-light));
     border: 3px solid #1a100c; 
@@ -127,7 +122,6 @@
   .content-card h2 { font-family: 'Pirata One', serif; font-size: 3.5rem; margin-top: 0; margin-bottom: 15px; color: var(--gold-trim); line-height: 1; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
   .content-card p { font-size: 1.3rem; line-height: 1.7; color: var(--parchment); margin-bottom: 0; }
   
-  /* THE ANCIENT SCROLL */
   .scroll-card {
     background-color: var(--parchment); 
     background-image: 
@@ -149,7 +143,6 @@
   }
   .tap-left::after { content: "〈"; right: auto; left: 20px; }
 
-  /* END SCREEN UI */
   #end-screen {
     display: none; flex-direction: column; justify-content: center; align-items: center;
     position: absolute; inset: 0; background: rgba(0,0,0,0.8); z-index: 180;
@@ -169,24 +162,20 @@
   .game-box { background: var(--parchment); border: 4px solid var(--leather-dark); border-radius: 5px; padding: 35px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5); max-width: 90%; color: var(--ink); }
   .game-title { font-family: 'Pirata One', serif; color: #8a1c1c; font-size: 3.5rem; margin-bottom: 10px; margin-top: 0; text-shadow: 1px 1px 0px rgba(0,0,0,0.1);}
   
-  /* 1. Zoro Maze */
   #maze-grid { display: grid; grid-template-columns: repeat(5, 50px); grid-template-rows: repeat(5, 50px); gap: 2px; margin: 20px auto; background: var(--leather-dark); border: 6px solid var(--leather-dark); width: fit-content; border-radius: 4px;}
   .maze-cell { width: 50px; height: 50px; background: #e2d3b3; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; }
   .d-pad { display: grid; grid-template-columns: 60px 60px 60px; gap: 10px; justify-content: center; margin-top: 20px; }
   .d-btn { padding: 15px; font-size: 1.5rem; background: var(--leather-dark); color: var(--gold-trim); border: 2px solid var(--gold-trim); border-radius: 5px; box-shadow: 0 4px 0px rgba(0,0,0,0.4); }
   .d-btn:active { transform: translateY(4px); box-shadow: 0 0px 0px rgba(0,0,0,0.4); }
 
-  /* 2. Uncatchable Button */
   #catch-container { position: relative; width: 100%; height: 250px; overflow: hidden; margin-top: 20px; border-radius: 5px; background: rgba(0,0,0,0.05); border: 1px dashed rgba(0,0,0,0.2);}
   #catch-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 30px; font-size: 1.8rem; border-radius: 4px; background: #8a1c1c; color: var(--parchment); border: 2px solid #5a0d0d; font-family: 'Pirata One', serif; transition: 0.15s ease-out; white-space: nowrap; box-shadow: 0 4px 8px rgba(0,0,0,0.3);}
 
-  /* 3. Chopper Decryption */
   .emoji-clue { font-size: 3.5rem; letter-spacing: 10px; margin: 20px 0; }
   #decrypt-input { font-family: 'Playfair Display', serif; font-size: 1.5rem; padding: 15px; border-radius: 4px; border: 2px solid var(--leather-dark); width: 80%; text-align: center; text-transform: lowercase; background: rgba(255,255,255,0.5); }
   .action-btn { margin-top: 20px; padding: 15px 30px; background: var(--leather-dark); color: var(--gold-trim); font-size: 1.5rem; border: 2px solid var(--gold-trim); border-radius: 4px; font-family: 'Pirata One', serif; letter-spacing: 2px; transition: 0.2s;}
   .action-btn:active { transform: scale(0.95); }
 
-  /* 4. F1 Pitstop */
   #lights-container { display: flex; gap: 10px; justify-content: center; margin: 20px 0; background: var(--leather-dark); padding: 20px; border-radius: 5px; border: 2px solid var(--gold-trim); }
   .f1-light { width: 40px; height: 40px; border-radius: 50%; background: #1a100c; border: 2px solid #000; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8); }
   .f1-light.on { background: #ff2a2a; box-shadow: 0 0 20px #ff2a2a, inset 0 -2px 5px rgba(0,0,0,0.3); }
@@ -195,7 +184,6 @@
   #f1-car-container { width: 100%; overflow: hidden; text-align: left; margin-top: 15px; border-bottom: 4px solid var(--leather-dark); padding-bottom: 5px;}
   #f1-car { font-size: 3.5rem; transition: transform 0.4s ease-in; display: inline-block; transform: scaleX(-1); }
 
-  /* 5. Transponder Glitch */
   #glitch-container { text-align: center; color: #b91c1c; }
   .glitch-text { font-size: 3.5rem; font-family: 'Pirata One', serif; animation: glitch-anim 0.2s infinite; margin-bottom: 10px; text-shadow: 2px 2px 0px rgba(0,0,0,0.2);}
   @keyframes glitch-anim {
@@ -211,12 +199,19 @@
   #glitch-progress-bg { width: 100%; height: 25px; background: rgba(0,0,0,0.1); border: 2px solid var(--leather-dark); border-radius: 3px; margin-top: 20px; overflow: hidden; }
   #glitch-progress-fill { width: 0%; height: 100%; background: #10b981; transition: width 0.1s; }
 
-  /* 6. Chess Puzzle */
   #chess-board { display: grid; grid-template-columns: repeat(8, 35px); grid-template-rows: repeat(8, 35px); margin: 20px auto; border: 6px solid var(--leather-dark); width: fit-content; border-radius: 4px;}
   .chess-sq { width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; user-select: none; }
   .sq-w { background: #e2d3b3; } .sq-b { background: #8b7355; }
   .chess-piece { color: #1a100c; } .piece-w { color: #fdfdfd; text-shadow: 0 2px 4px rgba(0,0,0,0.6); }
   .selected-sq { background: rgba(197, 160, 89, 0.8) !important; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);}
+
+  /* SECRET TRIGGER GLOW */
+  @keyframes subtleGlow {
+    0% { text-shadow: 0 0 5px rgba(255, 215, 0, 0.2); }
+    50% { text-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+    100% { text-shadow: 0 0 5px rgba(255, 215, 0, 0.2); }
+  }
+  .secret-word { font-weight: bold; color: #b8860b; animation: subtleGlow 3s infinite; cursor: pointer; display: inline-block; }
 
 </style>
 </head>
@@ -234,7 +229,8 @@
   <i class="fa-solid fa-compass bg-icon icon-3"></i><i class="fa-solid fa-ship bg-icon icon-4"></i>
   <i class="fa-solid fa-map bg-icon icon-5"></i><i class="fa-solid fa-water bg-icon icon-6"></i>
   <i class="fa-solid fa-sun bg-icon icon-7"></i><i class="fa-solid fa-gem bg-icon icon-8"></i>
-  <i class="fa-solid fa-skull bg-icon icon-9"></i><i class="fa-solid fa-anchor bg-icon icon-10"></i>
+  <i class="fa-solid fa-skull bg-icon icon-9 clickable-icon" onclick="triggerEasterEgg()"></i>
+  <i class="fa-solid fa-anchor bg-icon icon-10"></i>
   <i class="fa-solid fa-wine-bottle bg-icon icon-11"></i><i class="fa-solid fa-moon bg-icon icon-12"></i>
 </div>
 
@@ -273,7 +269,7 @@
 </div>
 
 <script>
-// --- AUDIO SYSTEM (Soft UI Sounds) ---
+// --- AUDIO SYSTEM ---
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function playTone(freq, type, duration, vol=0.05) {
   if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -292,28 +288,39 @@ function playTone(freq, type, duration, vol=0.05) {
 function playTap() { playTone(400, 'sine', 0.1, 0.03); }
 function playSuccess() { playTone(600, 'sine', 0.2, 0.05); setTimeout(()=>playTone(800, 'sine', 0.4, 0.05), 150); }
 function playError() { playTone(150, 'sawtooth', 0.3, 0.05); }
-// -------------------------------------
+
+// EASTER EGG FUNCTION
+function triggerEasterEgg() {
+  playTone(200, 'sawtooth', 0.2, 0.1);
+  setTimeout(()=>playTone(150, 'square', 0.4, 0.1), 200);
+  const skull = document.querySelector('.icon-9');
+  skull.style.color = "rgba(239, 68, 68, 0.8)"; // Turns red briefly
+  setTimeout(() => skull.style.color = "rgba(255, 255, 255, 0.25)", 500);
+}
+// --------------------
 
 const data = [
   { title: "Log #001: The Digital Scallywag", body: "Initial scans of Subject X revealed a startling truth: she’s been sailing the chaotic web far longer than most normies. She catches references hidden in the deepest, most degenerate trenches of the Grand Line." },
   { title: "Log #002: The Raina Allegations", body: "Subject claims to fly the flag of the most famous lockdown comedian. Yet, interrogation reveals a severe lack of 'craaazy ho gaya' in her recent vocabulary. Suspicions of a fake fan are high. Investigation ongoing." },
   { title: "Log #003: A Broken Compass", body: "Tracking this anomaly is utterly futile. I thought I was lost at sea, but she makes me look like a grand navigator. She possesses the exact directional awareness of a certain green-haired pirate." },
-  // MAZE GAME HERE
+  // MAZE GAME
   { title: "Log #004: The ENT Ambush", body: "I must document the time The Clumsy Corsair tried to stealthily wait for me outside the ENT department, only to get completely caught. A master of infiltration, she is not. But a master of sticking around? Absolutely." },
-  // UNCATCHABLE ARROW GAME HERE
+  // CATCH GAME
   { title: "Log #005: The Lo-Fi Interrogation", body: "Subject claims to know the actual name 'Powfu' without using a transponder snail to search it. I call absolute bullshit on this claim. You have 10 seconds to confess to the captain." },
   { title: "Log #006: The Ironclad Treaty", body: "In these treacherous waters, a 'Pinky Promise' is often a myth. But I’ve documented that when she hooks that finger, the vault is sealed. A rare, honorable head on those shoulders." },
   { title: "Log #007: High-Speed Hyperfixation", body: "A sudden and aggressive pivot in the anomaly's behavior. She is now obsessed with high-speed land ships. Gosh, am I happy I finally have a co-pilot to share this ridiculous F1 addiction with." },
-  // F1 GAME HERE
+  // F1 GAME
   { title: "Log #008: Radiation of Warmth", body: "This is where she earns the title 'Sunshine'. In a stupid university that often feels like a sinking ship, she emits an elegant, pulse-like warmth. Time spent in her radius never feels like a chore." },
-  { title: "Log #009: The Ship's Doctor", body: "Clinical observation: Subject is naturally hardwired to patch people up. She doesn't do it for the glory or the bounty; it's simply built into her hull. She steps up when the rest of the crew is in the dumps." },
-  { title: "Log #010: The Resilient Bubble", body: "Even after battling through a rough storm she did not deserve, the anomaly maintains a cartoonish, bubbly charm. It’s not chaotic noise; it’s a quiet defiance. Making sure the crew smiles even when she’s questioning her own map." },
-  { title: "Log #011: The Fifth Path", body: "Truth matters in this log. If presented with three safe routes and one deeply cursed one, the anomaly will somehow invent a fifth. Both on the road and in life. And honestly? It makes the voyage worth it." },
-  // CHOPPER GAME HERE
-  { title: "Log #012: The Craftsman's Protocol", body: "I came to her for a simple tactical suggestion—an idea for a gift for my best friend. A week later, she co-opted the mission, putting in unbelievable effort to help me *make* the damn thing so I could put on a brave face. Who tf does that for anyone?<br><br>You tell me the part of you that loves making handmade gifts is dead. It is not. You can't let that die. That effort makes getting a gift from you 10000 times more meaningful, warna kaun hi karne jaata hai itna. I want you to see that you have people for whom those efforts matter." },
-  // GLITCH GAME HERE
-  { title: "Log #013: The Malikah Aftermath", body: "I've kept this out of the official logs for a whole year—kyuki why should I toot your horn—but today is the day. The conversation after Malikah's birthday.<br><br>That was the day we crossed a line. It wasn't just 'college me hi hello dikh gaye' types anymore. It was an honest, basic conversation where I felt like I was finally talking to a human, not some mumbo jumbo jo dusron ke kandhon par bandook chalate firta hai. That conversation was too real to ever walk back from. It's the exact reason I don't want to end this college without being someone you can trust and rely on." },
-  // CHESS GAME HERE
+  { title: "Log #009: The Cursed Ration", body: "Subject has an alarming dietary hyperfixation. Despite possessing functioning taste buds, she consistently orders the exact same puff from the canteen. I would honestly rather eat empty air than consume that absolute tragedy of a pastry. Yet, she defends it like it's a legendary Devil Fruit." },
+  { title: "Log #010: The Baseline Panic", body: "It must be noted that a baseline level of 'freaking out' is just her default operating state. Whether we are navigating the Orthopaedics ward or just executing a basic daily plan, there will be panic. But the most infuriating part? Even while actively panicking, she remains frustratingly good at absolutely everything she tries her hand at." },
+  { title: "Log #011: The Ship's Doctor", body: "Clinical observation: Subject is naturally hardwired to patch people up. She doesn't do it for the glory or the bounty; it's simply built into her hull. She steps up when the rest of the crew is in the dumps." },
+  { title: "Log #012: The Resilient Bubble", body: "Even after battling through a rough storm she did not deserve, the anomaly maintains a cartoonish, bubbly charm. It’s not chaotic noise; it’s a quiet defiance. Making sure the crew smiles even when she’s questioning her own map." },
+  { title: "Log #013: The Fifth Path", body: "Truth matters in this log. If presented with three safe routes and one deeply cursed one, the anomaly will somehow invent a fifth. Both on the road and in life. And honestly? It makes the voyage worth it." },
+  // CHOPPER GAME
+  { title: "Log #014: The Craftsman's Protocol", body: "I came to her for a simple tactical suggestion—an idea for a gift. A week later, she co-opted the mission, putting in unbelievable effort to help me *make* the damn thing. Honestly, it's infuriating how naturally skilled you are at everything, especially crafting things by hand.<br><br>You tell me the part of you that loves making handmade gifts is dead. It is not. You can't let that die. That effort makes getting a gift from you 10000 times more meaningful, warna kaun hi karne jaata hai itna. I want you to see that you have people for whom those efforts matter." },
+  // GLITCH GAME
+  { title: "Log #015: The Malikah Aftermath", body: "I've kept this out of the official logs for a whole year—kyuki why should I toot your horn—but today is the day. The conversation after Malikah's birthday.<br><br>That was the day we crossed a line. It wasn't just 'college me hi hello dikh gaye' types anymore. It was an honest, basic conversation where I felt like I was finally talking to a human, not some mumbo jumbo jo dusron ke kandhon par bandook chalate firta hai. That conversation was too real to ever walk back from. It's the exact reason I don't want to end this college without being someone you can trust and rely on." },
+  // CHESS GAME
   { 
     title: "The Ultimate Treasure", 
     body: "You survived the gauntlet. Your reward is here. A priceless artifact of the Grand Line:<br><br><span id='true-treasure-btn' style='font-size: 5rem; user-select: none;' onclick='revealTrueTreasure()'>🍖</span><br><br>It's just a digital piece of meat. Happy Tuesday. Logbook closed.",
@@ -321,22 +328,22 @@ const data = [
   }
 ];
 
+// Note: Indices updated because we added 2 new logs
 const gameTriggers = {
   3: { id: 'maze', solved: false },    
   4: { id: 'catch', solved: false },    
   7: { id: 'f1', solved: false },       
-  11: { id: 'chopper', solved: false }, 
-  12: { id: 'glitch', solved: false },  
-  13: { id: 'chess', solved: false }    
+  13: { id: 'chopper', solved: false }, 
+  14: { id: 'glitch', solved: false },  
+  15: { id: 'chess', solved: false }    
 };
 
 let currentIndex = 0;
 
 function startWrapped() {
-  playTap(); // Initial sound
+  playTap(); 
   confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#fbbf24', '#ff7e5f', '#ffffff'] });
 
-  // Hide landing page cleanly
   document.getElementById('landing-page').style.opacity = '0';
   setTimeout(() => document.getElementById('landing-page').style.display = 'none', 500);
 
@@ -344,11 +351,10 @@ function startWrapped() {
   setTimeout(() => document.getElementById('story-mode').style.opacity = '1', 50);
   
   const bgMusic = document.getElementById('bg-music');
-  
   if (bgMusic.src && !bgMusic.src.endsWith("html")) {
     bgMusic.volume = 0; 
     bgMusic.play().then(() => {
-      const targetVolume = 0.08; // LOWERED VOLUME
+      const targetVolume = 0.08; 
       const fadeDuration = 3000; 
       const intervalTime = 50;
       const volumeStep = targetVolume / (fadeDuration / intervalTime);
@@ -462,14 +468,52 @@ function revealTrueTreasure() {
   document.getElementById('story-title').innerText = "The Real Treasure";
   document.getElementById('story-body').innerHTML = `
     <b>Happy birthday to one of the kindest people I know.</b><br><br>
-    I have said this before and will say it again: you are someone I consider really close to the word sunshine. Warm, bright, and easy to trust.<br><br>
+    I have said this before and will say it again: you are someone I consider really close to the word <span id="secret-trigger" class="secret-word">sunshine</span>. Warm, bright, and easy to trust.<br><br>
     There are really small moments which are legit anchor points in my memory. Stuff as simple as ruffling my hair. I do not think anyone ever genuinely felt my hair and praised me for it since I came to VIJ. I might have honestly cried that evening. It was so niceee to hear that after so long.<br><br>
     I know things have been fucked up for the entire year, and I am really sorry for the way things have been going. But please, be just as amazing as you always were. I really hope this year is completely different.<br><br>
     Once a year you get to have this day for yourself. Keep it the way you like it, and nothing less. I hope you are the same sunshine to yourself as you are to me.<br><br>
-    <b>Have fuuuun!!</b>`;
+    <b>Have fuuuun!!</b>
+    
+    <div id="hidden-photo-container" style="display:none; margin-top:25px; animation: cardIn 0.5s ease-out forwards;">
+      <img src="YOUR_PHOTO_HERE.jpg" style="max-width: 100%; border: 4px solid #c9a75c; border-radius: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.4);">
+    </div>
+    `;
   
   document.getElementById('extra-content').innerHTML = '';
   document.getElementById('tap-right').style.display = 'block';
+
+  // SET UP LONG PRESS LOGIC
+  setupSecretImage();
+}
+
+function setupSecretImage() {
+  let pressTimer;
+  const secretTrigger = document.getElementById('secret-trigger');
+  let isRevealed = false;
+
+  const startPress = (e) => {
+    if(isRevealed) return;
+    e.preventDefault(); 
+    playTap();
+    // Needs 1.5 seconds of holding down
+    pressTimer = setTimeout(() => {
+      isRevealed = true;
+      playSuccess();
+      document.getElementById('hidden-photo-container').style.display = 'block';
+      confetti({ particleCount: 150, spread: 70, origin: { y: 0.8 } });
+    }, 1500);
+  };
+
+  const cancelPress = () => {
+    clearTimeout(pressTimer);
+  };
+
+  secretTrigger.addEventListener('mousedown', startPress);
+  secretTrigger.addEventListener('touchstart', startPress);
+  
+  secretTrigger.addEventListener('mouseup', cancelPress);
+  secretTrigger.addEventListener('mouseleave', cancelPress);
+  secretTrigger.addEventListener('touchend', cancelPress);
 }
 
 function completeGame(gameId) {
@@ -644,7 +688,7 @@ function loadF1Game(box) {
   for(let i=1; i<=5; i++) {
     setTimeout(() => {
       document.getElementById('l'+i).classList.add('on');
-      playTone(400 + (i*50), 'sine', 0.1, 0.05); // Light up sound
+      playTone(400 + (i*50), 'sine', 0.1, 0.05);
     }, i * 500);
   }
   
@@ -742,12 +786,12 @@ function moveMaze(dr, dc) {
       trapSprung = true;
       mazeMap[3][4] = 1; 
       mazeMap[3][0] = 0; 
-      playError(); // Trap sound
+      playError();
     }
     drawMaze();
     if(mazeMap[pR][pC] === 2) completeGame('maze');
   } else {
-    playError(); // Bonk sound when hitting a wall
+    playError();
   }
 }
 
