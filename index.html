@@ -6,6 +6,7 @@
 <title>To The Clumsy Corsair</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
@@ -33,8 +34,23 @@
     width: 100vw;
   }
 
+  /* MASSIVE JOLLY ROGER WATERMARK */
+  #jolly-roger-bg {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vmin; height: 80vmin;
+    background-image: url('jolly-roger.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.08; /* Super faint so text is readable */
+    z-index: 1;
+    pointer-events: none;
+  }
+
   /* PIRATE WATERMARK ICONS */
-  #icon-pattern { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; }
+  #icon-pattern { position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none; }
   .bg-icon { position: absolute; color: rgba(255, 255, 255, 0.25); font-size: 4rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
   .icon-1 { top: 10%; left: 10%; transform: rotate(-15deg); } 
   .icon-2 { top: 15%; left: 80%; transform: rotate(20deg); font-size: 5rem; } 
@@ -52,12 +68,12 @@
     height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
     text-align: center; padding: 20px; box-sizing: border-box; position: relative; z-index: 10;
   }
-  h1 { font-size: 3.5rem; margin-bottom: 10px; color: white; text-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+  h1 { font-family: 'Pirata One', serif; font-size: 5rem; margin-bottom: 5px; color: white; text-shadow: 0 4px 15px rgba(0,0,0,0.4); letter-spacing: 2px; }
   .subtitle { color: rgba(255,255,255,0.95); margin-bottom: 50px; font-size: 1.2rem; font-weight: 500; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
   .start-btn {
-    padding: 18px 40px; border-radius: 50px; border: none; background: white; color: #d946ef;
-    font-size: 1.3rem; font-weight: 800; cursor: pointer; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    text-transform: uppercase; letter-spacing: 1px; transition: 0.2s;
+    padding: 18px 40px; border-radius: 5px; border: 2px solid #fff; background: rgba(255, 255, 255, 0.9); color: #d946ef;
+    font-size: 1.5rem; font-family: 'Pirata One', serif; cursor: pointer; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px; transition: 0.2s;
   }
   .start-btn:active { transform: scale(0.95); }
 
@@ -67,21 +83,21 @@
     z-index: 100; display: none; flex-direction: column; opacity: 0; transition: opacity 1.5s ease;
   }
   .progress-container { display: flex; gap: 4px; padding: 20px 10px; position: absolute; top: 0; width: 100%; box-sizing: border-box; z-index: 150; }
-  .progress-bar { flex: 1; height: 4px; background: rgba(0,0,0,0.2); border-radius: 2px; overflow: hidden; }
-  .progress-fill { height: 100%; width: 0%; background: white; }
+  .progress-bar { flex: 1; height: 6px; background: rgba(0,0,0,0.3); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 0%; background: #fbbf24; } /* Gold progress */
   .progress-bar.completed .progress-fill { width: 100%; }
 
   #story-content-wrapper { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; position: relative; z-index: 120; }
 
   .content-card {
     background: var(--glass); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-    border: 1px solid var(--border-glass); border-radius: 30px; padding: 40px; max-width: 600px; width: 90%;
+    border: 1px solid var(--border-glass); border-radius: 20px; padding: 40px; max-width: 600px; width: 90%;
     text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.2); animation: cardIn 0.5s ease-out forwards;
     max-height: 75vh; overflow-y: auto; 
   }
   @keyframes cardIn { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
   
-  .content-card h2 { font-size: 2.5rem; margin-top: 0; margin-bottom: 15px; color: #86198f; line-height: 1.1; }
+  .content-card h2 { font-family: 'Pirata One', serif; font-size: 3.5rem; margin-top: 0; margin-bottom: 15px; color: #86198f; line-height: 1; letter-spacing: 1px; }
   .content-card p { font-size: 1.25rem; line-height: 1.6; font-weight: 500; color: #1e293b; margin-bottom: 0; }
   
   .tap-zone { position: absolute; top: 0; bottom: 0; width: 25%; z-index: 140; cursor: pointer; }
@@ -90,50 +106,44 @@
   /* END SCREEN UI */
   #end-screen {
     display: none; flex-direction: column; justify-content: center; align-items: center;
-    position: absolute; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); z-index: 180;
+    position: absolute; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); z-index: 180;
   }
   .end-box {
     background: var(--glass); backdrop-filter: blur(25px); border: 1px solid var(--border-glass);
-    border-radius: 30px; padding: 40px; text-align: center; color: white; max-width: 400px; width: 80%;
+    border-radius: 20px; padding: 40px; text-align: center; color: white; max-width: 400px; width: 80%;
   }
-  .end-box h2 { margin-top: 0; font-size: 2.2rem; }
-  .end-btn { padding: 15px 30px; margin: 10px 5px; border-radius: 50px; border: none; font-size: 1.1rem; font-weight: bold; cursor: pointer; width: 80%; }
-  .btn-rewind { background: #86198f; color: white; }
+  .end-box h2 { font-family: 'Pirata One', serif; margin-top: 0; font-size: 3rem; letter-spacing: 1px;}
+  .end-btn { padding: 15px 30px; margin: 10px 5px; border-radius: 5px; border: none; font-size: 1.2rem; font-family: 'Pirata One', serif; cursor: pointer; width: 80%; letter-spacing: 1px;}
+  .btn-rewind { background: #fbbf24; color: #1e293b; }
   .btn-close { background: white; color: #86198f; }
 
   /* =========================================
      MINI-GAME UI STYLES
   ========================================= */
-  #game-overlay {
-    display: none; flex-direction: column; justify-content: center; align-items: center;
-    width: 100%; height: 100%; z-index: 200;
-  }
-  .game-box {
-    background: white; border-radius: 20px; padding: 30px; text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3); max-width: 90%;
-  }
-  .game-title { color: #86198f; font-size: 2rem; margin-bottom: 10px; margin-top: 0; }
+  #game-overlay { display: none; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%; z-index: 200; }
+  .game-box { background: white; border-radius: 15px; padding: 30px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.3); max-width: 90%; }
+  .game-title { font-family: 'Pirata One', serif; color: #86198f; font-size: 3rem; margin-bottom: 10px; margin-top: 0; }
   
   /* 1. Zoro Maze */
   #maze-grid { display: grid; grid-template-columns: repeat(5, 50px); grid-template-rows: repeat(5, 50px); gap: 2px; margin: 20px auto; background: #0f172a; border: 4px solid #1e293b; width: fit-content; }
   .maze-cell { width: 50px; height: 50px; background: #f8fafc; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; }
   .d-pad { display: grid; grid-template-columns: 60px 60px 60px; gap: 10px; justify-content: center; margin-top: 20px; }
-  .d-btn { padding: 15px; font-size: 1.5rem; background: #e2e8f0; border: none; border-radius: 10px; }
+  .d-btn { padding: 15px; font-size: 1.5rem; background: #e2e8f0; border: none; border-radius: 5px; }
   .d-btn:active { background: #cbd5e1; }
 
   /* 2. Chopper Decryption */
   .emoji-clue { font-size: 3rem; letter-spacing: 10px; margin: 20px 0; }
-  #decrypt-input { font-size: 1.5rem; padding: 15px; border-radius: 10px; border: 2px solid #cbd5e1; width: 80%; text-align: center; text-transform: lowercase; }
-  .action-btn { margin-top: 20px; padding: 15px 30px; background: #86198f; color: white; font-size: 1.2rem; border: none; border-radius: 50px; font-weight: bold; cursor: pointer;}
+  #decrypt-input { font-size: 1.5rem; padding: 15px; border-radius: 5px; border: 2px solid #cbd5e1; width: 80%; text-align: center; text-transform: lowercase; }
+  .action-btn { margin-top: 20px; padding: 15px 30px; background: #86198f; color: white; font-size: 1.2rem; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; text-transform: uppercase;}
 
   /* 3. F1 Pitstop */
-  #lights-container { display: flex; gap: 10px; justify-content: center; margin: 20px 0; background: #1e293b; padding: 20px; border-radius: 20px; }
+  #lights-container { display: flex; gap: 10px; justify-content: center; margin: 20px 0; background: #1e293b; padding: 20px; border-radius: 10px; }
   .f1-light { width: 40px; height: 40px; border-radius: 50%; background: #475569; }
   .f1-light.on { background: #ef4444; box-shadow: 0 0 15px #ef4444; }
-  #f1-tap-zone { width: 100%; height: 120px; background: #cbd5e1; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: #64748b; margin-top: 10px; user-select: none; }
+  #f1-tap-zone { width: 100%; height: 120px; background: #cbd5e1; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: #64748b; margin-top: 10px; user-select: none; }
   #f1-tap-zone:active { background: #94a3b8; }
   #f1-car-container { width: 100%; overflow: hidden; text-align: left; margin-top: 10px; border-bottom: 4px solid #334155; padding-bottom: 5px;}
-  #f1-car { font-size: 3.5rem; transition: transform 0.4s ease-in; display: inline-block; }
+  #f1-car { font-size: 3.5rem; transition: transform 0.4s ease-in; display: inline-block; transform: scaleX(-1); }
 
   /* 4. Chess Puzzle */
   #chess-board { display: grid; grid-template-columns: repeat(8, 35px); grid-template-rows: repeat(8, 35px); margin: 20px auto; border: 4px solid #475569; width: fit-content; }
@@ -147,7 +157,9 @@
 
 <body>
 
-<audio id="bg-music" src="namastute.mp3" loop></audio>
+<audio id="bg-music" src="Namastute.mp3" loop></audio>
+
+<div id="jolly-roger-bg"></div>
 
 <div id="icon-pattern">
   <i class="fa-solid fa-skull-crossbones bg-icon icon-1"></i><i class="fa-solid fa-anchor bg-icon icon-2"></i>
@@ -159,9 +171,9 @@
 </div>
 
 <div class="container">
-  <h1>Project Grand Line ☠️</h1>
-  <p class="subtitle">CLASSIFIED: Logbook regarding the anomaly known as 'The Clumsy Corsair'.</p>
-  <button class="start-btn" onclick="startWrapped()">Decrypt Logbook</button>
+  <h1>WANTED</h1>
+  <p class="subtitle">Bounty File: 'The Clumsy Corsair'.</p>
+  <button class="start-btn" onclick="startWrapped()">Set Sail</button>
 </div>
 
 <div id="story-mode">
@@ -184,7 +196,7 @@
   <div id="end-screen">
     <div class="end-box">
       <h2>Voyage Complete</h2>
-      <p>The logbook has been sealed.</p>
+      <p>The Log Pose has reset.</p>
       <button class="end-btn btn-rewind" onclick="rewindStory()">Rewind Logbook</button>
       <button class="end-btn btn-close" onclick="closeStory()">Drop Anchor (Close)</button>
     </div>
@@ -213,7 +225,7 @@ const data = [
   // CHESS GAME
   { 
     title: "The Ultimate Treasure", 
-    body: "You survived the gauntlet. Your reward is here. A priceless artifact of the Grand Line:<br><br><span style='font-size: 5rem;'>🍖</span><br><br>It's just a digital piece of meat. Happy Tuesday. Logbook closed.",
+    body: "You survived the gauntlet. Your reward is here. A priceless artifact of the Grand Line:<br><br><span id='true-treasure-btn' style='font-size: 5rem; cursor: pointer; user-select: none;' onclick='revealTrueTreasure()'>🍖</span><br><br>It's just a digital piece of meat. Happy Tuesday. Logbook closed.",
     extra: "Bait" 
   }
 ];
@@ -228,8 +240,7 @@ const gameTriggers = {
 let currentIndex = 0;
 
 function startWrapped() {
-  // CONFETTI EXPLOSION!
-  confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#ff7e5f', '#24c6dc', '#ffffff'] });
+  confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#fbbf24', '#ff7e5f', '#ffffff'] });
 
   document.getElementById('story-mode').style.display = 'flex';
   setTimeout(() => document.getElementById('story-mode').style.opacity = '1', 50);
@@ -307,10 +318,18 @@ function showStoryCard() {
   const extraDiv = document.getElementById('extra-content');
   extraDiv.innerHTML = '';
 
+  // The Easter Egg Logic
   if(d.extra === "Bait") {
     document.getElementById('tap-right').style.display = 'none'; 
-    extraDiv.innerHTML = `<button class="action-btn" style="margin-top:30px;" onclick="revealTrueTreasure()">Look deeper...</button>`;
+    extraDiv.innerHTML = `
+      <button class="action-btn" style="margin-top:20px; font-family: 'SF Pro Display', sans-serif;" onclick="showGawar()">Click here to proceed</button>
+      <div id="gawar-msg" style="display:none; color: #ef4444; font-weight: 800; font-size: 1.5rem; margin-top: 15px;">gawar</div>
+    `;
   }
+}
+
+function showGawar() {
+  document.getElementById('gawar-msg').style.display = 'block';
 }
 
 function revealTrueTreasure() {
@@ -336,7 +355,7 @@ function completeGame(gameId) {
     }
   }
   const box = document.getElementById('game-box-content');
-  box.innerHTML = `<h2 class="game-title">Security Cleared 🔓</h2><p>Accessing next log...</p>`;
+  box.innerHTML = `<h2 class="game-title">Clearance Granted</h2><p>Accessing next log...</p>`;
   setTimeout(() => { showStoryCard(); }, 1500);
 }
 
@@ -360,13 +379,13 @@ function launchGame(gameId) {
 // ==========================================
 function loadChopperGame(box) {
   box.innerHTML = `
-    <h2 class="game-title">Decryption Protocol</h2>
+    <h2 class="game-title">Poneglyph Decryption</h2>
     <p>Translate the following visual data into the Clumsy Corsair's favorite navigator:</p>
     <div class="emoji-clue">🦌 🩺 🌸 ☠️ 👒</div>
     <input type="text" id="decrypt-input" placeholder="Enter codename..." autocomplete="off">
     <br>
     <button class="action-btn" onclick="checkChopper()">Unlock</button>
-    <p id="chopper-err" style="color:#ef4444; display:none; margin-top:10px;">Access Denied. Try again.</p>
+    <p id="chopper-err" style="color:#ef4444; display:none; margin-top:10px; font-weight:bold;">Access Denied. Try again.</p>
   `;
 }
 function checkChopper() {
@@ -389,7 +408,7 @@ function loadF1Game(box) {
       <div class="f1-light" id="l5"></div>
     </div>
     <div id="f1-car-container">
-      <div id="f1-car">💨 <span style="display:inline-block; transform: scaleX(-1);">🏎️</span></div>
+      <div id="f1-car">🏎️</div>
     </div>
     <div id="f1-tap-zone">WAIT...</div>
     <p id="f1-status" style="margin-top:10px; font-weight:bold;"></p>
@@ -425,7 +444,8 @@ function loadF1Game(box) {
       state = 'done';
       let reaction = (Date.now() - lightsOutTime) / 1000;
       if(reaction <= 0.6) { 
-        document.getElementById('f1-car').style.transform = 'translateX(300px)'; 
+        // Moves the car to the right without flipping it
+        document.getElementById('f1-car').style.transform = 'scaleX(-1) translateX(-300px)'; 
         document.getElementById('f1-status').innerText = `Time: ${reaction}s! Perfect launch!`;
         document.getElementById('f1-status').style.color = "#10b981";
         setTimeout(() => completeGame('f1'), 1500);
@@ -456,7 +476,7 @@ function loadMazeGame(box) {
   mazeMap[3][0] = 1; 
   mazeMap[3][4] = 0; 
   
-  let html = `<h2 class="game-title">The Clumsy Navigator</h2><p>Guide Zoro to the Booze (🍺). Avoid the Marine Anchors (⚓).</p><div id="maze-grid">`;
+  let html = `<h2 class="game-title">The Clumsy Navigator</h2><p>Guide Zoro to the Booze (🍺). Avoid the Marine Blockades (⚓).</p><div id="maze-grid">`;
   for(let r=0; r<5; r++){
     for(let c=0; c<5; c++){
       html += `<div id="cell-${r}-${c}" class="maze-cell"></div>`;
@@ -480,7 +500,7 @@ function drawMaze() {
       
       if (mazeMap[r][c] === 1) cell.innerHTML = '⚓';
       else if (mazeMap[r][c] === 2) cell.innerHTML = '🍺';
-      // Load your Zoro image directly!
+      // Loading your Zoro image here
       if (r === pR && c === pC) cell.innerHTML = '<img src="zoro.png" style="width: 40px; height: 40px; object-fit: contain;">';
     }
   }
@@ -492,7 +512,7 @@ function moveMaze(dr, dc) {
     pR = nR; pC = nC;
     if(pR === 1 && pC === 4 && !trapSprung) {
       trapSprung = true;
-      mazeMap[3][4] = 1; // Marine blockade drops!
+      mazeMap[3][4] = 1; 
       mazeMap[3][0] = 0; 
     }
     drawMaze();
@@ -532,7 +552,7 @@ function loadChessGame(box) {
       html += `<div id="sq-${r}-${c}" class="chess-sq ${isWhite ? 'sq-w' : 'sq-b'}" onclick="clickChess(${r},${c})"></div>`;
     }
   }
-  html += `</div><p id="chess-status" style="color:#ef4444; display:none;"></p>`;
+  html += `</div><p id="chess-status" style="color:#ef4444; display:none; font-weight:bold;"></p>`;
   box.innerHTML = html;
   drawChess();
 }
