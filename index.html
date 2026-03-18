@@ -26,7 +26,6 @@
 
   body {
     margin: 0;
-    /* Switched from SF Pro to our classic serif font */
     font-family: 'Playfair Display', serif;
     background: linear-gradient(-45deg, #ff7e5f, #feb47b, #24c6dc, #514a9d);
     background-size: 400% 400%;
@@ -35,6 +34,21 @@
     overflow: hidden; 
     height: 100vh;
     width: 100vw;
+    /* Custom Pirate Cursor */
+    cursor: url('https://cdn-icons-png.flaticon.com/32/1410/1410461.png'), auto;
+  }
+
+  /* Apply pointer cursor to all interactive elements */
+  button, .tap-zone, .chess-sq, .d-btn, .action-btn, .start-btn, .end-btn, #catch-btn, #true-treasure-btn {
+    cursor: url('https://cdn-icons-png.flaticon.com/32/1410/1410461.png'), pointer !important;
+  }
+
+  /* VINTAGE PARCHMENT OVERLAY */
+  #parchment-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    pointer-events: none; z-index: 9999; 
+    background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png'); 
+    opacity: 0.4;
   }
 
   /* MASSIVE JOLLY ROGER WATERMARK */
@@ -63,13 +77,14 @@
   .container {
     height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
     text-align: center; padding: 20px; box-sizing: border-box; position: relative; z-index: 10;
+    transition: opacity 0.5s ease;
   }
   h1 { font-family: 'Pirata One', serif; font-size: 6rem; margin-bottom: 5px; color: var(--parchment); text-shadow: 0 5px 15px rgba(0,0,0,0.6); letter-spacing: 4px; }
   .subtitle { color: #fff; margin-bottom: 50px; font-size: 1.4rem; font-style: italic; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
   .start-btn {
     padding: 15px 40px; border-radius: 4px; border: 2px solid var(--gold-trim); 
     background: var(--leather-dark); color: var(--gold-trim);
-    font-size: 1.8rem; font-family: 'Pirata One', serif; cursor: pointer; 
+    font-size: 1.8rem; font-family: 'Pirata One', serif; 
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); letter-spacing: 2px; transition: 0.2s;
   }
   .start-btn:active { transform: scale(0.95); background: var(--gold-trim); color: var(--leather-dark); }
@@ -98,11 +113,10 @@
     position: relative; z-index: 120; animation: shipBob 6s ease-in-out infinite; 
   }
 
-  /* THE SHIP'S LOGBOOK CARD (Replaces Glassmorphism) */
+  /* THE SHIP'S LOGBOOK CARD */
   .content-card {
     background: linear-gradient(135deg, var(--leather-dark), var(--leather-light));
     border: 3px solid #1a100c; 
-    /* The double inner gold border trick */
     box-shadow: inset 0 0 0 2px var(--leather-dark), inset 0 0 0 4px var(--gold-trim), 0 25px 50px rgba(0,0,0,0.5);
     border-radius: 8px; padding: 50px 40px; max-width: 600px; width: 90%;
     text-align: center; max-height: 75vh; overflow-y: auto; 
@@ -113,7 +127,7 @@
   .content-card h2 { font-family: 'Pirata One', serif; font-size: 3.5rem; margin-top: 0; margin-bottom: 15px; color: var(--gold-trim); line-height: 1; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
   .content-card p { font-size: 1.3rem; line-height: 1.7; color: var(--parchment); margin-bottom: 0; }
   
-  /* THE ANCIENT SCROLL (For the final treasure) */
+  /* THE ANCIENT SCROLL */
   .scroll-card {
     background-color: var(--parchment); 
     background-image: 
@@ -126,10 +140,9 @@
   .scroll-card h2 { font-family: 'Pirata One', serif; font-size: 4.5rem; margin-top: 0; margin-bottom: 20px; color: #4e342e; }
   .scroll-card p, .scroll-card b { font-size: 1.35rem; line-height: 1.8; color: var(--ink); }
 
-  .tap-zone { position: absolute; top: 0; bottom: 0; width: 25%; z-index: 140; cursor: pointer; }
+  .tap-zone { position: absolute; top: 0; bottom: 0; width: 25%; z-index: 140; }
   .tap-left { left: 0; } .tap-right { right: 0; }
   
-  /* Adding subtle visual cues for tapping */
   .tap-zone::after {
     content: "〉"; font-family: monospace; position: absolute; top: 50%; right: 20px;
     transform: translateY(-50%); font-size: 2rem; color: rgba(255,255,255,0.2); font-weight: bold;
@@ -146,17 +159,13 @@
     border-radius: 5px; padding: 40px; text-align: center; color: var(--parchment); max-width: 400px; width: 80%;
   }
   .end-box h2 { font-family: 'Pirata One', serif; margin-top: 0; font-size: 3.5rem; letter-spacing: 2px; color: var(--gold-trim);}
-  .end-btn { padding: 15px 30px; margin: 10px 5px; border-radius: 3px; border: 1px solid var(--gold-trim); font-size: 1.3rem; font-family: 'Pirata One', serif; cursor: pointer; width: 80%; letter-spacing: 1px; transition: 0.2s;}
+  .end-btn { padding: 15px 30px; margin: 10px 5px; border-radius: 3px; border: 1px solid var(--gold-trim); font-size: 1.3rem; font-family: 'Pirata One', serif; width: 80%; letter-spacing: 1px; transition: 0.2s;}
   .btn-rewind { background: var(--gold-trim); color: var(--leather-dark); }
   .btn-close { background: transparent; color: var(--gold-trim); }
   .btn-rewind:active, .btn-close:active { transform: scale(0.95); }
 
-  /* =========================================
-     MINI-GAME UI STYLES
-  ========================================= */
+  /* MINI-GAME UI STYLES */
   #game-overlay { display: none; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%; z-index: 200; }
-  
-  /* Game boxes now use parchment so the games are highly visible but themed */
   .game-box { background: var(--parchment); border: 4px solid var(--leather-dark); border-radius: 5px; padding: 35px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5); max-width: 90%; color: var(--ink); }
   .game-title { font-family: 'Pirata One', serif; color: #8a1c1c; font-size: 3.5rem; margin-bottom: 10px; margin-top: 0; text-shadow: 1px 1px 0px rgba(0,0,0,0.1);}
   
@@ -169,12 +178,12 @@
 
   /* 2. Uncatchable Button */
   #catch-container { position: relative; width: 100%; height: 250px; overflow: hidden; margin-top: 20px; border-radius: 5px; background: rgba(0,0,0,0.05); border: 1px dashed rgba(0,0,0,0.2);}
-  #catch-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 30px; font-size: 1.8rem; border-radius: 4px; background: #8a1c1c; color: var(--parchment); border: 2px solid #5a0d0d; font-family: 'Pirata One', serif; cursor: pointer; transition: 0.15s ease-out; white-space: nowrap; box-shadow: 0 4px 8px rgba(0,0,0,0.3);}
+  #catch-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 30px; font-size: 1.8rem; border-radius: 4px; background: #8a1c1c; color: var(--parchment); border: 2px solid #5a0d0d; font-family: 'Pirata One', serif; transition: 0.15s ease-out; white-space: nowrap; box-shadow: 0 4px 8px rgba(0,0,0,0.3);}
 
   /* 3. Chopper Decryption */
   .emoji-clue { font-size: 3.5rem; letter-spacing: 10px; margin: 20px 0; }
   #decrypt-input { font-family: 'Playfair Display', serif; font-size: 1.5rem; padding: 15px; border-radius: 4px; border: 2px solid var(--leather-dark); width: 80%; text-align: center; text-transform: lowercase; background: rgba(255,255,255,0.5); }
-  .action-btn { margin-top: 20px; padding: 15px 30px; background: var(--leather-dark); color: var(--gold-trim); font-size: 1.5rem; border: 2px solid var(--gold-trim); border-radius: 4px; font-family: 'Pirata One', serif; cursor: pointer; letter-spacing: 2px; transition: 0.2s;}
+  .action-btn { margin-top: 20px; padding: 15px 30px; background: var(--leather-dark); color: var(--gold-trim); font-size: 1.5rem; border: 2px solid var(--gold-trim); border-radius: 4px; font-family: 'Pirata One', serif; letter-spacing: 2px; transition: 0.2s;}
   .action-btn:active { transform: scale(0.95); }
 
   /* 4. F1 Pitstop */
@@ -204,7 +213,7 @@
 
   /* 6. Chess Puzzle */
   #chess-board { display: grid; grid-template-columns: repeat(8, 35px); grid-template-rows: repeat(8, 35px); margin: 20px auto; border: 6px solid var(--leather-dark); width: fit-content; border-radius: 4px;}
-  .chess-sq { width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; cursor: pointer; user-select: none; }
+  .chess-sq { width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; user-select: none; }
   .sq-w { background: #e2d3b3; } .sq-b { background: #8b7355; }
   .chess-piece { color: #1a100c; } .piece-w { color: #fdfdfd; text-shadow: 0 2px 4px rgba(0,0,0,0.6); }
   .selected-sq { background: rgba(197, 160, 89, 0.8) !important; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);}
@@ -214,7 +223,9 @@
 
 <body>
 
-<audio id="bg-music" src="Namastute.mp3" loop></audio>
+<div id="parchment-overlay"></div>
+
+<audio id="bg-music" src="Namastute.mp3" loop volume="0"></audio>
 
 <div id="jolly-roger-bg"></div>
 
@@ -227,7 +238,7 @@
   <i class="fa-solid fa-wine-bottle bg-icon icon-11"></i><i class="fa-solid fa-moon bg-icon icon-12"></i>
 </div>
 
-<div class="container">
+<div class="container" id="landing-page">
   <h1>WANTED</h1>
   <p class="subtitle">Bounty File: 'The Clumsy Corsair'.</p>
   <button class="start-btn" onclick="startWrapped()">Set Sail</button>
@@ -262,6 +273,27 @@
 </div>
 
 <script>
+// --- AUDIO SYSTEM (Soft UI Sounds) ---
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function playTone(freq, type, duration, vol=0.05) {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = type; 
+  osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+  gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start();
+  osc.stop(audioCtx.currentTime + duration);
+}
+
+function playTap() { playTone(400, 'sine', 0.1, 0.03); }
+function playSuccess() { playTone(600, 'sine', 0.2, 0.05); setTimeout(()=>playTone(800, 'sine', 0.4, 0.05), 150); }
+function playError() { playTone(150, 'sawtooth', 0.3, 0.05); }
+// -------------------------------------
+
 const data = [
   { title: "Log #001: The Digital Scallywag", body: "Initial scans of Subject X revealed a startling truth: she’s been sailing the chaotic web far longer than most normies. She catches references hidden in the deepest, most degenerate trenches of the Grand Line." },
   { title: "Log #002: The Raina Allegations", body: "Subject claims to fly the flag of the most famous lockdown comedian. Yet, interrogation reveals a severe lack of 'craaazy ho gaya' in her recent vocabulary. Suspicions of a fake fan are high. Investigation ongoing." },
@@ -284,7 +316,7 @@ const data = [
   // CHESS GAME HERE
   { 
     title: "The Ultimate Treasure", 
-    body: "You survived the gauntlet. Your reward is here. A priceless artifact of the Grand Line:<br><br><span id='true-treasure-btn' style='font-size: 5rem; cursor: pointer; user-select: none;' onclick='revealTrueTreasure()'>🍖</span><br><br>It's just a digital piece of meat. Happy Tuesday. Logbook closed.",
+    body: "You survived the gauntlet. Your reward is here. A priceless artifact of the Grand Line:<br><br><span id='true-treasure-btn' style='font-size: 5rem; user-select: none;' onclick='revealTrueTreasure()'>🍖</span><br><br>It's just a digital piece of meat. Happy Tuesday. Logbook closed.",
     extra: "Bait" 
   }
 ];
@@ -301,7 +333,12 @@ const gameTriggers = {
 let currentIndex = 0;
 
 function startWrapped() {
+  playTap(); // Initial sound
   confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#fbbf24', '#ff7e5f', '#ffffff'] });
+
+  // Hide landing page cleanly
+  document.getElementById('landing-page').style.opacity = '0';
+  setTimeout(() => document.getElementById('landing-page').style.display = 'none', 500);
 
   document.getElementById('story-mode').style.display = 'flex';
   setTimeout(() => document.getElementById('story-mode').style.opacity = '1', 50);
@@ -311,7 +348,7 @@ function startWrapped() {
   if (bgMusic.src && !bgMusic.src.endsWith("html")) {
     bgMusic.volume = 0; 
     bgMusic.play().then(() => {
-      const targetVolume = 0.15; 
+      const targetVolume = 0.08; // LOWERED VOLUME
       const fadeDuration = 3000; 
       const intervalTime = 50;
       const volumeStep = targetVolume / (fadeDuration / intervalTime);
@@ -337,6 +374,7 @@ function setupProgressBars() {
 
 function nextStory() {
   if (currentIndex < data.length - 1) {
+    playTap();
     currentIndex++;
     renderContent();
   } else {
@@ -346,18 +384,21 @@ function nextStory() {
 
 function prevStory() {
   if (currentIndex > 0) {
+    playTap();
     currentIndex--;
     renderContent();
   }
 }
 
 function rewindStory() {
+  playTap();
   document.getElementById('end-screen').style.display = 'none';
   currentIndex = 0;
   renderContent();
 }
 
 function closeStory() {
+  playTap();
   document.getElementById('end-screen').style.display = 'none';
   document.getElementById('story-mode').style.opacity = '0';
   setTimeout(() => { document.getElementById('story-mode').style.display = 'none'; currentIndex = 0; }, 1000); 
@@ -407,10 +448,12 @@ function showStoryCard() {
 }
 
 function showGawar() {
+  playError();
   document.getElementById('gawar-msg').style.display = 'block';
 }
 
 function revealTrueTreasure() {
+  playSuccess();
   confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
   
   const card = document.getElementById('active-card');
@@ -430,6 +473,7 @@ function revealTrueTreasure() {
 }
 
 function completeGame(gameId) {
+  playSuccess();
   for (let key in gameTriggers) {
     if (gameTriggers[key].id === gameId) {
       gameTriggers[key].solved = true;
@@ -481,6 +525,7 @@ function handleCatch(e) {
     return;
   }
   
+  playTap();
   catchAttempts++;
   if (catchAttempts === 4) {
     btn.innerText = "Fine, you caught me. Proceed.";
@@ -538,6 +583,8 @@ function handleGlitchTap(e) {
     document.querySelector('.glitch-text').style.color = "#10b981";
     document.querySelector('.glitch-text').style.animation = "none";
     setTimeout(() => completeGame('glitch'), 1000);
+  } else {
+    playTap();
   }
   updateGlitchBar();
 }
@@ -563,8 +610,12 @@ function loadChopperGame(box) {
 }
 function checkChopper() {
   const val = document.getElementById('decrypt-input').value.toLowerCase().replace(/\s/g, "");
-  if (val.includes('chopper') || val.includes('tony')) completeGame('chopper');
-  else document.getElementById('chopper-err').style.display = 'block';
+  if (val.includes('chopper') || val.includes('tony')) {
+    completeGame('chopper');
+  } else {
+    playError();
+    document.getElementById('chopper-err').style.display = 'block';
+  }
 }
 
 // ==========================================
@@ -591,7 +642,10 @@ function loadF1Game(box) {
   let state = 'waiting'; 
   
   for(let i=1; i<=5; i++) {
-    setTimeout(() => document.getElementById('l'+i).classList.add('on'), i * 500);
+    setTimeout(() => {
+      document.getElementById('l'+i).classList.add('on');
+      playTone(400 + (i*50), 'sine', 0.1, 0.05); // Light up sound
+    }, i * 500);
   }
   
   f1Timeout = setTimeout(() => {
@@ -610,6 +664,7 @@ function loadF1Game(box) {
     e.preventDefault();
     if(state === 'waiting') {
       clearTimeout(f1Timeout);
+      playError();
       document.getElementById('f1-status').innerText = "False Start! Resetting...";
       document.getElementById('f1-status').style.color = "#ef4444";
       setTimeout(() => loadF1Game(box), 1500);
@@ -622,6 +677,7 @@ function loadF1Game(box) {
         document.getElementById('f1-status').style.color = "#10b981";
         setTimeout(() => completeGame('f1'), 1500);
       } else {
+        playError();
         document.getElementById('f1-status').innerText = `Time: ${reaction}s. Too slow! Resetting...`;
         document.getElementById('f1-status').style.color = "#ef4444";
         setTimeout(() => loadF1Game(box), 1500);
@@ -678,6 +734,7 @@ function drawMaze() {
 }
 
 function moveMaze(dr, dc) {
+  playTap();
   let nR = pR + dr; let nC = pC + dc;
   if(nR>=0 && nR<5 && nC>=0 && nC<5 && mazeMap[nR][nC] !== 1) {
     pR = nR; pC = nC;
@@ -685,9 +742,12 @@ function moveMaze(dr, dc) {
       trapSprung = true;
       mazeMap[3][4] = 1; 
       mazeMap[3][0] = 0; 
+      playError(); // Trap sound
     }
     drawMaze();
     if(mazeMap[pR][pC] === 2) completeGame('maze');
+  } else {
+    playError(); // Bonk sound when hitting a wall
   }
 }
 
@@ -748,6 +808,7 @@ function clickChess(r, c) {
 
   if(!selSq) {
     if(boardSetup[id] && boardSetup[id].color === 'w') {
+      playTap();
       selSq = id; drawChess();
     }
   } else {
@@ -757,6 +818,7 @@ function clickChess(r, c) {
     if(chessStep === 3 && selSq === '3-7' && id === '1-7') correct = true;
 
     if(correct) {
+      playTap();
       boardSetup[id] = boardSetup[selSq];
       delete boardSetup[selSq];
       selSq = null;
@@ -781,6 +843,7 @@ function clickChess(r, c) {
         setTimeout(() => completeGame('chess'), 1000);
       }
     } else {
+      playError();
       status.innerText = "Incorrect move! The anomaly resists. Resetting...";
       status.style.display = 'block';
       setTimeout(() => { loadChessGame(document.getElementById('game-box-content')); }, 1500);
